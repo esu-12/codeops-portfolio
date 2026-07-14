@@ -1,0 +1,6 @@
+Paracetamol,25
+Amoxicillin,13
+Vitamin C,15
+Insulin,5
+Bandages,20
+Pain Relief Gel,9
