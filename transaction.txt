@@ -1,5 +1,0 @@
-Abel, 100
-Sara, 250
-Abel, 150
-John, 300
-Sara, 50
