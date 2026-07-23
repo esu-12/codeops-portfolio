@@ -1,7 +1,3 @@
-
-from registry import AccountRegistry
-
-
 # ==========================================
 # Day 07 - Bank Project
 # Singleton, Factory, Observer
@@ -248,91 +244,146 @@ class AccountFactory:
                 "Unknown account type."
             )
 
+# -----------------------------
+# Account Registry
+# -----------------------------
+class AccountRegistry:
+
+    def __init__(self):
+        self.accounts = {}
+
+    def add(self, account):
+        if account.account_number in self.accounts:
+            print("Account already exists.")
+            return
+
+        self.accounts[account.account_number] = account
+
+    def find(self, account_number):
+        return self.accounts.get(account_number)
+
+    def list_all(self):
+        return [
+            self.accounts[number]
+            for number in sorted(self.accounts)
+        ]
+
+    def undo_last(self, account_number):
+        account = self.find(account_number)
+
+        if account is None:
+            print("Account not found.")
+            return
+
+        if not account.history:
+            print("No transactions to undo.")
+            return
+
+        last_transaction = account.history.pop()
+
+        if last_transaction.transaction_type == "Deposit":
+            account._Account__balance -= last_transaction.amount
+
+        elif last_transaction.transaction_type == "Withdraw":
+            account._Account__balance += last_transaction.amount
+
+        print(f"Undo: {last_transaction}")
+
+        account._notify(
+            f"{account.owner} undid {last_transaction}"
+        )
+
+
 
 # ==========================================
-# Test Program
+# Main Program
 # ==========================================
 
-config = BankConfig()
+def main():
 
-sms = SMSAlert()
-audit = AuditLog()
+    config = BankConfig()
 
-account = AccountFactory.create(
-    "account",
-    "Abel",
-    "ACC1001",
-    5000
-)
+    sms = SMSAlert()
+    audit = AuditLog()
 
-savings = AccountFactory.create(
-    "savings",
-    "Sara",
-    "SAV1001",
-    8000
-)
+    account = AccountFactory.create(
+        "account",
+        "Abel",
+        "ACC1001",
+        5000
+    )
 
-current = AccountFactory.create(
-    "current",
-    "John",
-    "CUR1001",
-    3000
-)
+    savings = AccountFactory.create(
+        "savings",
+        "Sara",
+        "SAV1001",
+        8000
+    )
 
-
-# Subscribe observers
-
-for acc in [account, savings, current]:
-    acc.subscribe(sms)
-    acc.subscribe(audit)
+    current = AccountFactory.create(
+        "current",
+        "John",
+        "CUR1001",
+        3000
+    )
 
 
-print("\nTransactions")
-print("-" * 35)
-
-account.deposit(1000)
-account.withdraw(500)
-
-savings.add_interest()
-
-current.withdraw(4500)
-current.withdraw(1000)
+    # Subscribe observers
+    for acc in [account, savings, current]:
+        acc.subscribe(sms)
+        acc.subscribe(audit)
 
 
-print("\nStatements")
-print("-" * 35)
-
-for acc in [account, savings, current]:
-
-    acc.statement()
-
+    print("\nTransactions")
     print("-" * 35)
 
-# ==========================================
-# Account Registry Test
-# ==========================================
+    account.deposit(1000)
+    account.withdraw(500)
 
-registry = AccountRegistry()
+    savings.add_interest()
 
-registry.add(account)
-registry.add(savings)
-registry.add(current)
+    current.withdraw(4500)
+    current.withdraw(1000)
 
-print("\nRegistry Lookup")
-print("-" * 35)
 
-result = registry.find("SAV1001")
-result.statement()
+    print("\nStatements")
+    print("-" * 35)
 
-print("\nAll Registered Accounts")
-print("-" * 35)
+    for acc in [account, savings, current]:
+        acc.statement()
+        print("-" * 35)
 
-for acc in registry.list_all():
-    print(acc.account_number, acc.owner)
 
-print("\nUndo Transaction")
-print("-" * 35)
+    # Account Registry Test
 
-registry.undo_last("CUR1001")
+    registry = AccountRegistry()
 
-current.statement()
+    registry.add(account)
+    registry.add(savings)
+    registry.add(current)
+
+
+    print("\nRegistry Lookup")
+    print("-" * 35)
+
+    result = registry.find("SAV1001")
+    result.statement()
+
+
+    print("\nAll Registered Accounts")
+    print("-" * 35)
+
+    for acc in registry.list_all():
+        print(acc.account_number, acc.owner)
+
+
+    print("\nUndo Transaction")
+    print("-" * 35)
+
+    registry.undo_last("CUR1001")
+
+    current.statement()
+
+
+if __name__ == "__main__":
+    main()
