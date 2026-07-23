@@ -1,0 +1,163 @@
+class BankConfig:
+    """Singleton for shared bank settings."""
+
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance.interest_rate = 0.05
+            cls._instance.overdraft_limit = 3000
+        return cls._instance
+
+
+class Observer:
+    def update(self, message):
+        pass
+
+
+class SMSAlert(Observer):
+    def update(self, message):
+        print(f"[SMS] {message}")
+
+
+class AuditLog(Observer):
+    def update(self, message):
+        print(f"[AUDIT] {message}")
+
+
+class Account:
+    def __init__(self, owner, account_number, balance=0):
+        self.owner = owner
+        self.account_number = account_number
+        self._balance = balance
+        self._observers = []
+
+    @property
+    def balance(self):
+        return self._balance
+
+    def subscribe(self, observer):
+        self._observers.append(observer)
+
+    def _notify(self, message):
+        for observer in self._observers:
+            observer.update(message)
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print("Deposit amount must be greater than zero.")
+            return
+
+        self._balance += amount
+        self._notify(
+            f"{self.owner} deposited ETB {amount:.2f}. "
+            f"Balance: ETB {self.balance:.2f}"
+        )
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("Withdrawal amount must be greater than zero.")
+            return
+
+        if amount > self._balance:
+            print("Insufficient funds.")
+            return
+
+        self._balance -= amount
+        self._notify(
+            f"{self.owner} withdrew ETB {amount:.2f}. "
+            f"Balance: ETB {self.balance:.2f}"
+        )
+
+    def statement(self):
+        print("\n----- Standard Account -----")
+        print(f"Owner   : {self.owner}")
+        print(f"Number  : {self.account_number}")
+        print(f"Balance : ETB {self.balance:.2f}")
+
+
+class SavingsAccount(Account):
+    def __init__(self, owner, account_number, balance=0):
+        super().__init__(owner, account_number, balance)
+        self.rate = BankConfig().interest_rate
+
+    def add_interest(self):
+        interest = self.balance * self.rate
+        self.deposit(interest)
+
+    def statement(self):
+        print("\n----- Savings Account -----")
+        print(f"Owner   : {self.owner}")
+        print(f"Number  : {self.account_number}")
+        print(f"Balance : ETB {self.balance:.2f}")
+        print(f"Rate    : {self.rate * 100:.1f}%")
+
+
+class CurrentAccount(Account):
+    def __init__(self, owner, account_number, balance=0):
+        super().__init__(owner, account_number, balance)
+        self.overdraft_limit = BankConfig().overdraft_limit
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("Withdrawal amount must be greater than zero.")
+            return
+
+        if self.balance - amount < -self.overdraft_limit:
+            print("Overdraft limit exceeded.")
+            return
+
+        self._balance -= amount
+        self._notify(
+            f"{self.owner} withdrew ETB {amount:.2f}. "
+            f"Balance: ETB {self.balance:.2f}"
+        )
+
+    def statement(self):
+        print("\n----- Current Account -----")
+        print(f"Owner      : {self.owner}")
+        print(f"Number     : {self.account_number}")
+        print(f"Balance    : ETB {self.balance:.2f}")
+        print(f"Overdraft  : ETB {self.overdraft_limit:.2f}")
+
+
+class AccountFactory:
+    @staticmethod
+    def create(kind, owner, number, balance=0):
+        kind = kind.lower()
+
+        if kind == "savings":
+            return SavingsAccount(owner, number, balance)
+
+        if kind == "current":
+            return CurrentAccount(owner, number, balance)
+
+        return Account(owner, number, balance)
+
+
+# -------------------------
+# Demo
+# -------------------------
+
+sms = SMSAlert()
+audit = AuditLog()
+
+accounts = [
+    AccountFactory.create("standard", "Abebe", "1001", 5000),
+    AccountFactory.create("savings", "Hana", "1002", 10000),
+    AccountFactory.create("current", "Samuel", "1003", 2000),
+]
+
+for account in accounts:
+    account.subscribe(sms)
+    account.subscribe(audit)
+
+accounts[0].deposit(1000)
+accounts[1].add_interest()
+accounts[2].withdraw(4500)
+
+print("\n===== ACCOUNT STATEMENTS =====")
+
+for account in accounts:
+    account.statement()
