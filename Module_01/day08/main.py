@@ -1,7 +1,3 @@
-
-from registry import AccountRegistry
-
-
 # ==========================================
 # Day 07 - Bank Project
 # Singleton, Factory, Observer
@@ -249,90 +245,243 @@ class AccountFactory:
             )
 
 
+class AccountRegistry:
+
+    def __init__(self):
+        self.accounts = {}
+        self.sorted_numbers = []
+
+    def add(self, account):
+        if account.account_number in self.accounts:
+            print("Account already exists.")
+            return
+
+        self.accounts[account.account_number] = account
+
+        # Keep account numbers sorted for binary search
+        self.sorted_numbers = sorted(
+        self.accounts.keys()
+    )
+
+    def find(self, account_number):
+        return self.accounts.get(account_number)
+
+    def list_all(self):
+        return [
+            self.accounts[number]
+            for number in sorted(self.accounts)
+        ]
+
+    def undo_last(self, account_number):
+        account = self.find(account_number)
+
+        if account is None:
+            print("Account not found.")
+            return
+
+        if not account.history:
+            print("No transactions to undo.")
+            return
+
+        last_transaction = account.history.pop()
+
+        if last_transaction.transaction_type == "Deposit":
+            account._Account__balance -= last_transaction.amount
+
+        elif last_transaction.transaction_type == "Withdraw":
+            account._Account__balance += last_transaction.amount
+
+        print(f"Undo: {last_transaction}")
+
+        account._notify(
+            f"{account.owner} undid {last_transaction}"
+        )
+
+
+    # Day 08 - Balance leaderboard
+    def top_by_balance(self, n):
+        return sorted(
+            self.accounts.values(),
+            key=lambda account: account.balance,
+            reverse=True
+        )[:n]
+    
+
+    # Day 08 - Binary search by account number
+    def find_by_number(self, account_number):
+
+        numbers = self.sorted_numbers
+
+        low = 0
+        high = len(numbers) - 1
+
+        while low <= high:
+
+            mid = (low + high) // 2
+
+            if numbers[mid] == account_number:
+                return self.accounts[numbers[mid]]
+
+            elif numbers[mid] < account_number:
+                low = mid + 1
+
+            else:
+                high = mid - 1
+
+        return None
+    
+
+    # Day 08 - Recursive transaction count
+    def total_transactions(self, account_number):
+
+        account = self.find(account_number)
+
+        if account is None:
+            return 0
+
+        def count(history, index):
+
+            if index == len(history):
+                return 0
+
+            return 1 + count(history, index + 1)
+
+        return count(account.history, 0)
+
+
+
 # ==========================================
-# Test Program
+# Main Program
 # ==========================================
 
-config = BankConfig()
+def main():
 
-sms = SMSAlert()
-audit = AuditLog()
+    config = BankConfig()
 
-account = AccountFactory.create(
-    "account",
-    "Abel",
-    "ACC1001",
-    5000
-)
+    sms = SMSAlert()
+    audit = AuditLog()
 
-savings = AccountFactory.create(
-    "savings",
-    "Sara",
-    "SAV1001",
-    8000
-)
+    account = AccountFactory.create(
+        "account",
+        "Abel",
+        "ACC1001",
+        5000
+    )
 
-current = AccountFactory.create(
-    "current",
-    "John",
-    "CUR1001",
-    3000
-)
+    savings = AccountFactory.create(
+        "savings",
+        "Sara",
+        "SAV1001",
+        8000
+    )
 
-
-# Subscribe observers
-
-for acc in [account, savings, current]:
-    acc.subscribe(sms)
-    acc.subscribe(audit)
+    current = AccountFactory.create(
+        "current",
+        "John",
+        "CUR1001",
+        3000
+    )
 
 
-print("\nTransactions")
-print("-" * 35)
+    # Subscribe observers
 
-account.deposit(1000)
-account.withdraw(500)
-
-savings.add_interest()
-
-current.withdraw(4500)
-current.withdraw(1000)
+    for acc in [account, savings, current]:
+        acc.subscribe(sms)
+        acc.subscribe(audit)
 
 
-print("\nStatements")
-print("-" * 35)
-
-for acc in [account, savings, current]:
-
-    acc.statement()
-
+    print("\nTransactions")
     print("-" * 35)
 
-# ==========================================
-# Account Registry Test
-# ==========================================
+    account.deposit(1000)
+    account.withdraw(500)
 
-registry = AccountRegistry()
+    savings.add_interest()
 
-registry.add(account)
-registry.add(savings)
-registry.add(current)
+    current.withdraw(4500)
+    current.withdraw(1000)
 
-print("\nRegistry Lookup")
-print("-" * 35)
 
-result = registry.find("SAV1001")
-result.statement()
+    print("\nStatements")
+    print("-" * 35)
 
-print("\nAll Registered Accounts")
-print("-" * 35)
+    for acc in [account, savings, current]:
 
-for acc in registry.list_all():
-    print(acc.account_number, acc.owner)
+        acc.statement()
 
-print("\nUndo Transaction")
-print("-" * 35)
+        print("-" * 35)
 
-registry.undo_last("CUR1001")
 
-current.statement()
+    # ==========================================
+    # Account Registry Test
+    # ==========================================
+
+    registry = AccountRegistry()
+
+    registry.add(account)
+    registry.add(savings)
+    registry.add(current)
+
+
+    print("\nRegistry Lookup")
+    print("-" * 35)
+
+    result = registry.find("SAV1001")
+    result.statement()
+
+
+    print("\nAll Registered Accounts")
+    print("-" * 35)
+
+    for acc in registry.list_all():
+        print(acc.account_number, acc.owner)
+
+
+    print("\nUndo Transaction")
+    print("-" * 35)
+
+    registry.undo_last("CUR1001")
+
+    current.statement()
+
+
+    # ==========================================
+    # Day08 Features
+    # ==========================================
+
+    print("\nTop Accounts")
+    print("-" * 35)
+
+    for acc in registry.top_by_balance(3):
+        print(
+            acc.account_number,
+            acc.owner,
+            acc.balance
+        )
+
+
+    print("\nBinary Search")
+    print("-" * 35)
+
+    found = registry.find_by_number("SAV1001")
+
+    if found:
+        print(
+            found.account_number,
+            found.owner
+        )
+
+
+    print("\nTransaction Count")
+    print("-" * 35)
+
+    total = registry.total_transactions("CUR1001")
+
+    print(
+        "John transactions:",
+        total
+    )
+
+
+if __name__ == "__main__":
+    main()
