@@ -1,0 +1,4 @@
+git status
+git add Module_01/Algorithms
+git commit -m "Add Algorithm practice questions 1-6"
+git push origin main
