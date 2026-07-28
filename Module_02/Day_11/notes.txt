@@ -1,0 +1,10 @@
+Website inspected: Ethiopian Airlines
+
+<header>
+Contains the company logo, search, and main navigation.
+
+<nav>
+Contains links such as Book, Manage Booking, Check-in, and Flight Status.
+
+<footer>
+Contains contact information, social media links, and copyright details.
