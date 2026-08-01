@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12 HTML Pracice Exercises | Habesha Eatery & Accessibility</title>
+    <meta name="description" content="Day 12 HTML exercises demonstrating forms, tables, media, accessibility, and semantic HTML.">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>Day 12 HTML Prctice Exercises</h1>
+</header>
+
+<main>
+
+    <!-- ========================================= -->
+    <!-- Exercise 1 -->
+    <!-- ========================================= -->
+
+    <section>
+
+        <h2>1. Ethio Telecom Registration Form</h2>
+
+        <!--
+        POST is used because registration sends user information to the server.
+        Sensitive information should not appear in the URL.
+        -->
+
+        <form action="#" method="post">
+
+            <p>
+                <label for="fullname">Full Name</label><br>
+                <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    required>
+            </p>
+
+            <p>
+                <label for="email">Email Address</label><br>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required>
+            </p>
+
+            <p>
+                <label for="phone">Telephone (+251XXXXXXXXX)</label><br>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    pattern="^\+2519\d{8}$"
+                    placeholder="+251912345678"
+                    required>
+            </p>
+
+            <p>
+                <label for="branch">Preferred Branch</label><br>
+
+                <select id="branch" name="branch" required>
+                    <option value="">Choose a branch</option>
+                    <option>Bole</option>
+                    <option>Kazanchis</option>
+                    <option>Piassa</option>
+                </select>
+            </p>
+
+            <button type="submit">
+                Register
+            </button>
+
+        </form>
+
+    </section>
+
+    <hr>
+
+    <!-- ========================================= -->
+    <!-- Exercise 2 -->
+    <!-- ========================================= -->
+
+    <section>
+
+        <h2>2. Ethiopian Airlines Flight Schedule</h2>
+
+        <table>
+
+            <caption>
+                Ethiopian Airlines Domestic Flights
+            </caption>
+
+            <thead>
+                <tr>
+                    <th scope="col">Flight</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Departs</th>
+                    <th scope="col">Price (ETB)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>ET101</td>
+                    <td>Addis Ababa</td>
+                    <td>Bahir Dar</td>
+                    <td>08:30</td>
+                    <td>4,500</td>
+                </tr>
+
+                <tr>
+                    <td>ET202</td>
+                    <td>Addis Ababa</td>
+                    <td>Hawassa</td>
+                    <td>09:45</td>
+                    <td>3,900</td>
+                </tr>
+
+                <tr>
+                    <td>ET303</td>
+                    <td>Addis Ababa</td>
+                    <td>Mekelle</td>
+                    <td>11:00</td>
+                    <td>5,200</td>
+                </tr>
+
+                <tr>
+                    <td>ET404</td>
+                    <td>Addis Ababa</td>
+                    <td>Dire Dawa</td>
+                    <td>14:15</td>
+                    <td>4,800</td>
+                </tr>
+
+                <tr>
+                    <td>ET505</td>
+                    <td>Addis Ababa</td>
+                    <td>Gondar</td>
+                    <td>17:20</td>
+                    <td>4,600</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+    <hr>
+
+    <!-- ========================================= -->
+    <!-- Exercise 3 -->
+    <!-- ========================================= -->
+
+    <section>
+
+        <h2>3. Media Block</h2>
+
+        <figure>
+
+            <img
+                src="assets/doro-wot.jpg"
+                alt="Traditional Ethiopian Doro Wot served on fresh injera with a boiled egg."
+                width="500">
+
+            <figcaption>
+                Ethiopia's famous Doro Wot.
+            </figcaption>
+
+        </figure>
+
+        <iframe
+            src="https://www.google.com/maps?q=Addis%20Ababa&output=embed"
+            title="Map showing Addis Ababa"
+            width="600"
+            height="400"
+            loading="lazy">
+        </iframe>
+
+    </section>
+
+    <hr>
+
+    <!-- ========================================= -->
+    <!-- Exercise 4 -->
+    <!-- ========================================= -->
+
+    <section>
+
+        <h2>4. Accessibility Improvements</h2>
+
+        <!--
+        Fix 1:
+        A real button is keyboard accessible and announced correctly by screen readers.
+        -->
+        <button type="button">
+            Submit
+        </button>
+
+        <br><br>
+
+        <!--
+        Fix 2:
+        Labels tell screen readers what information the user should enter.
+        -->
+        <label for="username">
+            Username
+        </label>
+
+        <input
+            type="text"
+            id="username"
+            name="username">
+
+        <br><br>
+
+        <!--
+        Fix 3:
+        Alt text describes the image for users who cannot see it.
+        -->
+        <img
+            src="assets/doro-wot.jpg"
+            alt="Traditional Ethiopian meal served with injera."
+            width="300">
+
+    </section>
+
+    <hr>
+
+    <!-- ========================================= -->
+    <!-- Exercise 5 -->
+    <!-- ========================================= -->
+
+    <section>
+
+        <h2>5. HTML Validation</h2>
+
+        <p>
+            ✔ Document contains a complete head element.<br>
+            ✔ Semantic HTML used.<br>
+            ✔ Labels associated with every form control.<br>
+            ✔ Images include meaningful alt text.<br>
+            ✔ Tables contain captions and scope attributes.<br>
+            ✔ Iframe contains a descriptive title.<br>
+            ✔ Page validated successfully using the W3C Validator.
+        </p>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <p>
+        &copy; 2026 Day 12 HTML Pracice Exercises
+    </p>
+
+</footer>
+
+</body>
+</html>
