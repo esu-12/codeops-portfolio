@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Habesha Eatery | Reservation & Menu</title>
+
+    <meta name="description" content="Reserve a table at Habesha Eatery and explore our traditional Ethiopian menu.">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h1>Habesha Eatery</h1>
+
+        <nav aria-label="Main Navigation">
+            <ul>
+                <li><a href="#reservation">Reservation</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#location">Location</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- Reservation Form -->
+        <section id="reservation">
+            <h2>Reserve Your Table</h2>
+
+            <form action="#" method="post">
+
+                <div>
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        minlength="2">
+                </div>
+
+                <div>
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required>
+                </div>
+
+                <div>
+                    <label for="phone">Telephone</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                        pattern="[0-9+\-\s]{10,15}">
+                </div>
+
+                <div>
+                    <label for="date">Reservation Date</label>
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required>
+                </div>
+
+                <div>
+                    <label for="party">Party Size</label>
+                    <input
+                        type="number"
+                        id="party"
+                        name="party"
+                        min="1"
+                        max="20"
+                        required>
+                </div>
+
+                <div>
+                    <label for="requests">Special Requests</label>
+                    <textarea
+                        id="requests"
+                        name="requests"
+                        rows="5"
+                        placeholder="Dietary needs, seating preference, celebrations..."
+                        required></textarea>
+                </div>
+
+                <button type="submit">Book Reservation</button>
+
+            </form>
+        </section>
+
+        <!-- Menu Table -->
+        <section id="menu">
+
+            <h2>Today's Menu</h2>
+
+            <table>
+
+                <caption>
+                    Habesha Eatery Traditional Menu
+                </caption>
+
+                <thead>
+                    <tr>
+                        <th scope="col">Dish</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price (ETB)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Doro Wot</td>
+                        <td>Spicy chicken stew served with injera.</td>
+                        <td>350 ETB</td>
+                    </tr>
+
+                    <tr>
+                        <td>Tibs</td>
+                        <td>Seasoned beef with onions and peppers.</td>
+                        <td>400 ETB</td>
+                    </tr>
+
+                    <tr>
+                        <td>Shiro</td>
+                        <td>Chickpea stew served with fresh injera.</td>
+                        <td>250 ETB</td>
+                    </tr>
+
+                    <tr>
+                        <td>Kitfo</td>
+                        <td>Minced beef with Ethiopian spices.</td>
+                        <td>450 ETB</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- Media -->
+        <section id="location">
+
+            <h2>Visit Us</h2>
+
+            <figure>
+                <img
+                    src="assets/doro-wot.jpg"
+                    alt="Traditional Ethiopian Doro Wot served on fresh injera with boiled egg."
+                    width="600">
+
+                <figcaption>
+                    Our signature Doro Wot.
+                </figcaption>
+            </figure>
+
+            <iframe
+                src="https://www.google.com/maps?q=Addis%20Ababa&output=embed"
+                title="Habesha Eatery Location Map"
+                width="600"
+                height="450"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Habesha Eatery. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
