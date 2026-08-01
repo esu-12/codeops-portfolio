@@ -1,0 +1,132 @@
+/* Exercise 1 */
+
+:root{
+
+    --primary:#7B2D26;
+    --secondary:#D4AF37;
+    --spacing:20px;
+    --font:Arial, Helvetica, sans-serif;
+
+}
+
+body{
+
+    font-family:var(--font);
+    margin:40px;
+
+}
+
+.btn{
+
+    background:var(--primary);
+    color:white;
+
+    padding:var(--spacing);
+
+    border:2px solid var(--secondary);
+
+    cursor:pointer;
+
+}
+
+.btn:hover{
+
+    background:var(--secondary);
+
+}
+
+/* Exercise 2 */
+
+.content-box{
+
+    width:300px;
+
+    padding:24px;
+
+    border:2px solid black;
+
+    box-sizing:content-box;
+
+    background:#eee;
+
+}
+
+.border-box{
+
+    width:300px;
+
+    padding:24px;
+
+    border:2px solid black;
+
+    box-sizing:border-box;
+
+    background:#ddd;
+
+}
+
+/* Exercise 3 */
+
+p{
+
+    color:green;
+
+}
+
+.text{
+
+    color:blue;
+
+}
+
+#intro{
+
+    color:red;
+
+}
+
+/*
+Specificity
+
+Element = 0,0,1
+
+Class = 0,1,0
+
+ID = 1,0,0
+
+Winner = ID
+*/
+
+/* Exercise 4 */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#7B2D26;
+
+    color:white;
+
+    padding:12px;
+
+}
+
+td{
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+}
+
+tbody tr:nth-child(even){
+
+    background:#f3f3f3;
+
+}

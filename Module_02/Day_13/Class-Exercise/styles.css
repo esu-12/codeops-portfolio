@@ -1,0 +1,124 @@
+/* Global Reset */
+
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Variables */
+
+:root{
+    --primary:#7B2D26;
+    --secondary:#D4AF37;
+    --background:#FFF8E7;
+    --page-bg:#f4f4f4;
+    --stripe:rgba(0,0,0,.06);
+}
+
+/* Body */
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+    line-height:1.6;
+
+    background:var(--page-bg);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
+}
+
+/* Card */
+
+.menu-card{
+
+    background:var(--background);
+
+    width:380px;
+
+    padding:25px;
+
+    border:2px solid var(--primary);
+
+    border-top:10px solid var(--secondary);
+
+    border-radius:10px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+
+    transition:.3s;
+
+}
+
+/* Hover */
+
+.menu-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+
+}
+
+/* Typography */
+
+h1{
+
+    color:var(--primary);
+
+    margin-bottom:10px;
+
+}
+
+.description{
+
+    margin-bottom:20px;
+
+}
+
+/* Price */
+
+.price{
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+}
+
+.price::before{
+
+    content:"ETB ";
+
+    color:var(--secondary);
+
+    font-weight:bold;
+
+}
+
+/* Ingredient List */
+
+.ingredients{
+
+    list-style:none;
+
+}
+
+.ingredients li{
+
+    padding:10px;
+
+}
+
+.ingredients li:nth-child(even){
+
+    background:var(--stripe);
+
+}
