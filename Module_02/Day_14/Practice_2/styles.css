@@ -1,0 +1,23 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.container{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    padding:30px;
+}
+
+.card{
+    flex:1;  /* means every card grows equally. */
+    min-width:200px;
+    background:#eee;
+    padding:50px;
+    text-align:center;
+    border-radius:8px;
+}
+
+/* flex-wrap:wrap;   allows them to move to another line. */
