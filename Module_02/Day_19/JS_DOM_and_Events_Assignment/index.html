@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Addis Market Shopping List</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <main>
+        <h1>Addis Market</h1>
+
+        <form id="itemForm">
+            <input
+                type="text"
+                id="itemInput"
+                placeholder="Enter grocery item"
+                required
+            >
+
+            <button type="submit">
+                Add Item
+            </button>
+        </form>
+
+        <p id="count">0 items remaining</p>
+
+        <ul id="list"></ul>
+    </main>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

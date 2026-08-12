@@ -1,0 +1,115 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Page */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    background: #f5f5f5;
+    color: #333;
+}
+
+/* Main container */
+main {
+    width: min(90%, 600px);
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Form */
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Input */
+input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #8b4513;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* Counter */
+#count {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Shopping list */
+#list {
+    list-style: none;
+}
+
+/* Individual item */
+#list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #f8f5f0;
+    border-radius: 6px;
+}
+
+/* Item name takes available space */
+#list li span {
+    flex: 1;
+}
+
+/* Bought item */
+.done {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Buttons inside list */
+#list button {
+    font-size: 0.85rem;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+
+    main {
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    #list li {
+        flex-wrap: wrap;
+    }
+}
