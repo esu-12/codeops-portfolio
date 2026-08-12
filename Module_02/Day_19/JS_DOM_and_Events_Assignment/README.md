@@ -16,8 +16,8 @@ Build a working single-page app where data leads and the DOM follows using the *
 
 ## Self-Check List
 
-- [ ] Does the form add items without reloading the page?
-- [ ] Does clicking an item toggle a strikethrough via a CSS class?
-- [ ] Does clicking the remove button delete the correct item from the array?
-- [ ] Does the counter update immediately after every change?
-- [ ] Is the `render()` function the only place where the list DOM is modified?
+- [ yes ] Does the form add items without reloading the page?
+- [ yes] Does clicking an item toggle a strikethrough via a CSS class?
+- [ yes] Does clicking the remove button delete the correct item from the array?
+- [yes ] Does the counter update immediately after every change?
+- [ yes] Is the `render()` function the only place where the list DOM is modified?
