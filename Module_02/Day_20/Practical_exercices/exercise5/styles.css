@@ -1,0 +1,17 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+}
+
+main {
+    max-width: 600px;
+    margin: auto;
+}
+
+#status {
+    font-weight: bold;
+}
+
+li {
+    margin-bottom: 10px;
+}
