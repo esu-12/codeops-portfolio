@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birr Watch</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <main>
+    <h1>Birr Watch</h1>
+
+    <!-- API status -->
+    <p id="status" aria-live="polite">Loading rates...</p>
+
+    <!-- Converter -->
+    <section>
+      <h2>Currency Converter</h2>
+
+      <form id="convertForm">
+        <label for="amount">Amount in ETB</label>
+        <input
+          id="amount"
+          type="number"
+          min="0"
+          step="any"
+          placeholder="100"
+        >
+
+        <label for="currency">Convert to other currencies</label>
+        <select id="currency">
+          <option value="">Loading currencies...</option>
+        </select>
+
+        <button type="submit">Convert</button>
+      </form>
+
+      <p id="result" aria-live="polite"></p>
+    </section>
+
+    <!-- Watchlist -->
+  <section>
+    <h2>Watchlist</h2>
+
+    <p id="emptyWatchlist">My watchlist is empty.</p>
+
+    <ul id="watchlist"></ul>
+  </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
