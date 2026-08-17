@@ -152,8 +152,8 @@ function renderWatchlist() {
 
         li.innerHTML = `
             <span>
-                ${item.amount.toFixed(2)} ETB =
-                ${item.convertedAmount.toFixed(2)} ${item.currency}
+                ${item.currency}:
+                ${item.convertedAmount.toFixed(2)}
             </span>
 
             <button
@@ -255,61 +255,33 @@ function convertCurrency() {
 
     state.result = convertedAmount;
 
-    // Save user's choices
-    saveToStorage();
-
     // Display result
     resultEl.textContent =
         `${amount.toFixed(2)} ETB = ` +
         `${convertedAmount.toFixed(2)} ${currency}`;
-}
 
+    // ==========================================
+    // AUTOMATICALLY ADD TO WATCHLIST
+    // ==========================================
 
-// ==========================================
-// ADD TO WATCHLIST
-// ==========================================
-
-function addToWatchlist() {
-    const currency = state.selectedCurrency;
-
-    if (!currency) {
-        resultEl.textContent =
-            "Please select a currency first.";
-        return;
-    }
-
-    if (state.result === null) {
-        resultEl.textContent =
-            "Please convert an amount first.";
-        return;
-    }
-
-    // Prevent duplicate currencies
-    const alreadyExists = state.watchlist.some(
-        item => item.currency === currency
+    const alreadyExists = state.watchlist.some(item =>
+        item.currency === currency &&
+        item.amount === amount
     );
 
-    if (alreadyExists) {
-        resultEl.textContent =
-            `${currency} is already in your watchlist.`;
-        return;
+    if (!alreadyExists) {
+        state.watchlist.push({
+            currency: currency,
+            amount: amount,
+            convertedAmount: convertedAmount
+        });
     }
 
-    // Add the conversion to the watchlist
-    state.watchlist.push({
-        currency: currency,
-        amount: state.amount,
-        convertedAmount: state.result
-    });
-
-    // Save
+    // Save everything
     saveToStorage();
 
-    // Render
+    // Update watchlist
     renderWatchlist();
-
-    resultEl.textContent =
-        `${currency} added to your watchlist.`;
 }
 
 
