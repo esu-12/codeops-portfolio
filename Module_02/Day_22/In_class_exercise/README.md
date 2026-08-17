@@ -1,150 +1,555 @@
 # Birr Watch
 
-## JavaScript Project — Data-Driven App
+## JavaScript Project — Data-Driven Currency Converter
 
-### Project Goal
+Birr Watch is a data-driven JavaScript web application that retrieves live exchange rates, converts Ethiopian Birr (ETB) into selected currencies, and maintains a persistent currency watchlist.
 
-Build a working exchange-rate application that loads live exchange rates,
-converts an amount from Ethiopian Birr (ETB) to a selected currency, and
-allows users to save currencies to a watchlist.
+The project demonstrates practical frontend development concepts including **Fetch API, async/await, DOM manipulation, application state, event delegation, form validation, and localStorage**.
 
-The watchlist is stored in `localStorage` so it remains available after
-refreshing the page.
+---
+
+## Project Goal
+
+The goal of this project is to build a functional currency conversion application that:
+
+- Loads live exchange-rate data from a public API.
+- Uses Ethiopian Birr (ETB) as the base currency.
+- Allows users to enter an amount in ETB.
+- Allows users to select a target currency.
+- Calculates the converted amount using the current exchange rate.
+- Automatically saves conversions to a personal watchlist.
+- Prevents duplicate watchlist currencies.
+- Allows users to remove currencies from the watchlist.
+- Persists the watchlist using browser `localStorage`.
+- Provides clear loading, success, and error states.
 
 ---
 
 ## Features
 
-- Fetch live exchange rates from a public API.
-- Display loading, success, and error states.
-- Select a currency from a dropdown.
-- Enter an amount in ETB.
-- Convert ETB to the selected currency.
-- Add currencies to a watchlist.
-- Prevent duplicate watchlist entries.
-- Remove currencies from the watchlist.
-- Use event delegation for removing watchlist items.
-- Save the watchlist to `localStorage`.
-- Restore the watchlist when the page loads.
+### Live Exchange Rates
+
+The application retrieves current exchange-rate data from a public API using `fetch()` and `async/await`.
+
+The API uses **ETB as the base currency**, allowing the application to calculate conversions from Ethiopian Birr to other currencies.
+
+### Currency Converter
+
+Users can:
+
+1. Enter an amount in ETB.
+2. Select a target currency.
+3. Click the **Convert** button.
+4. Calculate the converted amount using the current exchange rate.
+
+For example:
+
+```text
+300 ETB → ANG
+```
+
+The conversion result is calculated dynamically using the rate returned by the API.
+
+### Dynamic Currency Dropdown
+
+The currency dropdown is populated from the currencies returned by the API.
+
+This means the application does not require a manually written list of currencies in the HTML.
+
+### Automatic Watchlist
+
+After a successful conversion, the selected currency and converted value are automatically added to the watchlist.
+
+For example:
+
+```text
+Watchlist
+
+ANG: 3.33                 Remove
+USD: 5.31                 Remove
+EUR: 4.92                 Remove
+```
+
+### Duplicate Prevention
+
+The application checks whether a currency is already in the watchlist before adding it.
+
+This prevents duplicate entries such as:
+
+```text
+ANG: 3.33
+ANG: 3.33
+ANG: 3.33
+```
+
+### Remove from Watchlist
+
+Each watchlist item contains a **Remove** button.
+
+Users can remove currencies without refreshing the page.
+
+### Event Delegation
+
+The watchlist uses event delegation so that one event listener on the watchlist container can handle dynamically created Remove buttons.
+
+### Local Storage
+
+The watchlist is stored in the browser using `localStorage`.
+
+This allows the watchlist to survive a page refresh.
+
+The application uses:
+
+```javascript
+JSON.stringify();
+```
+
+when saving data and:
+
+```javascript
+JSON.parse();
+```
+
+when loading data.
+
+### Loading and Error States
+
+The application provides feedback during API operations.
+
+Possible states include:
+
+```text
+Loading exchange rates...
+```
+
+```text
+Exchange rates loaded successfully.
+```
+
+```text
+Unable to load exchange rates. Please try again.
+```
 
 ---
 
-## Files
+## Technologies Used
 
-- `index.html` - Application structure and form
-- `styles.css` - Application styling
-- `app.js` - State, API requests, conversion, rendering, and watchlist
-- `README.md` - Project documentation
+- HTML5
+- CSS3
+- JavaScript (ES6+)
+- Fetch API
+- `async/await`
+- DOM Manipulation
+- Event Listeners
+- Event Delegation
+- JSON
+- Browser `localStorage`
+
+---
+
+## Project Structure
+
+```text
+Day_22/
+│
+├── index.html
+├── styles.css
+├── app.js
+└── README.md
+```
+
+### `index.html`
+
+Contains the structure of the application, including:
+
+- Application heading
+- API status message
+- Currency conversion form
+- Amount input
+- Currency dropdown
+- Convert button
+- Conversion result
+- Watchlist section
+
+### `styles.css`
+
+Contains the visual design and layout of the application.
+
+### `app.js`
+
+Contains the application logic, including:
+
+- DOM element selection
+- Application state
+- API requests
+- Currency rendering
+- Conversion calculations
+- Watchlist management
+- Event handling
+- Local storage
+- Application initialization
+
+### `README.md`
+
+Contains the project documentation, requirements, features, and implementation details.
 
 ---
 
 ## API
 
-This project uses the Frankfurter exchange-rate API:
+Birr Watch uses the **ExchangeRate-API open endpoint** to retrieve exchange-rate data.
 
-https://api.frankfurter.app/
+API endpoint:
 
-The application requests exchange rates using USD as the base currency
-and uses the returned rates to perform currency conversion.
+```text
+https://open.er-api.com/v6/latest/ETB
+```
 
-> Note: The application should verify the API response with `res.ok`
-> before attempting to process the JSON response.
+The API response uses ETB as the base currency.
+
+Example response structure:
+
+```json
+{
+  "result": "success",
+  "base_code": "ETB",
+  "rates": {
+    "USD": 0.0177,
+    "EUR": 0.0164,
+    "KES": 2.29,
+    "GBP": 0.0139
+  }
+}
+```
+
+The application extracts the `rates` object and stores it in application state.
+
+The API request is checked using `response.ok` before processing the response.
+
+Example:
+
+```javascript
+const response = await fetch(API_URL);
+
+if (!response.ok) {
+  throw new Error("Failed to fetch exchange rates");
+}
+
+const data = await response.json();
+```
 
 ---
 
 ## Application State
 
-The application keeps its data in a JavaScript state object.
+The application uses a central JavaScript state object as the main source of application data.
 
 Example:
 
 ```javascript
 const state = {
   rates: {},
+  currencies: [],
+  selectedCurrency: "",
+  amount: 0,
+  result: null,
   watchlist: [],
-  loading: false,
-  error: null,
+  status: "idle",
 };
 ```
 
+### State Properties
+
+| Property           | Purpose                                   |
+| ------------------ | ----------------------------------------- |
+| `rates`            | Stores exchange rates returned by the API |
+| `currencies`       | Stores available currency codes           |
+| `selectedCurrency` | Stores the currency selected by the user  |
+| `amount`           | Stores the entered ETB amount             |
+| `result`           | Stores the calculated conversion          |
+| `watchlist`        | Stores saved currency conversions         |
+| `status`           | Tracks loading, success, and error states |
+
+---
+
 ## Data Flow
 
-API
-↓
+The application follows a state-driven data flow:
+
+```text
+Public API
+    ↓
 fetch()
-↓
+    ↓
+API response
+    ↓
 state.rates
-↓
-render()
-↓
+    ↓
+renderCurrencies()
+    ↓
 Currency dropdown
-↓
+    ↓
 User enters ETB amount
-↓
+    ↓
+User selects currency
+    ↓
+Convert
+    ↓
 Validate input
-↓
+    ↓
+Look up exchange rate
+    ↓
 Calculate conversion
-↓
-Display result
+    ↓
+Update state
+    ↓
+Update watchlist
+    ↓
+localStorage
+    ↓
+Render watchlist
+```
 
-## Requirements
+---
 
-# API
+## Implementation Requirements
 
-Fetch exchange rates using fetch().
-Use async/await.
-Check res.ok.
-Parse the response with res.json().
-Store rates in application state.
+### API Integration
 
-# Loading and Error States
+The application:
 
-Show Loading... while rates are being fetched.
-Show a success message after loading.
-Show a friendly error message if the request fails.
+- Uses `fetch()` to request exchange-rate data.
+- Uses `async/await`.
+- Checks `response.ok`.
+- Parses JSON using `response.json()`.
+- Stores API rates in application state.
+- Handles failed requests with `try...catch`.
 
-# Currency Dropdown
+### Loading and Error States
 
-Populate the dropdown from the API rates.
-Allow the user to select a currency.
+The application:
 
-# Conversion
+- Displays a loading message while rates are being retrieved.
+- Displays a success message when rates load successfully.
+- Displays a friendly error message when the API request fails.
 
-Read the ETB amount from the form.
-Convert the input using Number().
-Validate the amount.
-Check that a valid currency has been selected.
-Look up the selected exchange rate.
-Display the converted amount.
+### Currency Dropdown
 
-# Watchlist
+The application:
 
-Add a currency to the watchlist.
-Prevent duplicate currencies.
-Render the watchlist from state.
-Remove currencies using event delegation.
-Update state after removal.
-Re-render after changes.
+- Retrieves currencies from the API response.
+- Stores them in state.
+- Dynamically creates dropdown options.
+- Allows the user to select a target currency.
 
-# localStorage
+### Currency Conversion
 
-Save the watchlist using JSON.stringify().
-Load the watchlist using JSON.parse().
-Restore the watchlist when the page loads.
-Handle missing localStorage data safely.
+The application:
 
-## Self-Check List
+- Reads the ETB amount from the form.
+- Converts the input using `Number()`.
+- Validates that the amount is greater than zero.
+- Validates that a currency has been selected.
+- Looks up the selected exchange rate.
+- Calculates the converted value.
+- Stores the conversion in application state.
 
-Does the app load live exchange rates?
-Does it show a loading message?
-Does it handle API errors?
-Does the currency dropdown populate?
-Does the conversion form validate the amount?
-Does the conversion show the correct result?
-Can a currency be added to the watchlist?
-Are duplicate currencies prevented?
-Can a watchlist currency be removed?
-Does event delegation handle removal?
-Does the watchlist survive a page refresh?
-Is the state the single source of truth?
-Is the DOM rendered from state?
+### Watchlist
+
+The application:
+
+- Automatically adds a successful conversion to the watchlist.
+- Prevents duplicate currency entries.
+- Renders watchlist items from state.
+- Provides a Remove button for each currency.
+- Uses event delegation for dynamically generated Remove buttons.
+- Updates state after a currency is removed.
+- Re-renders the watchlist after changes.
+
+### Local Storage
+
+The application:
+
+- Saves the watchlist using `JSON.stringify()`.
+- Loads saved data using `JSON.parse()`.
+- Restores the watchlist when the application starts.
+- Safely handles missing or invalid stored data.
+- Saves the user's selected currency and amount.
+
+---
+
+## Event Delegation
+
+Instead of adding a separate event listener to every Remove button, the application listens for clicks on the watchlist container.
+
+Example:
+
+```javascript
+watchlistEl.addEventListener("click", (event) => {
+  if (!event.target.matches("[data-remove]")) {
+    return;
+  }
+
+  const currency = event.target.dataset.remove;
+
+  removeFromWatchlist(currency);
+});
+```
+
+This approach works with watchlist items that are created dynamically.
+
+---
+
+## State and Rendering
+
+The application follows a simple state-driven approach:
+
+```text
+User Action
+     ↓
+Update State
+     ↓
+Save State
+     ↓
+Render
+     ↓
+Update DOM
+```
+
+The state acts as the **single source of truth** for application data.
+
+The DOM is updated based on the current state rather than being treated as the primary storage for application data.
+
+---
+
+## Validation
+
+The conversion form validates user input before performing a calculation.
+
+The application checks that:
+
+- An amount has been entered.
+- The amount is greater than zero.
+- A currency has been selected.
+- A valid exchange rate exists for the selected currency.
+
+Invalid input is rejected before the conversion is performed.
+
+---
+
+## Running the Project
+
+### Using VS Code Live Server
+
+1. Open the `Day_22` folder in Visual Studio Code.
+2. Open `index.html`.
+3. Right-click the file.
+4. Select **Open with Live Server**.
+5. The application will open in your browser.
+
+An internet connection is required because exchange rates are loaded from the public API.
+
+---
+
+## Testing
+
+The application should be tested for the following behaviors:
+
+### API
+
+- [ ] Live exchange rates load successfully.
+- [ ] Loading status is displayed.
+- [ ] Success status is displayed.
+- [ ] API errors are handled gracefully.
+- [ ] The currency dropdown is populated from API data.
+
+### Conversion
+
+- [ ] The user can enter an ETB amount.
+- [ ] The user can select a currency.
+- [ ] The application validates the amount.
+- [ ] The application validates currency selection.
+- [ ] The correct exchange rate is used.
+- [ ] The converted value is calculated correctly.
+
+### Watchlist
+
+- [ ] A successful conversion is added to the watchlist.
+- [ ] Duplicate currencies are prevented.
+- [ ] Watchlist items display the currency and converted value.
+- [ ] A currency can be removed.
+- [ ] The Remove button works through event delegation.
+- [ ] The watchlist updates without a page reload.
+
+### Persistence
+
+- [ ] The watchlist is saved to `localStorage`.
+- [ ] The watchlist is restored after refreshing the page.
+- [ ] Missing localStorage data is handled safely.
+- [ ] Saved user choices are restored when the application loads.
+
+### Application Architecture
+
+- [ ] State is the single source of truth.
+- [ ] API data is stored in state.
+- [ ] The DOM is rendered from state.
+- [ ] User actions update state.
+- [ ] Changes are persisted when necessary.
+
+---
+
+## Learning Outcomes
+
+This project demonstrates practical understanding of:
+
+- JavaScript objects and arrays.
+- Application state.
+- DOM manipulation.
+- Event handling.
+- Event delegation.
+- Form handling.
+- Input validation.
+- Fetch API.
+- Promises.
+- `async/await`.
+- API integration.
+- JSON data.
+- Error handling.
+- Dynamic rendering.
+- Browser `localStorage`.
+- `JSON.stringify()`.
+- `JSON.parse()`.
+- Data-driven user interfaces.
+
+---
+
+## Future Improvements
+
+Possible future improvements include:
+
+- Add currency names alongside currency codes.
+- Add a currency search feature.
+- Add a Refresh Rates button.
+- Add timestamps showing when rates were last updated.
+- Add historical exchange-rate charts.
+- Add more detailed conversion information.
+- Add responsive improvements for mobile devices.
+- Add dark mode.
+- Add sorting and filtering to the watchlist.
+- Allow multiple conversions for the same currency at different amounts.
+
+---
+
+## Project Status
+
+**Status:** Complete
+
+Birr Watch successfully demonstrates a functional data-driven JavaScript application using live API data, currency conversion, dynamic rendering, event delegation, and persistent browser storage.
+
+---
+
+## Author
+
+**Esayas Nigussie**
+
+Module 02 — Day 22
