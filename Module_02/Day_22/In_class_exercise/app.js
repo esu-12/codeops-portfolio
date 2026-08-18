@@ -176,6 +176,23 @@ function renderWatchlist() {
 
 
 // ==========================================
+// RESULT RENDERING
+// ==========================================
+
+    function renderResult() {
+        if (state.result === null) {
+            resultEl.textContent = "";
+            return;
+        }
+
+        resultEl.textContent =
+            `${state.amount.toFixed(2)} ETB = ` +
+            `${state.result.toFixed(2)} ${state.currency}`;
+    }
+
+
+
+// ==========================================
 // CENTRAL RENDER
 // ==========================================
 
@@ -183,6 +200,7 @@ function render() {
     renderStatus();
     renderCurrencies();
     renderWatchlist();
+    renderResult();
 }
 
 // ==========================================
@@ -269,11 +287,6 @@ function convertCurrency() {
     const convertedAmount = amount * rate;
 
     state.result = convertedAmount;
-
-    // Display result
-    resultEl.textContent =
-        `${amount.toFixed(2)} ETB = ` +
-        `${convertedAmount.toFixed(2)} ${currency}`;
 
     // ==========================================
     // AUTOMATICALLY ADD TO WATCHLIST
