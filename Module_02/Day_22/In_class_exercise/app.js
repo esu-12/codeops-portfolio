@@ -9,6 +9,7 @@ const currencySelect = document.querySelector("#currency");
 const resultEl = document.querySelector("#result");
 const watchlistEl = document.querySelector("#watchlist");
 const emptyWatchlistEl = document.querySelector("#emptyWatchlist");
+const STORAGE_KEY = "birrwatch";
 
 
 // ==========================================
@@ -23,12 +24,13 @@ const API_URL = "https://open.er-api.com/v6/latest/ETB";
 // ==========================================
 
 const state = {
+    base: "ETB",
     rates: {},
     currencies: [],
-    selectedCurrency: "",
-    amount: 0,
-    result: null,
+    currency: "USD",
+    amount: 100,
     watchlist: [],
+    result: null,
     status: "idle"
 };
 
@@ -38,43 +40,47 @@ const state = {
 // ==========================================
 
 function loadFromStorage() {
-    const savedWatchlist = localStorage.getItem("currencyWatchlist");
-    const savedCurrency = localStorage.getItem("selectedCurrency");
-    const savedAmount = localStorage.getItem("amount");
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    if (savedWatchlist) {
-        try {
-            state.watchlist = JSON.parse(savedWatchlist);
-        } catch (error) {
-            console.error("Could not load watchlist:", error);
-            state.watchlist = [];
+    if (!saved) {
+        return;
+    }
+
+    try {
+        const data = JSON.parse(saved);
+
+        if (Array.isArray(data.watchlist)) {
+            state.watchlist = data.watchlist;
         }
-    }
 
-    if (savedCurrency) {
-        state.selectedCurrency = savedCurrency;
-    }
+        if (typeof data.currency === "string") {
+            state.currency = data.currency;
+        }
 
-    if (savedAmount) {
-        state.amount = Number(savedAmount);
+        if (typeof data.amount === "number") {
+            state.amount = data.amount;
+        }
+
+    } catch (error) {
+        console.error("Could not load saved state:", error);
+
+        state.watchlist = [];
+        state.currency = "";
+        state.amount = 0;
     }
 }
 
 
 function saveToStorage() {
-    localStorage.setItem(
-        "currencyWatchlist",
-        JSON.stringify(state.watchlist)
-    );
+    const savedState = {
+        watchlist: state.watchlist,
+        currency: state.currency,
+        amount: state.amount
+    };
 
     localStorage.setItem(
-        "selectedCurrency",
-        state.selectedCurrency
-    );
-
-    localStorage.setItem(
-        "amount",
-        String(state.amount)
+        STORAGE_KEY,
+        JSON.stringify(savedState)
     );
 }
 
@@ -124,7 +130,7 @@ function renderCurrencies() {
         option.value = currency;
         option.textContent = currency;
 
-        if (currency === state.selectedCurrency) {
+        if (currency === state.currency) {
             option.selected = true;
         }
 
@@ -170,12 +176,22 @@ function renderWatchlist() {
 
 
 // ==========================================
+// CENTRAL RENDER
+// ==========================================
+
+function render() {
+    renderStatus();
+    renderCurrencies();
+    renderWatchlist();
+}
+
+// ==========================================
 // FETCH EXCHANGE RATES
 // ==========================================
 
 async function loadRates() {
     state.status = "loading";
-    renderStatus();
+    render();
 
     try {
         const res = await fetch(API_URL);
@@ -202,15 +218,14 @@ async function loadRates() {
 
         state.status = "success";
 
-        renderCurrencies();
-        renderStatus();
+        render();
 
     } catch (error) {
         console.error("Failed to load rates:", error);
 
         state.status = "error";
 
-        renderStatus();
+        render();
     }
 }
 
@@ -224,7 +239,7 @@ function convertCurrency() {
     const currency = currencySelect.value;
 
     // Validate amount
-    if (!amount || amount <= 0) {
+    if (Number.isNaN(amount) || amount <= 0) {
         resultEl.textContent =
             "Please enter a valid amount greater than 0.";
         return;
@@ -248,7 +263,7 @@ function convertCurrency() {
 
     // Update state
     state.amount = amount;
-    state.selectedCurrency = currency;
+    state.currency = currency;
 
     // Calculate conversion
     const convertedAmount = amount * rate;
@@ -281,7 +296,7 @@ function convertCurrency() {
     saveToStorage();
 
     // Update watchlist
-    renderWatchlist();
+    render();
 }
 
 
@@ -296,7 +311,7 @@ function removeFromWatchlist(currency) {
 
     saveToStorage();
 
-    renderWatchlist();
+    render();
 }
 
 // ==========================================
@@ -315,9 +330,10 @@ form.addEventListener("submit", event => {
 // ==========================================
 
 currencySelect.addEventListener("change", event => {
-    state.selectedCurrency = event.target.value;
+    state.currency = event.target.value;
 
     saveToStorage();
+    render();
 });
 
 // ==========================================
@@ -351,11 +367,8 @@ function init() {
         amountInput.value = state.amount;
     }
 
-    // Render existing watchlist
-    renderWatchlist();
-
     // Show initial status
-    renderStatus();
+    render();
 
     // Load live exchange rates
     loadRates();
