@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Addis Eats</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header>
+    <h1>Addis Eats</h1>
+  </header>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+  <main>
+
+    <!-- =========================
+         MENU SECTION
+    ========================== -->
+    <section aria-labelledby="menu-heading">
+
+      <h2 id="menu-heading">Menu</h2>
+
+      <!-- Search -->
+      <form id="searchForm">
+
+        <label for="search">
+          Search dishes
+        </label>
+
+        <input
+          type="search"
+          id="search"
+          name="search"
+          placeholder="Search dishes..."
+          autocomplete="off"
+        >
+
+      </form>
+
+
+      <!-- Category filters -->
+      <nav aria-label="Menu categories">
+
+        <button
+          type="button"
+          class="category-btn active"
+          data-category="All"
+        >
+          All
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+          data-category="Main"
+        >
+          Main
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+          data-category="Vegetarian"
+        >
+          Vegetarian
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+          data-category="Breakfast"
+        >
+          Breakfast
+        </button>
+
+        <button
+          type="button"
+          class="category-btn"
+          data-category="Side"
+        >
+          Side
+        </button>
+
+      </nav>
+
+
+      <!-- JavaScript will render dishes here -->
+      <div id="menu" aria-live="polite">
+        Loading menu...
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CART
+    ========================== -->
+    <aside aria-labelledby="cart-heading">
+
+      <h2 id="cart-heading">Your Cart</h2>
+
+      <!-- JavaScript will render cart items here -->
+      <div id="cart" aria-live="polite">
+        <p>Your cart is empty.</p>
+      </div>
+
+      <p id="cartTotal">
+        Total: 0 ETB
+      </p>
+
+    </aside>
+
+
+    <!-- =========================
+         CHECKOUT
+    ========================== -->
+    <section aria-labelledby="checkout-heading">
+
+      <h2 id="checkout-heading">Checkout</h2>
+
+      <form id="checkoutForm" novalidate>
+
+        <div>
+          <label for="name">
+            Name
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            autocomplete="name"
+          >
+        </div>
+
+
+        <div>
+          <label for="phone">
+            TeleBirr Phone
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="09/07********"
+            autocomplete="tel"
+          >
+        </div>
+
+
+        <div>
+          <label for="address">
+            Delivery address
+          </label>
+
+          <textarea
+            id="address"
+            name="address"
+            rows="3"
+            autocomplete="street-address"
+          ></textarea>
+        </div>
+
+        <p
+          id="form-error"
+          role="alert"
+          aria-live="polite"
+        ></p>
+
+
+        <button type="submit">
+          Place Order
+        </button>
+
+      </form>
+
+      <!-- JavaScript can display checkout messages here -->
+      <!-- <p id="checkoutMessage" aria-live="polite"></p> -->
+
+      <p
+        id="confirmation"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+  <footer>
+
+        <p>Bole, Addis Ababa · TeleBirr</p>
+
+    <p>
+      &copy; 2026 Addis Eats
+    </p>
+
+  </footer>
+
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+
+</body>
+</html>
