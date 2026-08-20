@@ -1,0 +1,440 @@
+/* ========================================
+   GLOBAL
+======================================== */
+
+:root {
+  --green: #2e8b57;
+  --green-dark: #246b45;
+  --ink: #1a2433;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --background: #f8fafc;
+  --white: #ffffff;
+  --danger: #c0392b;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  min-width: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--background);
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+header {
+  width: 100%;
+  background: var(--green);
+  color: var(--white);
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+}
+
+header p {
+  margin: 0.25rem 0 0;
+}
+
+
+/* ========================================
+   MAIN
+======================================== */
+
+main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+
+/* ========================================
+   SECTIONS / CART
+======================================== */
+
+section,
+aside {
+  width: 100%;
+  min-width: 0;
+
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+h2 {
+  margin-top: 0;
+  color: var(--ink);
+}
+
+
+/* ========================================
+   SEARCH
+======================================== */
+
+#searchForm {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#searchForm label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+
+#search {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+
+  padding: 0.75rem;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  font: inherit;
+}
+
+#search:focus {
+  outline: 3px solid rgba(46, 139, 87, 0.2);
+  border-color: var(--green);
+}
+
+
+/* ========================================
+   CATEGORY BUTTONS
+======================================== */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.category-btn {
+  border: 1px solid var(--green);
+  background: var(--white);
+  color: var(--green);
+
+  padding: 0.6rem 0.9rem;
+
+  border-radius: var(--radius);
+
+  cursor: pointer;
+  font: inherit;
+}
+
+.category-btn:hover,
+.category-btn:focus {
+  background: var(--green);
+  color: var(--white);
+}
+
+.category-btn.active {
+  background: var(--green);
+  color: var(--white);
+}
+
+
+/* ========================================
+   MENU GRID
+======================================== */
+
+#menu {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+
+  gap: 1rem;
+}
+
+
+/* ========================================
+   DISH CARD
+======================================== */
+
+.dish {
+  min-width: 0;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  padding: 1rem;
+
+  background: var(--white);
+
+  overflow-wrap: break-word;
+}
+
+.dish h3 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+
+  overflow-wrap: anywhere;
+}
+
+.dish p {
+  margin: 0.3rem 0;
+}
+
+.price {
+  color: var(--green);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+
+/* ========================================
+   DISH BUTTON
+======================================== */
+
+.dish button {
+  width: 100%;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: var(--green);
+  color: var(--white);
+
+  padding: 0.7rem 1rem;
+
+  cursor: pointer;
+  font: inherit;
+}
+
+.dish button:hover {
+  background: var(--green-dark);
+}
+
+
+/* ========================================
+   CART
+======================================== */
+
+#cart {
+  width: 100%;
+  min-width: 0;
+
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cart-item {
+  min-width: 0;
+
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.75rem;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item h3 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.cart-item p {
+  margin: 0.25rem 0;
+}
+
+
+/* ========================================
+   CART CONTROLS
+======================================== */
+
+.cart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cart-controls button {
+  border: 1px solid var(--line);
+  background: var(--white);
+
+  padding: 0.35rem 0.65rem;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+  font: inherit;
+}
+
+.cart-controls button:hover {
+  background: var(--background);
+}
+
+
+/* ========================================
+   TOTAL
+======================================== */
+
+#cartTotal {
+  border-top: 2px solid var(--line);
+
+  margin-top: 1rem;
+  padding-top: 1rem;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  color: var(--green);
+}
+
+
+/* ========================================
+   CHECKOUT
+======================================== */
+
+#checkoutForm {
+  width: 100%;
+
+  display: grid;
+  gap: 1rem;
+}
+
+#checkoutForm div {
+  display: grid;
+  gap: 0.4rem;
+}
+
+#checkoutForm label {
+  font-weight: 700;
+}
+
+#checkoutForm input,
+#checkoutForm textarea {
+  width: 100%;
+  min-width: 0;
+
+  padding: 0.75rem;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+
+  font: inherit;
+}
+
+#checkoutForm textarea {
+  resize: vertical;
+}
+
+#checkoutForm button {
+  width: 100%;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: var(--green);
+  color: var(--white);
+
+  padding: 0.75rem 1rem;
+
+  cursor: pointer;
+  font: inherit;
+}
+
+#checkoutForm button:hover {
+  background: var(--green-dark);
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+footer {
+  width: 100%;
+
+  margin-top: 1rem;
+  padding: 1.5rem 1rem;
+
+  text-align: center;
+
+  background: var(--ink);
+  color: var(--white);
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (min-width: 600px) {
+
+  main {
+    padding: 1.5rem;
+  }
+
+  #checkoutForm button {
+    width: auto;
+  }
+
+}
+
+
+/* ========================================
+   DESKTOP
+======================================== */
+
+@media (min-width: 800px) {
+
+  main {
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+
+  #checkoutForm {
+    max-width: 600px;
+  }
+
+}
+
+
+/* ========================================
+   LARGE DESKTOP
+======================================== */
+
+@media (min-width: 1200px) {
+
+  main {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
