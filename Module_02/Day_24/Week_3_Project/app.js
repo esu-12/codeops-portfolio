@@ -221,6 +221,25 @@ function cartTotal() {
   );
 }
 
+// delivery calculation function
+function deliveryFee() {
+  const subtotal = cartTotal();
+
+  if (subtotal === 0) {
+    return 0;
+  }
+
+  if (subtotal >= FREE_DELIVERY_OVER) {
+    return 0;
+  }
+
+  return DELIVERY_FEE;
+}
+
+// final total
+function finalTotal() {
+  return cartTotal() + deliveryFee();
+}
 
 // ========================================
 // RENDER CART TOTAL
@@ -228,9 +247,14 @@ function cartTotal() {
 
 function renderTotal() {
 
-  cartTotalEl.textContent =
-    `Total: ${cartTotal().toLocaleString()} ${CURRENCY}`;
+  const subtotal = cartTotal();
+  const delivery = deliveryFee();
+  const total = finalTotal();
 
+  cartTotalEl.textContent =
+    `Subtotal: ${subtotal.toLocaleString()} ${CURRENCY}
+     | Delivery: ${delivery.toLocaleString()} ${CURRENCY}
+     | Total: ${total.toLocaleString()} ${CURRENCY}`;
 }
 
 // ========================================
@@ -451,7 +475,9 @@ function placeOrder(data) {
   const order = {
     ...data,
     items: state.cart,
-    total: cartTotal(),
+    subtotal: cartTotal(),
+    deliveryFee: deliveryFee(),
+    total: finalTotal(),
     placedAt: new Date().toISOString()
   };
 
@@ -471,7 +497,9 @@ function showConfirmation(order) {
 
   confirmationEl.textContent =
     `Order placed successfully — ` +
-    `${order.total.toLocaleString()} ${CURRENCY} ` +
+    `Subtotal: ${order.subtotal.toLocaleString()} ${CURRENCY}, ` +
+    `Delivery: ${order.deliveryFee.toLocaleString()} ${CURRENCY}, ` +
+    `Total: ${order.total.toLocaleString()} ${CURRENCY}, ` +
     `for delivery to ${order.address}.`;
 }
 
