@@ -37,6 +37,34 @@ function cartReducer(state, action) {
       };
     }
 
+        case "INCREASE":
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.id === action.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1
+              }
+            : item
+        )
+      };
+
+    case "DECREASE":
+      return {
+        ...state,
+        items: state.items
+          .map((item) =>
+            item.id === action.id
+              ? {
+                  ...item,
+                  quantity: item.quantity - 1
+                }
+              : item
+          )
+          .filter((item) => item.quantity > 0)
+      };
+
     case "REMOVE":
       return {
         ...state,

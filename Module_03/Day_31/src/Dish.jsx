@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function Dish({ id, name, price, spicy, currency, dispatch }) {
+function Dish({ id, name, price, spicy, currency, dispatch, image }) {
   const [count, setCount] = useState(0);
 
   return (
@@ -18,6 +18,7 @@ function Dish({ id, name, price, spicy, currency, dispatch }) {
       {spicy && <span>🌶️ Spicy</span>}
 
       <p>Added: {count}</p>
+      <img src={image} alt={name} />
 
       <button
         onClick={() => {
@@ -49,6 +50,7 @@ Dish.propTypes = {
   price: PropTypes.number.isRequired,
   spicy: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
+  image: PropTypes.string,
 };
 
 export default Dish;

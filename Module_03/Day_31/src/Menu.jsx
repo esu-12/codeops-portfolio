@@ -1,4 +1,4 @@
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CategoryBar from "./CategoryBar.jsx";
 import DishList from "./DishList.jsx";
@@ -9,6 +9,7 @@ import { API_URL } from "./api.js";
 
 function Menu() {
   const [searchParams, setSearchParams] = useSearchParams();
+    const [searchTerm, setSearchTerm] = useState("");
 
   const category = searchParams.get("category") || "All";
 
@@ -22,10 +23,19 @@ function Menu() {
       return [];
     }
 
-    return category === "All"
-      ? dishes
-      : dishes.filter((dish) => dish.category === category);
-  }, [dishes, category]);
+    return dishes.filter((dish) => {
+      const matchesCategory =
+        category === "All" ||
+        dish.category === category;
+
+      const matchesSearch =
+        dish.nameEn
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [dishes, category, searchTerm]);
 
   function handleCategoryChange(newCategory) {
     if (newCategory === "All") {
@@ -45,6 +55,33 @@ function Menu() {
 
   return (
     <>
+    <section className="menu-intro">
+      <p className="menu-eyebrow">
+        HANDCRAFTED ETHIOPIAN FLAVORS
+      </p>
+
+      <h1>Our Complete Culinary Heritage</h1>
+
+      <p className="menu-description">
+        Explore traditional Ethiopian dishes prepared with
+        authentic spices, fresh ingredients, and 100% pure teff injera.
+      </p>
+
+      <input
+        className="menu-search"
+        type="search"
+        placeholder="Search dishes..."
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+      />
+
+      <div className="menu-badges">
+        <span>100% Pure Teff Injera</span>
+        <span>Fasting / Tsom Friendly</span>
+        <span>Berbere Spiced</span>
+      </div>
+    </section>
+
       <CategoryBar
         category={category}
         onSelect={handleCategoryChange}

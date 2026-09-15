@@ -16,9 +16,30 @@ function SignIn() {
 
   return (
     <section className="signin-page">
-      <h2>Sign In</h2>
+      <p className="signin-eyebrow">ACCOUNT</p>
 
-      <p>Please sign in to continue.</p>
+      <h2>Welcome Back to Our Table</h2>
+
+      <p className="signin-message">
+        Sign in to continue your Addis Eats order.
+      </p>
+
+      <div className="signin-benefits">
+        <div>
+          <strong>Fast Ordering</strong>
+          <span>Save time on future orders.</span>
+        </div>
+
+        <div>
+          <strong>Order History</strong>
+          <span>Keep track of your favorite dishes.</span>
+        </div>
+
+        <div>
+          <strong>Delivery Updates</strong>
+          <span>Stay informed about your order.</span>
+        </div>
+      </div>
 
       <button onClick={handleSignIn}>
         Sign In

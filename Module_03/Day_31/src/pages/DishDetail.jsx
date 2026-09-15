@@ -51,37 +51,71 @@ function DishDetail() {
 
   return (
     <article className="dish-detail">
-      <Link to="/menu">← Back to Menu</Link>
+      <Link to="/menu" className="back-link">
+        ← Back to Menu
+      </Link>
 
-      <h2>{dish.nameEn}</h2>
+      <div className="dish-detail-content">
+        <div className="dish-detail-image">
+          <img
+            src={
+              dish.nameEn === "Classic Doro Wat"
+                ? "/images/doro-wat.jpg"
+                : dish.nameEn === "Prime Beef Kitfo"
+                ? "/images/Prime Beef Kitfo.jpg"
+                : dish.nameEn === "Crisp Siga Derek Tibs"
+                ? "/images/Crisp Siga Derek Tibs.jpg"
+                : "/images/shiro.jpg"
+            }
+            alt={dish.nameEn}
+          />
+        </div>
 
-      <p>{dish.nameAm}</p>
+        <div className="dish-detail-info">
+          <p className="dish-label">HOUSE SIGNATURE</p>
 
-      <p>{dish.priceETB} ETB</p>
+          {dish.isFasting && (
+            <span className="fasting-badge">
+              100% TEFF OPTION
+            </span>
+          )}
 
-      <p>{dish.description}</p>
+          <h2>{dish.nameEn}</h2>
 
-      <p>
-        <strong>Category:</strong> {dish.category}
-      </p>
+          <p className="dish-amharic">{dish.nameAm}</p>
 
-      <p>
-        <strong>Spice Level:</strong> {dish.spiceLevel}
-      </p>
+          <p className="dish-detail-price">
+            {dish.priceETB} ETB
+          </p>
 
-      <p>
-        <strong>Servings:</strong> {dish.servings}
-      </p>
+          <p className="dish-detail-description">
+            {dish.description}
+          </p>
 
-      {dish.isFasting && <p>🌱 Fasting friendly</p>}
+          <div className="dish-meta">
+            <span>🌶️ {dish.spiceLevel}</span>
+            <span>🍽️ Serves {dish.servings}</span>
+          </div>
 
-      <h3>Ingredients</h3>
+          <p>
+            <strong>Category:</strong> {dish.category}
+          </p>
 
-      <ul>
-        {dish.ingredients.map((ingredient) => (
-          <li key={ingredient}>{ingredient}</li>
-        ))}
-      </ul>
+          {dish.isFasting && (
+            <p className="fasting-text">
+              🌱 Fasting friendly
+            </p>
+          )}
+
+          <h3>Ingredients</h3>
+
+          <ul>
+            {dish.ingredients.map((ingredient) => (
+              <li key={ingredient}>{ingredient}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </article>
   );
 }

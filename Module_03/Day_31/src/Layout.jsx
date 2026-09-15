@@ -7,10 +7,11 @@ import "./App.css";
 
 function Layout() {
   const { items } = useContext(CartContext);
+
   const cartCount = items.reduce(
-  (sum, item) => sum + item.quantity,
-  0
-);
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
   return (
     <>
@@ -30,6 +31,15 @@ function Layout() {
           <NavLink to="/signin">Sign In</NavLink>
         </nav>
       </header>
+
+      <div className="mobile-nav">
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/menu">Menu</NavLink>
+        <NavLink to="/cart">
+          Cart ({cartCount})
+        </NavLink>
+        <NavLink to="/signin">Sign In</NavLink>
+      </div>
 
       <main>
         <Outlet />

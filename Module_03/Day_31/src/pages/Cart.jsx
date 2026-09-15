@@ -19,8 +19,26 @@ function Cart() {
   return (
     <section className="cart-page">
       <div className="cart-header">
-        <h2>Your Cart</h2>
+        <p className="cart-eyebrow">COMMUNAL FEASTING</p>
+        <h2>Your Gursha Basket</h2>
         <p>Review your selected dishes before checkout.</p>
+      </div>
+
+      <div className="checkout-steps">
+        <div className="step active">
+          <span>1</span>
+          <p>Review Basket</p>
+        </div>
+
+        <div className="step">
+          <span>2</span>
+          <p>Delivery Details</p>
+        </div>
+
+        <div className="step">
+          <span>3</span>
+          <p>Confirmation</p>
+        </div>
       </div>
 
       <div className="cart-items">
@@ -29,16 +47,44 @@ function Cart() {
             className="cart-item"
             key={`${item.id}-${index}`}
           >
-            <div>
+            <div className="cart-item-info">
               <h3>{item.name}</h3>
+
               <p>{item.price} ETB each</p>
-              <p>Quantity: {item.quantity}</p>
+
+              <div className="quantity-controls">
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: "DECREASE",
+                      id: item.id,
+                    })
+                  }
+                >
+                  −
+                </button>
+
+                <span>{item.quantity}</span>
+
+                <button
+                  onClick={() =>
+                    dispatch({
+                      type: "INCREASE",
+                      id: item.id,
+                    })
+                  }
+                >
+                  +
+                </button>
+              </div>
+
               <p>
                 Subtotal: {item.price * item.quantity} ETB
               </p>
             </div>
 
             <button
+              className="remove-button"
               onClick={() =>
                 dispatch({
                   type: "REMOVE",
@@ -53,9 +99,26 @@ function Cart() {
       </div>
 
       <div className="cart-summary">
-        <h3>Total: {total} ETB</h3>
+        <div>
+          <p>Items Subtotal</p>
+          <strong>{total} ETB</strong>
+        </div>
+
+        <div className="cart-total">
+          <p>Grand Total</p>
+          <strong>{total} ETB</strong>
+        </div>
+
+        <Link to="/menu" className="continue-shopping">
+          Add More Dishes
+        </Link>
+
+        <Link to="/checkout" className="checkout-button">
+          Proceed to Delivery Checkout
+        </Link>
 
         <button
+          className="clear-cart"
           onClick={() =>
             dispatch({
               type: "CLEAR",
@@ -64,10 +127,6 @@ function Cart() {
         >
           Clear Cart
         </button>
-
-        <Link to="/checkout">
-          Proceed to Checkout
-        </Link>
       </div>
     </section>
   );

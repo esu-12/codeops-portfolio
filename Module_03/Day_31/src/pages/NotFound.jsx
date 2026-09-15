@@ -1,15 +1,25 @@
 // src/pages/NotFound.jsx
-
 import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
-    <section>
-      <h2>404 - Page Not Found</h2>
+    <section className="not-found">
+      <p>TABLE NOT SET • ERROR</p>
 
-      <p>Sorry, we couldn't find that page.</p>
+      <h2>404</h2>
 
-      <Link to="/">Go Home</Link>
+      <h3>ይቅርታ! ይህ ገጽ አልተገኘም</h3>
+
+      <p>
+        Looks like this dish has already been enjoyed or
+        this page doesn't exist.
+      </p>
+
+      <div className="not-found-links">
+        <Link to="/">Return to Today's Specials</Link>
+        <Link to="/menu">Explore Full Menu</Link>
+        <Link to="/cart">Check Current Order</Link>
+      </div>
     </section>
   );
 }
