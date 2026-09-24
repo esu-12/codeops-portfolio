@@ -1,0 +1,517 @@
+.register-page {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 9px 0 32px;
+  color: #54352b;
+}
+
+.register-breadcrumb {
+  margin: 0 0 10px;
+  color: #8e6d60;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.register-breadcrumb strong {
+  color: #8e2c1c;
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.register-layout {
+  display: grid;
+  grid-template-columns: 0.83fr 1.17fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* =========================================================
+   WELCOME PANEL
+========================================================= */
+
+.register-welcome {
+  padding: 15px 16px 14px;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #f6dfd1, #efd9ca);
+  border: 1px solid #ead1c2;
+  box-shadow: 0 5px 13px rgba(94, 51, 35, 0.08);
+}
+
+.member-badge {
+  display: inline-block;
+  margin-bottom: 9px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #ead39d;
+  color: #785718;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.register-welcome h1 {
+  margin: 0 0 8px;
+  color: #7f291b;
+  font: 700 28px/1.08 Georgia, "Times New Roman", serif;
+}
+
+.welcome-copy {
+  margin: 0 0 13px;
+  color: #74554a;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.welcome-benefits {
+  display: grid;
+  gap: 7px;
+}
+
+.welcome-benefits article {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 8px;
+  padding: 8px 7px;
+  border-radius: 5px;
+  background: rgba(255, 251, 247, 0.92);
+}
+
+.benefit-icon {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: #f5d8c9;
+  color: #9a3b28;
+  font-size: 13px;
+}
+
+.welcome-benefits strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #53352b;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.welcome-benefits p {
+  margin: 0;
+  color: #80655b;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   STORY CARD
+========================================================= */
+
+.register-story {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 7px;
+  border-radius: 5px;
+  background: #fff1e9;
+}
+
+.register-story img {
+  width: 92px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 3px;
+  background: #ead9ce;
+}
+
+.register-story strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #8d311f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.register-story p,
+.register-story small {
+  margin: 0;
+  color: #75584d;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.register-story small {
+  font-style: italic;
+}
+
+/* =========================================================
+   REGISTER CARD
+========================================================= */
+
+.register-card {
+  padding: 22px 26px 18px;
+  border-radius: 7px;
+  background: #fff;
+  border: 1px solid #eee1d9;
+  box-shadow: 0 8px 20px rgba(74, 43, 31, 0.11);
+}
+
+.register-card__heading h2 {
+  margin: 0;
+  color: #33251f;
+  font: 700 24px Georgia, "Times New Roman", serif;
+}
+
+.register-card__heading p {
+  margin: 3px 0 13px;
+  color: #927d73;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.quick-actions button {
+  min-height: 38px;
+  border: 1px solid #ecdcd2;
+  border-radius: 4px;
+  background: #fff6f0;
+  color: #60463b;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quick-actions button:hover {
+  background: #f9e9df;
+}
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.divider {
+  position: relative;
+  margin: 14px 0 10px;
+  border-top: 1px solid #eadfd8;
+  text-align: center;
+}
+
+.divider span {
+  position: relative;
+  top: -7px;
+  padding: 0 8px;
+  background: #fff;
+  color: #a18b81;
+  font-size: 13px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.register-form {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.register-form label {
+  display: block;
+  margin: 0 0 8px;
+  color: #51372e;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.register-form input:not([type="checkbox"]) {
+  width: 100%;
+  height: 38px;
+  margin-top: 4px;
+  padding: 0 11px;
+  border: 1px solid #efddd4;
+  border-radius: 4px;
+  background: #fff0e9;
+  color: #4c342b;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.register-form input:not([type="checkbox"]):focus {
+  outline: none;
+  border-color: #b85b45;
+  box-shadow: 0 0 0 2px rgba(184, 91, 69, 0.08);
+}
+
+.register-form input::placeholder {
+  color: #bd9f93;
+  font-size: 13px;
+}
+
+.register-form label small {
+  display: block;
+  margin-top: 3px;
+  color: #a28a7f;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   PHONE INPUT
+========================================================= */
+
+.phone-input {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.phone-input > span {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 7px;
+  border: 1px solid #efddd4;
+  border-radius: 4px;
+  background: #fff0e9;
+  color: #6d4d42;
+  font-size: 13px;
+}
+
+.phone-input input {
+  margin-top: 0 !important;
+}
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* =========================================================
+   DINING PREFERENCE
+========================================================= */
+
+.preference-field {
+  margin: 10px 0;
+}
+
+.preference-field strong {
+  display: block;
+  color: #51372e;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.preference-field p {
+  margin: 2px 0 6px;
+  color: #9b847a;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.preference-pills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.preference-pills button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: max-content;
+  white-space: nowrap;
+  padding: 7px 11px;
+  border: 1px solid #e6d2c8;
+  border-radius: 999px;
+  background: #fffaf7;
+  color: #745247;
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.preference-pills button:hover {
+  background: #f9eee8;
+}
+
+.preference-pills button.selected {
+  border-color: #a93621;
+  background: #a93621;
+  color: white;
+}
+
+/* =========================================================
+   TERMS
+========================================================= */
+
+.terms-row {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 5px;
+  margin: 9px 0 7px !important;
+  font-weight: 400 !important;
+  color: #806b61 !important;
+  font-size: 13px !important;
+  line-height: 1.45;
+}
+
+.terms-row input[type="checkbox"] {
+  width: 13px;
+  height: 13px;
+  margin: 2px 0 0;
+  accent-color: #9f3522;
+  flex-shrink: 0;
+}
+
+.terms-row a {
+  color: #8f3323;
+  font-weight: 700;
+}
+
+/* =========================================================
+   FORM ERRORS
+========================================================= */
+
+.register-error {
+  margin: 7px 0;
+  color: #a22f1d;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.register-submit {
+  width: 100%;
+  min-height: 42px;
+  border: none;
+  border-radius: 4px;
+  background: #a83320;
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 4px 9px rgba(139, 42, 25, 0.18);
+  cursor: pointer;
+}
+
+.register-submit:hover {
+  background: #8e2b1b;
+}
+
+.register-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   SIGN IN LINK
+========================================================= */
+
+.register-signin {
+  margin: 9px 0 0;
+  text-align: center;
+  color: #8f7a71;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.register-signin a {
+  color: #9b3422;
+  font-weight: 800;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+  .register-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .register-welcome {
+    order: 2;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .register-page {
+    width: min(100% - 20px, 560px);
+  }
+
+  .register-card {
+    padding: 18px 15px;
+  }
+
+  .password-grid,
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .register-welcome h1 {
+    font-size: 22px;
+  }
+
+  .welcome-copy {
+    font-size: 13px;
+  }
+
+  .welcome-benefits strong {
+    font-size: 13px;
+  }
+
+  .welcome-benefits p {
+    font-size: 12px;
+  }
+
+  .register-form label {
+    font-size: 13px;
+  }
+
+  .register-form input:not([type="checkbox"]) {
+    font-size: 14px;
+  }
+
+  .register-submit {
+    font-size: 14px;
+  }
+
+  .register-signin {
+    font-size: 13px;
+  }
+}

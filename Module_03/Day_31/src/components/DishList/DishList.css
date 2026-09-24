@@ -1,0 +1,44 @@
+/* =========================================================
+   DISH LIST - INSTRUCTOR 4 COLUMN LAYOUT
+========================================================= */
+
+.dish-list {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make each Card fit its grid column */
+.dish-list > * {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .dish-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .dish-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

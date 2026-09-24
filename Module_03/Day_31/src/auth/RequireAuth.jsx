@@ -1,18 +1,22 @@
 // src/auth/RequireAuth.jsx
 
 import { Navigate, useLocation } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 function RequireAuth({ children }) {
   const location = useLocation();
 
-  const isAuthenticated =
-    localStorage.getItem("isAuthenticated") === "true";
+  const isAuthenticated = useAuthStore(
+    (state) => state.isAuthenticated
+  );
 
   if (!isAuthenticated) {
     return (
       <Navigate
         to="/signin"
-        state={{ from: location.pathname }}
+        state={{
+          from: location.pathname,
+        }}
         replace
       />
     );

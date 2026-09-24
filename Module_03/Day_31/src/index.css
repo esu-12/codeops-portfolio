@@ -11,8 +11,21 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   line-height: 1.5;
-  background: #f1ebe4;
-  color: #222;
+  background: #fff7f0;
+  color: #3f2a22;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: #fff7f0;
+}
+
+.app-main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: #fff7f0;
 }
 
 button,

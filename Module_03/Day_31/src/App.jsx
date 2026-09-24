@@ -1,51 +1,125 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
-import Layout from "./Layout.jsx";
-import Home from "./pages/Home.jsx";
-import Menu from "./Menu.jsx";
-import Cart from "./pages/Cart.jsx";
-import DishDetail from "./pages/DishDetail.jsx";
-import Checkout from "./pages/Checkout.jsx";
-import NotFound from "./pages/NotFound.jsx";
-
-import SignIn from "./pages/SignIn.jsx";
+import Layout from "./components/Layout/Layout.jsx";
+import ErrorBoundary from "./utils/errorBoundary.jsx";
 import RequireAuth from "./auth/RequireAuth.jsx";
 
+import "./App.css";
+
+/* =========================
+   Lazy Loaded Pages
+========================= */
+
+const Home = lazy(() => import("./pages/home/Home.jsx"));
+const Menu = lazy(() => import("./pages/menu/Menu.jsx"));
+const DishDetail = lazy(() =>
+  import("./pages/dishDetail/DishDetail.jsx")
+);
+const Cart = lazy(() => import("./pages/cart/Cart.jsx"));
+const SignIn = lazy(() => import("./pages/signin/SignIn.jsx"));
+const Register = lazy(() =>
+  import("./pages/register/Register.jsx")
+);
+const Checkout = lazy(() =>
+  import("./pages/checkout/Checkout.jsx")
+);
+const NotFound = lazy(() =>
+  import("./pages/notfound/NotFound.jsx")
+);
+
+
+/* =========================
+   Loading Component
+========================= */
+
+function PageLoader() {
+  return (
+    <div
+      style={{
+        minHeight: "60vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#7e2919",
+        fontSize: "16px",
+        fontWeight: "700",
+      }}
+    >
+      Loading...
+    </div>
+  );
+}
+
+
+/* =========================
+   App
+========================= */
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route element={<Layout />}>
 
-        <Route path="/" element={<Layout />}>
-        <Route path="menu/:id" element={<DishDetail />} />
+              {/* Home */}
+              <Route
+                index
+                element={<Home />}
+              />
 
-        <Route path="signin" element={<SignIn />} />
+              {/* Menu */}
+              <Route
+                path="/menu"
+                element={<Menu />}
+              />
 
-<Route
-  path="checkout"
-  element={
-    <RequireAuth>
-      <Checkout />
-    </RequireAuth>
-  }
-/>
- 
-          <Route path="*" element={<NotFound />} />
-          <Route index element={<Home />} />
+              {/* Dish Details */}
+              <Route
+                path="/menu/:id"
+                element={<DishDetail />}
+              />
 
-          <Route path="menu" element={<Menu />} />
+              {/* Cart */}
+              <Route
+                path="/cart"
+                element={<Cart />}
+              />
 
-          <Route path="cart" element={<Cart />} />
+              {/* Authentication */}
+              <Route
+                path="/signin"
+                element={<SignIn />}
+              />
 
-        </Route>
+              <Route
+                path="/register"
+                element={<Register />}
+              />
 
-      </Routes>
-    </BrowserRouter>
+              {/* Protected Checkout */}
+              <Route
+                path="/checkout"
+                element={
+                  <RequireAuth>
+                    <Checkout />
+                  </RequireAuth>
+                }
+              />
+
+              {/* 404 */}
+              <Route
+                path="*"
+                element={<NotFound />}
+              />
+
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

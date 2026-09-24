@@ -1,0 +1,535 @@
+/* =========================================================
+   MESOB HOUSE MENU
+========================================================= */
+
+.menu-page {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 35px;
+  color: #4e332b;
+}
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.menu-intro {
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.menu-eyebrow {
+  display: inline-block;
+
+  margin: 0 0 7px;
+  padding: 5px 10px;
+
+  border-radius: 999px;
+  background: #f1dfb2;
+
+  color: #765617;
+
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.menu-intro h1 {
+  margin: 0 0 7px;
+
+  color: #8b2d1d;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.menu-description {
+  max-width: 850px;
+
+  margin: 0;
+
+  color: #73584c;
+
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.menu-search-box {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 40px;
+
+  margin: 14px 0 10px;
+  padding: 0 12px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #e5cfc3;
+  border-radius: 5px;
+
+  background: #fff;
+}
+
+.menu-search-icon {
+  margin-right: 7px;
+
+  font-size: 13px;
+}
+
+.menu-search {
+  flex: 1;
+
+  width: 100%;
+  height: 38px;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+
+  color: #4e332b;
+
+  font-size: 13px;
+}
+
+.menu-search::placeholder {
+  color: #a58b80;
+}
+
+/* =========================================================
+   FEATURE BADGES
+========================================================= */
+
+.menu-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  margin-top: 8px;
+}
+
+.menu-badges span {
+  padding: 5px 9px;
+
+  border: 1px solid #e5d2c8;
+  border-radius: 999px;
+
+  background: #fffaf7;
+
+  color: #765448;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.menu-badges span:first-child {
+  background: #a93621;
+  border-color: #a93621;
+  color: #fff;
+}
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.menu-empty {
+  padding: 45px 20px;
+
+  border: 1px solid #eadbd3;
+  border-radius: 7px;
+
+  background: #fff;
+
+  text-align: center;
+}
+
+.menu-empty h2 {
+  margin: 0 0 8px;
+
+  color: #7e2919;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+}
+
+.menu-empty p {
+  margin: 0;
+
+  color: #80665b;
+
+  font-size: 13px;
+}
+
+.menu-loading {
+  padding: 50px 20px;
+
+  color: #8d3020;
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   COMMUNITY SECTION
+========================================================= */
+
+.menu-community {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-top: 20px;
+  padding: 13px 15px;
+
+  border: 1px solid #ead7cc;
+  border-radius: 5px;
+
+  background: #fff1e8;
+}
+
+.menu-community strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #5a3a30;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.menu-community p {
+  margin: 0;
+
+  color: #80655b;
+
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.menu-community button {
+  flex-shrink: 0;
+
+  padding: 7px 11px;
+
+  border: 0;
+  border-radius: 4px;
+
+  background: #a93621;
+  color: #fff;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.menu-community button:hover {
+  background: #8e2b1b;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .menu-page {
+    width: min(100% - 30px, 760px);
+  }
+
+  .menu-intro h1 {
+    font-size: 28px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .menu-page {
+    width: calc(100% - 20px);
+    padding: 20px 0 30px;
+  }
+
+  .menu-intro h1 {
+    font-size: 25px;
+  }
+
+  .menu-description {
+    font-size: 13px;
+  }
+
+  .menu-badges {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+
+    padding-bottom: 4px;
+
+    scrollbar-width: none;
+  }
+
+  .menu-badges::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-badges span {
+    flex-shrink: 0;
+  }
+
+  .menu-community {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .menu-community button {
+    width: 100%;
+  }
+}
+
+
+
+/* =========================================================
+   FLOATING CART BAR
+========================================================= */
+
+.menu-cart-bar {
+  position: fixed;
+
+  left: 50%;
+  bottom: 12px;
+
+  transform: translateX(-50%);
+
+  z-index: 1000;
+
+  width: min(520px, calc(100% - 30px));
+
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 7px 9px;
+
+  box-sizing: border-box;
+
+  border-radius: 9px;
+
+  background: #49372f;
+
+  color: #fff;
+
+  box-shadow:
+    0 7px 22px rgba(54, 30, 22, 0.28),
+    0 2px 5px rgba(54, 30, 22, 0.15);
+
+  animation: cartBarAppear 0.25s ease-out;
+}
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.menu-cart-bar__left {
+  display: flex;
+  align-items: center;
+
+  min-width: 0;
+
+  gap: 8px;
+}
+
+/* =========================================================
+   CART ICON
+========================================================= */
+
+.menu-cart-bar__icon {
+  position: relative;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: #f3a928;
+
+  font-size: 17px;
+}
+
+.menu-cart-bar__icon span {
+  position: absolute;
+
+  top: -5px;
+  right: -5px;
+
+  min-width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 3px;
+
+  border-radius: 999px;
+
+  background: #a93621;
+  color: #fff;
+
+  font-size: 8px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   CART INFORMATION
+========================================================= */
+
+.menu-cart-bar__info {
+  min-width: 0;
+}
+
+.menu-cart-bar__summary {
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.menu-cart-bar__summary strong {
+  color: #f5b83d;
+
+  font-weight: 800;
+}
+
+.menu-cart-bar__info p {
+  overflow: hidden;
+
+  margin: 2px 0 0;
+
+  color: #d9ccc5;
+
+  font-size: 8px;
+  line-height: 1.2;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   PROCEED BUTTON
+========================================================= */
+
+.menu-cart-bar__button {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 32px;
+
+  padding: 0 13px;
+
+  border-radius: 6px;
+
+  background: #a93621;
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.menu-cart-bar__button:hover {
+  background: #c0442a;
+
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes cartBarAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .menu-cart-bar {
+    bottom: 8px;
+
+    width: calc(100% - 16px);
+
+    padding: 7px;
+
+    gap: 7px;
+  }
+
+  .menu-cart-bar__icon {
+    width: 31px;
+    height: 31px;
+
+    font-size: 15px;
+  }
+
+  .menu-cart-bar__summary {
+    font-size: 10px;
+  }
+
+  .menu-cart-bar__info p {
+    font-size: 7px;
+  }
+
+  .menu-cart-bar__button {
+    min-height: 30px;
+
+    padding: 0 9px;
+
+    font-size: 9px;
+  }
+}
