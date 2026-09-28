@@ -1,0 +1,35 @@
+.dish-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.dish-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+}
+
+.dish-card h3 {
+  margin-top: 0;
+}
+
+.dish-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dish-card a:hover {
+  text-decoration: underline;
+}
+
+.dish-category {
+  color: #666;
+}
+
+.dish-price {
+  font-weight: bold;
+}
