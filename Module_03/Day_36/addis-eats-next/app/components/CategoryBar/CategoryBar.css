@@ -1,18 +1,22 @@
 .category-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0;
+  gap: 12px;
+  margin: 20px 0 30px;
 }
 
 .category-bar button {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border: 2px solid #b7791f;
+  border-radius: 25px;
   background: white;
-  cursor: pointer;
+  color: #6b3515;
+  font-weight: bold;
+  transition: 0.2s ease;
 }
 
 .category-bar button:hover {
-  background: #f0f0f0;
+  background: #b7791f;
+  color: white;
+  transform: translateY(-2px);
 }

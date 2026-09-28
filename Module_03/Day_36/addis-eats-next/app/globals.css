@@ -1,26 +1,75 @@
-@import "tailwindcss";
+/* =========================
+   Global Reset
+========================= */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  background: #f8f3ea;
+  color: #2d241f;
+  line-height: 1.6;
+}
+
+/* =========================
+   Main Content
+========================= */
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+h1 {
+  margin-bottom: 8px;
+  color: #7b1e1e;
+  font-size: 2.4rem;
+}
+
+h2 {
+  margin-top: 35px;
+  color: #5c1616;
+}
+
+p {
+  margin-top: 8px;
+}
+
+/* =========================
+   Navigation
+========================= */
+
+nav {
+  margin: 20px 0;
+  padding: 14px 18px;
+  background: #7b1e1e;
+  border-radius: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 12px;
+}
+
+nav a:hover {
+  color: #f4c95d;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+button {
+  font: inherit;
+  cursor: pointer;
 }
