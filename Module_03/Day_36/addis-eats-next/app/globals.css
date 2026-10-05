@@ -19,24 +19,42 @@ body {
 }
 
 /* =========================
+   Links
+========================= */
+
+a {
+  color: inherit;
+}
+
+/* =========================
    Main Content
 ========================= */
 
 main {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 50px 24px 70px;
 }
 
+/* =========================
+   Headings
+========================= */
+
 h1 {
-  margin-bottom: 8px;
+  margin: 0 0 10px;
   color: #7b1e1e;
-  font-size: 2.4rem;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1.1;
 }
 
 h2 {
-  margin-top: 35px;
+  margin: 40px 0 18px;
   color: #5c1616;
+  font-size: 1.8rem;
+}
+
+h3 {
+  color: #7b1e1e;
 }
 
 p {
@@ -48,8 +66,14 @@ p {
 ========================= */
 
 nav {
-  margin: 20px 0;
-  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  margin: 25px 0;
+  padding: 14px 20px;
+
   background: #7b1e1e;
   border-radius: 10px;
 }
@@ -58,7 +82,6 @@ nav a {
   color: white;
   text-decoration: none;
   font-weight: bold;
-  margin-right: 12px;
 }
 
 nav a:hover {
@@ -72,4 +95,18 @@ nav a:hover {
 button {
   font: inherit;
   cursor: pointer;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 700px) {
+  main {
+    padding: 35px 16px 50px;
+  }
+
+  nav {
+    gap: 12px;
+  }
 }

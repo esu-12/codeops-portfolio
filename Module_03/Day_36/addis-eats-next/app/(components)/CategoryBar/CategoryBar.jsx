@@ -1,3 +1,7 @@
+// app/(components)/CategoryBar/CategoryBar.js
+
+"use client";
+
 import "./CategoryBar.css";
 
 export default function CategoryBar() {

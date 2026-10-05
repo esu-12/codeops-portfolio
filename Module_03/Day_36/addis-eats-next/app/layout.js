@@ -1,12 +1,21 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import Header from "./(components)/(Header)/Header";
+import Footer from "./(components)/(Footer)/Footer";
+import Providers from "./providers";
+
 import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+
+        <Providers>
+          {children}
+        </Providers>
+
+        <Footer />
+      </body>
     </html>
   );
 }
-
-
