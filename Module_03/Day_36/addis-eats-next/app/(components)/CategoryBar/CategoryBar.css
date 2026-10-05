@@ -1,22 +1,169 @@
-.category-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 20px 0 30px;
-}
+/* =========================
+   Category Sidebar
+========================= */
 
-.category-bar button {
-  padding: 10px 16px;
-  border: 2px solid #b7791f;
-  border-radius: 25px;
+.category-sidebar {
+  position: sticky;
+
+  top: 1.5rem;
+
+  width: 100%;
+
+  padding: 1.5rem;
+
   background: white;
-  color: #6b3515;
-  font-weight: bold;
-  transition: 0.2s ease;
+
+  border: 1px solid #eadfd3;
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 6px 20px rgba(45, 36, 31, 0.08);
 }
 
-.category-bar button:hover {
-  background: #b7791f;
+
+/* =========================
+   Sidebar Title
+========================= */
+
+.category-sidebar h2 {
+  margin: 0 0 1.2rem;
+
+  padding-bottom: 1rem;
+
+  border-bottom:
+    1px solid #eadfd3;
+
+  color: #7b1e1e;
+
+  font-size: 1.15rem;
+}
+
+
+/* =========================
+   Category Navigation
+========================= */
+
+.category-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.5rem;
+
+  margin: 0;
+
+  padding: 0;
+
+  background: transparent;
+
+  border-radius: 0;
+}
+
+
+/* =========================
+   Category Button
+========================= */
+
+.category-button {
+  display: block;
+
+  width: 100%;
+
+  padding:
+    0.8rem
+    0.9rem;
+
+  background: transparent;
+
+  border-radius: 9px;
+
+  color: #4a3d36;
+
+  text-decoration: none;
+
+  font-size: 0.88rem;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+/* =========================
+   Hover
+========================= */
+
+.category-button:hover {
+  background: #f8eee4;
+
+  color: #7b1e1e;
+
+  transform: translateX(3px);
+}
+
+
+/* =========================
+   Active Category
+========================= */
+
+.category-button.active {
+  background: #7b1e1e;
+
   color: white;
-  transform: translateY(-2px);
+
+  font-weight: bold;
+}
+
+
+.category-button.active:hover {
+  background: #5c1616;
+
+  color: white;
+
+  transform: none;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 700px) {
+
+  .category-sidebar {
+    position: static;
+
+    padding: 1.25rem;
+  }
+
+
+  .category-nav {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 0.5rem;
+  }
+
+
+  .category-button {
+    text-align: center;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .category-nav {
+    grid-template-columns: 1fr;
+  }
+
 }

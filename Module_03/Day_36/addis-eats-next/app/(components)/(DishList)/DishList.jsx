@@ -1,6 +1,8 @@
 // app/(components)/(DishList)/DishList.jsx
 
+import Image from "next/image";
 import Link from "next/link";
+
 import "./DishList.css";
 
 export default function DishList({ dishes }) {
@@ -8,33 +10,64 @@ export default function DishList({ dishes }) {
     <ul className="dish-list">
       {dishes.map((dish) => (
         <li className="dish-card" key={dish.id}>
+
+          {dish.image ? (
+            <div className="dish-image-wrapper">
+              <Image
+                className="dish-image"
+                src={dish.image}
+                alt={dish.nameEn}
+                width={500}
+                height={300}
+              />
+            </div>
+          ) : (
+            <div className="dish-image-placeholder">
+              No image available
+            </div>
+          )}
+
           <div className="dish-card-content">
+
             <h3>{dish.nameEn}</h3>
 
-            <p className="dish-name-am">
-              {dish.nameAm}
-            </p>
+            {dish.nameAm && (
+              <p className="dish-name-am">
+                {dish.nameAm}
+              </p>
+            )}
 
-            <p className="dish-description">
-              {dish.description}
-            </p>
+            {dish.description && (
+              <p className="dish-description">
+                {dish.description}
+              </p>
+            )}
 
             <div className="dish-info">
+
               <p>
-                <strong>Category:</strong> {dish.category}
+                <strong>Category:</strong>{" "}
+                {dish.category}
               </p>
 
               <p className="dish-price">
                 {dish.priceETB} ETB
               </p>
 
-              <p>
-                <strong>Spice:</strong> {dish.spiceLevel}
-              </p>
+              {dish.spiceLevel && (
+                <p>
+                  <strong>Spice:</strong>{" "}
+                  {dish.spiceLevel}
+                </p>
+              )}
 
-              <p>
-                <strong>Servings:</strong> {dish.servings}
-              </p>
+              {dish.servings && (
+                <p>
+                  <strong>Servings:</strong>{" "}
+                  {dish.servings}
+                </p>
+              )}
+
             </div>
 
             <Link
@@ -43,6 +76,7 @@ export default function DishList({ dishes }) {
             >
               View Dish →
             </Link>
+
           </div>
         </li>
       ))}
