@@ -79,7 +79,7 @@ function handleChange(event) {
 
     console.log("Registration data:", form);
 
-    router.replace("/login");
+    router.replace("/SignIn");
   }
 
   return (
@@ -534,7 +534,7 @@ function handleChange(event) {
 
           <p className="register-signin">
             Already part of our dining family?{" "}
-            <Link href="/login">
+            <Link href="/SignIn">
               Sign in here
             </Link>
           </p>

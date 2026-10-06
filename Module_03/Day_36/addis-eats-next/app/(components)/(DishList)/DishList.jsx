@@ -72,7 +72,7 @@ export default function DishList({ dishes }) {
 
             <Link
               className="view-dish"
-              href={`/menu/dish/${dish.id}`}
+              href={`/menu/${dish.id}`}
             >
               View Dish →
             </Link>

@@ -98,7 +98,7 @@ p {
    Navigation
 ========================= */
 
-nav {
+.page-nav {
   display: flex;
 
   align-items: center;
@@ -116,7 +116,7 @@ nav {
   border-radius: 10px;
 }
 
-nav a {
+.page-nav a {
   color: white;
 
   text-decoration: none;
@@ -128,7 +128,7 @@ nav a {
     opacity 0.2s ease;
 }
 
-nav a:hover {
+.page-nav a:hover {
   color: #f4c95d;
 }
 
