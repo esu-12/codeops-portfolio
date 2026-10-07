@@ -35,6 +35,30 @@ export function CartProvider({ children }) {
     });
   }
 
+  function removeFromCart(id) {
+    setCartItems((currentItems) =>
+      currentItems.filter((item) => item.id !== id)
+    );
+  }
+
+  function updateQuantity(id, quantity) {
+    if (quantity <= 0) {
+      removeFromCart(id);
+      return;
+    }
+
+    setCartItems((currentItems) =>
+      currentItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity,
+            }
+          : item
+      )
+    );
+  }
+
   function clearCart() {
     setCartItems([]);
   }
@@ -55,6 +79,8 @@ export function CartProvider({ children }) {
       value={{
         cartItems,
         addToCart,
+        removeFromCart,
+        updateQuantity,
         clearCart,
         totalItems,
         totalPrice,

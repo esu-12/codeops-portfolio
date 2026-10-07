@@ -44,12 +44,47 @@ function SignIn() {
       return;
     }
 
+    const savedUser = localStorage.getItem("addisEatsUser");
+
+if (!savedUser) {
+  setAuthError(
+    "No registered account found. Please register first."
+  );
+  return;
+}
+
+const registeredUser = JSON.parse(savedUser);
+
+const identifierMatches =
+  form.phone === registeredUser.phone ||
+  form.email === registeredUser.email;
+
+const passwordMatches =
+  form.password === registeredUser.password;
+
+if (!identifierMatches || !passwordMatches) {
+  setAuthError(
+    "Incorrect phone/email or password."
+  );
+  return;
+}
+
     setIsSubmitting(true);
 
-    console.log("Sign in submitted:", form);
+    localStorage.setItem(
+      "addisEatsLoggedIn",
+      "true"
+    );
 
-    // For now, continue to the menu.
-    // Real authentication can be connected later.
+    localStorage.setItem(
+      "addisEatsCurrentUser",
+      JSON.stringify({
+        name: registeredUser.name,
+        phone: registeredUser.phone,
+        email: registeredUser.email,
+      })
+    );
+
     router.push("/menu");
   }
 

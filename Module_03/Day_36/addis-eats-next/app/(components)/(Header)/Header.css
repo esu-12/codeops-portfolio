@@ -37,7 +37,7 @@
   text-decoration: none;
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 19px;
+  font-size: 26px;
   line-height: 0.95;
   font-weight: 800;
 }
@@ -72,7 +72,7 @@
   text-decoration: none;
   text-align: center;
 
-  font-size: 15px;
+  font-size: 25px;
   line-height: 1.2;
   font-weight: 700;
 }
@@ -152,7 +152,10 @@
   min-width: 50px;
   padding: 0;
 
-  font-size: 15px;
+  color: #7b1e1e;
+  text-decoration: none;
+
+  font-size: 25px;
   font-weight: 800;
 }
 
@@ -169,11 +172,23 @@
   border-radius: 5px;
 
   background: #fff;
+  color: #7b1e1e;
 
-  font-size: 14px;
+  text-decoration: none;
+
+  font-size: 25px;
   font-weight: 800;
 }
 
+
+.header-signin:hover {
+  color: #922525;
+}
+
+.register-link:hover {
+  background: #7b1e1e;
+  color: #ffffff;
+}
 /* =========================================================
    LOGGED-IN USER
 ========================================================= */

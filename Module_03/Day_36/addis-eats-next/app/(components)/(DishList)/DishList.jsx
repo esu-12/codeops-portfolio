@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
+import AddToCartButton from "../AddToCartButton/AddToCartButton";
 import "./DishList.css";
 
 export default function DishList({ dishes }) {
@@ -76,6 +76,8 @@ export default function DishList({ dishes }) {
             >
               View Dish →
             </Link>
+
+            <AddToCartButton dish={dish} />
 
           </div>
         </li>

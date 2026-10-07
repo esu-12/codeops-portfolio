@@ -3,10 +3,10 @@
 ========================================================= */
 
 .signin-page {
-  width: min(1120px, calc(100% - 40px));
-  max-width: 1120px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 0 24px;
+  padding: 10px 20px 24px;
   color: #4d3027;
   box-sizing: border-box;
 }
@@ -14,7 +14,6 @@
 /* =========================================================
    BREADCRUMB
 ========================================================= */
-
 .signin-breadcrumb {
   display: flex;
   align-items: center;
@@ -38,8 +37,8 @@
 .signin-layout {
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
-  gap: 26px;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 30px;
   align-items: stretch;
 }
 

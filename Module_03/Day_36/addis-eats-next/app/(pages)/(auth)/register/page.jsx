@@ -77,9 +77,19 @@ function handleChange(event) {
 
     setIsSubmitting(true);
 
-    console.log("Registration data:", form);
+    const registeredUser = {
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      password: form.password,
+    };
 
-    router.replace("/SignIn");
+    localStorage.setItem(
+      "addisEatsUser",
+      JSON.stringify(registeredUser)
+    );
+
+    router.replace("/login");
   }
 
   return (

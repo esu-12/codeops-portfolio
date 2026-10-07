@@ -1,4 +1,4 @@
-// app/(pages)/menu/dish/[id]/page.jsx
+// app/(pages)/menu/[id]/page.jsx
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -17,8 +17,7 @@ export default async function DishPage({ params }) {
 
   const result = await response.json();
 
-  const menu = result.data;
-
+  const menu = result.data || [];
   console.log("MENU:", menu);
 
   const dish = menu.find(
