@@ -3,7 +3,12 @@
 "use server";
 
 import { orderSchema } from "@/lib/schema";
-import { createOrder } from "@/lib/db";
+import {
+  createOrder,
+  getOrder,
+  getSession,
+  markCancelled,
+} from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
 export async function placeOrder(previousState, formData) {
@@ -36,5 +41,41 @@ export async function placeOrder(previousState, formData) {
     fieldErrors: {},
     success: true,
     order,
+  };
+}
+
+export async function cancelOrder(orderId) {
+  const session = await getSession();
+
+  if (!session) {
+    return {
+      success: false,
+      error: "You must be logged in to cancel an order.",
+    };
+  }
+
+  const order = await getOrder(orderId);
+
+  if (!order) {
+    return {
+      success: false,
+      error: "Order not found.",
+    };
+  }
+
+  if (order.userId !== session.id) {
+    return {
+      success: false,
+      error: "You are not allowed to cancel this order.",
+    };
+  }
+
+  const cancelledOrder = await markCancelled(orderId);
+
+  revalidatePath("/orders");
+
+  return {
+    success: true,
+    order: cancelledOrder,
   };
 }
