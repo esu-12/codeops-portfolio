@@ -4,7 +4,7 @@
 
 .signin-page {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 10px 20px 24px;
   color: #4d3027;
@@ -21,7 +21,7 @@
   margin-bottom: 12px;
 
   color: #8e756c;
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.03em;
 }
@@ -73,7 +73,7 @@
   background: #f4e4bc;
   color: #765817;
 
-  font-size: 9px;
+  font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.06em;
 }
@@ -94,7 +94,7 @@
 
   color: #765b51;
 
-  font-size: 12px;
+  font-size: 18px;
   line-height: 1.5;
 }
 
@@ -143,13 +143,13 @@
 }
 
 .signin-image-overlay strong {
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 800;
 }
 
 .signin-image-overlay span {
   margin-top: 2px;
-  font-size: 9px;
+  font-size: 19px;
   opacity: 0.9;
 }
 
@@ -186,7 +186,7 @@
   background: #f3e7dc;
   color: #8e3322;
 
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 800;
 }
 
@@ -195,7 +195,7 @@
 
   color: #493128;
 
-  font-size: 11px;
+  font-size: 18px;
   line-height: 1.25;
   font-weight: 800;
 }
@@ -205,7 +205,7 @@
 
   color: #80685e;
 
-  font-size: 9px;
+  font-size: 19px;
   line-height: 1.35;
 }
 
@@ -226,14 +226,14 @@
 
 .signin-quote > span {
   color: #a53a25;
-  font-size: 18px;
+  font-size: 26px;
 }
 
 .signin-quote p {
   margin: 0;
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 9px;
+  font-size: 19px;
   line-height: 1.4;
   font-style: italic;
 }
@@ -245,7 +245,7 @@
 
   color: #8f7065;
 
-  font-size: 7px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -275,7 +275,7 @@
 .signin-card-heading > span {
   color: #8d2d1c;
 
-  font-size: 9px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
@@ -296,7 +296,7 @@
 
   color: #907a70;
 
-  font-size: 10px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -344,7 +344,7 @@
   background: #f0dfd5;
   color: #8f3322;
 
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 800;
 }
 
@@ -352,7 +352,7 @@
   display: flex;
   flex-direction: column;
 
-  font-size: 10px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
@@ -361,7 +361,7 @@
 
   color: #9a8278;
 
-  font-size: 8px;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -389,8 +389,8 @@
 
   color: #a08b82;
 
-  font-size: 8px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 /* =========================================================
@@ -410,7 +410,7 @@
 
   color: #74584e;
 
-  font-size: 9px;
+  font-size: 19px;
   font-weight: 700;
 
   cursor: pointer;
@@ -452,7 +452,7 @@
 
   color: #50362c;
 
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -467,7 +467,7 @@
 
   color: #9c7c32;
 
-  font-size: 7px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -489,7 +489,7 @@
   background: #fff1ea;
   color: #4c342b;
 
-  font-size: 11px;
+  font-size: 18px;
 }
 
 .signin-form-group input::placeholder {
@@ -532,7 +532,7 @@
 
   color: #66483e;
 
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -556,7 +556,7 @@
 
   color: #a23a25;
 
-  font-size: 8px;
+  font-size: 18px;
   font-weight: 700;
 
   cursor: pointer;
@@ -573,7 +573,7 @@
 
   color: #9c8177;
 
-  font-size: 10px;
+  font-size: 20px;
 }
 
 .signin-password-input > span:first-child {
@@ -598,7 +598,7 @@
 
   color: #a32e1d;
 
-  font-size: 9px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 1.35;
 }
@@ -630,7 +630,7 @@
 
   color: #806b61;
 
-  font-size: 8px;
+  font-size: 18px;
   font-weight: 500;
 
   cursor: pointer;
@@ -658,7 +658,7 @@
   background: #a73520;
   color: #ffffff;
 
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 800;
 
   box-shadow: 0 4px 9px rgba(139, 42, 25, 0.18);
@@ -699,15 +699,15 @@
 }
 
 .signin-register span {
-  color: #99837a;
-  font-size: 8px;
+  color: hsl(17, 13%, 54%);
+  font-size: 18px;
 }
 
 .signin-register a {
   color: #982f20;
   text-decoration: none;
 
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 800;
 }
 
@@ -721,7 +721,7 @@
 
   color: #684c42;
 
-  font-size: 8px;
+  font-size: 18px;
   font-weight: 700;
 
   cursor: pointer;
@@ -754,14 +754,14 @@
 .signin-bottom-features strong {
   color: #63463b;
 
-  font-size: 8px;
+  font-size: 18px;
   font-weight: 800;
 }
 
 .signin-bottom-features span {
   color: #987d72;
 
-  font-size: 8px;
+  font-size: 18px;
   line-height: 1.3;
 }
 

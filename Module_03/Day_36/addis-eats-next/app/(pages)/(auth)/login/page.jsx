@@ -85,13 +85,10 @@ if (!identifierMatches || !passwordMatches) {
       })
     );
 
-    router.push("/menu");
+    const redirect = new URLSearchParams(window.location.search).get("redirect");
+
+    router.push(redirect || "/menu");
   }
-
-
- 
-
-
 
   return (
     <section className="signin-page">

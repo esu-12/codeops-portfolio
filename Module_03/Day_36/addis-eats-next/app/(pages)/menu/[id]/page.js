@@ -7,8 +7,6 @@ const API_URL = "https://addis-eats-backend.onrender.com";
 export default async function DishPage({ params }) {
   const { id } = await params;
 
-  console.log("URL ID:", id);
-
   const response = await fetch(`${API_URL}/menu/`);
 
   if (!response.ok) {
@@ -16,42 +14,31 @@ export default async function DishPage({ params }) {
   }
 
   const result = await response.json();
+  const dishes = Array.isArray(result.data) ? result.data : [];
 
-  const menu = result.data || [];
-  console.log("MENU:", menu);
-
-  const dish = menu.find(
+  const dish = dishes.find(
     (item) => String(item.id) === String(id)
   );
-
-  console.log("FOUND DISH:", dish);
 
   if (!dish) {
     notFound();
   }
 
   return (
-    <main>
+    <main className="dish-detail">
       <h1>{dish.nameEn}</h1>
 
-      <p>{dish.nameAm}</p>
-
-      <p>Dish ID: {dish.id}</p>
-
-      <p>Category: {dish.category}</p>
-
-      <p>Price: {dish.priceETB} ETB</p>
-
-      <p>Spice Level: {dish.spiceLevel}</p>
+      {dish.nameAm && <p>{dish.nameAm}</p>}
 
       <p>{dish.description}</p>
-
-      <p>Servings: {dish.servings}</p>
+      <p><strong>Category:</strong> {dish.category}</p>
+      <p><strong>Price:</strong> {dish.priceETB} ETB</p>
+      <p><strong>Spice Level:</strong> {dish.spiceLevel}</p>
+      <p><strong>Servings:</strong> {dish.servings}</p>
 
       <h2>Ingredients</h2>
-
       <ul>
-        {dish.ingredients.map((ingredient) => (
+        {dish.ingredients?.map((ingredient) => (
           <li key={ingredient}>{ingredient}</li>
         ))}
       </ul>

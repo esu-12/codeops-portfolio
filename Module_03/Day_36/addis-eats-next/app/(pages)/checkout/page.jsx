@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import RequireAuth from "../../(components)/RequireAuth/RequireAuth";
 import { useCart } from "../../providers";
 import "./Checkout.css";
 
@@ -162,6 +162,7 @@ function handleChange(event) {
   }
 
   return (
+    <RequireAuth>
     <section className="checkout-page">
       {/* =========================
           Breadcrumb
@@ -889,6 +890,7 @@ function handleChange(event) {
         </aside>
       </form>
     </section>
+    </RequireAuth>
   );
 }
 

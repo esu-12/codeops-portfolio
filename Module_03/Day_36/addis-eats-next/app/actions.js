@@ -72,7 +72,7 @@ export async function cancelOrder(orderId) {
 
   const cancelledOrder = await markCancelled(orderId);
 
-  revalidatePath("/orders");
+  revalidatePath("/order");
 
   return {
     success: true,

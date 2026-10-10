@@ -2,26 +2,29 @@
 
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function RequireAuth({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     const loggedIn =
       localStorage.getItem("addisEatsLoggedIn") === "true";
 
     if (!loggedIn) {
-      router.replace("/login");
+      router.replace(
+        `/login?redirect=${encodeURIComponent(pathname)}`
+      );
+      return;
     }
-  }, [router]);
 
-  const loggedIn =
-    typeof window !== "undefined" &&
-    localStorage.getItem("addisEatsLoggedIn") === "true";
+    setAuthorized(true);
+  }, [router, pathname]);
 
-  if (!loggedIn) {
+  if (!authorized) {
     return null;
   }
 

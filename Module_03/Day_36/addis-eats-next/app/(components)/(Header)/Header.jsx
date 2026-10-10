@@ -83,14 +83,20 @@ function Header() {
             Foods
           </Link>
 
+          {/* ORDER HISTORY */}
 
-          {/* ORDER & CART */}
+          <Link href="/order">
+            Order History
+          </Link>
+
+          {/* CART */}
 
           <Link href="/cart">
             Order &amp;
             <br />
             Cart
           </Link>
+
 
 
           {/* DELIVERY & CHECKOUT */}

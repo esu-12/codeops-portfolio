@@ -13,7 +13,7 @@ export default function AddToCartButton({ dish }) {
       localStorage.getItem("addisEatsLoggedIn") === "true";
 
     if (!loggedIn) {
-      router.push("/login");
+      router.push("/login?redirect=/menu");
       return;
     }
 
