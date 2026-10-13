@@ -249,3 +249,24 @@
   }
 
 }
+
+
+
+.menu-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.menu-sidebar input[type="search"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid #d6c8b8;
+  border-radius: 8px;
+  background: #fff;
+  color: #2d241f;
+}

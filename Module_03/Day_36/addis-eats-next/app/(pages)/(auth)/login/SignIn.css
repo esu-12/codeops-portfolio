@@ -4,7 +4,7 @@
 
 .signin-page {
   width: 100%;
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 10px 20px 24px;
   color: #4d3027;
@@ -75,6 +75,7 @@
 
   font-size: 19px;
   font-weight: 800;
+  font-family: 'Times New Roman', Times, serif;
   letter-spacing: 0.06em;
 }
 
@@ -84,7 +85,7 @@
   color: #8c2d1c;
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 27px;
+  font-size: 24px;
   line-height: 1.08;
   font-weight: 700;
 }
@@ -95,6 +96,7 @@
   color: #765b51;
 
   font-size: 18px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   line-height: 1.5;
 }
 
@@ -106,7 +108,7 @@
   position: relative;
 
   width: 100%;
-  height: 142px;
+  height: 542px;
 
   overflow: hidden;
   border-radius: 5px;
@@ -144,12 +146,14 @@
 
 .signin-image-overlay strong {
   font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-weight: 800;
 }
 
 .signin-image-overlay span {
   margin-top: 2px;
   font-size: 19px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   opacity: 0.9;
 }
 
@@ -187,6 +191,7 @@
   color: #8e3322;
 
   font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
   font-weight: 800;
 }
 
@@ -198,6 +203,7 @@
   font-size: 18px;
   line-height: 1.25;
   font-weight: 800;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .signin-perks p {
@@ -206,7 +212,8 @@
   color: #80685e;
 
   font-size: 19px;
-  line-height: 1.35;
+  line-height: 1.30;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -247,6 +254,7 @@
 
   font-size: 17px;
   font-weight: 700;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -275,9 +283,10 @@
 .signin-card-heading > span {
   color: #8d2d1c;
 
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.08em;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .signin-card-heading h2 {
@@ -298,6 +307,7 @@
 
   font-size: 20px;
   line-height: 1.4;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* =========================================================
@@ -346,14 +356,16 @@
 
   font-size: 20px;
   font-weight: 800;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .signin-quick-actions strong {
   display: flex;
   flex-direction: column;
 
-  font-size: 20px;
+  font-size: 28px;
   line-height: 1.2;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .signin-quick-actions small {
@@ -363,6 +375,7 @@
 
   font-size: 18px;
   font-weight: 500;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -391,6 +404,7 @@
 
   font-size: 18px;
   font-weight: 800;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -412,6 +426,7 @@
 
   font-size: 19px;
   font-weight: 700;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 
   cursor: pointer;
 }
@@ -467,7 +482,7 @@
 
   color: #9c7c32;
 
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -658,7 +673,7 @@
   background: #a73520;
   color: #ffffff;
 
-  font-size: 20px;
+  font-size: 200px;
   font-weight: 800;
 
   box-shadow: 0 4px 9px rgba(139, 42, 25, 0.18);
@@ -928,7 +943,7 @@
 
   color: #74584e;
 
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 700;
 
   cursor: pointer;
@@ -948,11 +963,11 @@
 }
 
 .signin-quick-actions strong {
-  font-size: 11px;
+  font-size: 18px;
 }
 
 .signin-quick-actions small {
-  font-size: 9px;
+  font-size: 12px;
 }
 
 /* =========================================================
@@ -960,7 +975,8 @@
 ========================================================= */
 
 .signin-form-group label {
-  font-size: 12px;
+  font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* =========================================================
@@ -1011,7 +1027,7 @@
 }
 
 .signin-register span {
-  font-size: 9px;
+  font-size: 19px;
 }
 
 .signin-register a {
@@ -1030,7 +1046,7 @@
   background: #fff7f2;
   color: #684c42;
 
-  font-size: 9px;
+  font-size: 19px;
   font-weight: 700;
 }
 
@@ -1060,7 +1076,7 @@
   background: #a83320;
   color: #fff;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 22px;
   font-weight: 800;
 }
 

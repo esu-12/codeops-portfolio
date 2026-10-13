@@ -127,7 +127,6 @@ if (!identifierMatches || !passwordMatches) {
 
           <h1>
             A table shared is a
-            <br />
             bond celebrated.
           </h1>
 

@@ -113,7 +113,6 @@ function handleChange(event) {
 
           <h1>
             Become an Honored
-            <br />
             Table Guest
           </h1>
 

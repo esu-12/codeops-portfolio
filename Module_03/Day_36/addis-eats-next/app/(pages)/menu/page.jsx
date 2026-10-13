@@ -1,6 +1,7 @@
 import DishList from "../../(components)/(DishList)/DishList";
 import CategoryBar from "../../(components)/CategoryBar/CategoryBar";
 import FilterShell from "../../(components)/FilterShell/FilterShell";
+import SearchBox from "./SearchBox";
 
 import "./menu.css";
 
@@ -154,12 +155,14 @@ export default async function MenuPage({ searchParams }) {
           Menu Content
       ========================= */}
 
-      <FilterShell>
+        <FilterShell>
+          <aside className="menu-sidebar">
+            <SearchBox />
+            <CategoryBar />
+          </aside>
 
-        <CategoryBar />
+          <div className="menu-dishes">
 
-
-        <div className="menu-dishes">
 
           <div className="menu-heading">
 

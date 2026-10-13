@@ -49,6 +49,7 @@
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.03em;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .register-welcome h1 {
@@ -61,7 +62,8 @@
   margin: 0 0 13px;
   color: #1b1614;
   font-size: 20px;
-  line-height: 1.55;
+  line-height: 1.50;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* =========================================================
@@ -99,6 +101,7 @@
   color: #53352b;
   font-size: 24px;
   font-weight: 1000;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .welcome-benefits p {
@@ -106,6 +109,7 @@
   color: #80655b;
   font-size: 18px;
   line-height: 1.45;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* =========================================================
@@ -136,6 +140,7 @@
   color: #8d311f;
   font-size: 18px;
   font-weight: 800;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .register-story p,
@@ -144,6 +149,7 @@
   color: #75584d;
   font-size: 18px;
   line-height: 1.45;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .register-story small {
@@ -173,6 +179,7 @@
   color: #927d73;
   font-size: 18px;
   line-height: 1.45;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 /* =========================================================
@@ -193,6 +200,7 @@
   color: #60463b;
   font-size: 18px;
   font-weight: 700;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   cursor: pointer;
 }
 
@@ -218,6 +226,7 @@
   background: #fff;
   color: #a18b81;
   font-size: 18px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -239,6 +248,7 @@
   color: #51372e;
   font-size: 18px;
   font-weight: 700;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .register-form input:not([type="checkbox"]) {
@@ -252,6 +262,7 @@
   color: #4c342b;
   font-size: 18px;
   box-sizing: border-box;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .register-form input:not([type="checkbox"]):focus {
@@ -263,6 +274,7 @@
 .register-form input::placeholder {
   color: #bd9f93;
   font-size: 18px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .register-form label small {
@@ -272,6 +284,7 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 1.4;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -295,6 +308,7 @@
   background: #fff0e9;
   color: #6d4d42;
   font-size: 17px;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .phone-input input {
@@ -324,6 +338,7 @@
   color: #51372e;
   font-size: 19px;
   font-weight: 800;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .preference-field p {
@@ -356,6 +371,7 @@
   font-size: 17px;
   line-height: 1.2;
   cursor: pointer;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .preference-pills button:hover {
@@ -381,6 +397,7 @@
   color: #806b61 !important;
   font-size: 19px !important;
   line-height: 1.45;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .terms-row input[type="checkbox"] {
@@ -406,6 +423,7 @@
   font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* =========================================================
@@ -423,6 +441,7 @@
   font-weight: 800;
   box-shadow: 0 4px 9px rgba(139, 42, 25, 0.18);
   cursor: pointer;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .register-submit:hover {
@@ -442,8 +461,9 @@
   margin: 9px 0 0;
   text-align: center;
   color: #8f7a71;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1.45;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .register-signin a {

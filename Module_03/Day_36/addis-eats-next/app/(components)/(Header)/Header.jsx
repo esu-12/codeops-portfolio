@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import "./Header.css";
 
 function Header() {
@@ -33,42 +32,16 @@ function Header() {
           href="/"
           className="brand"
         >
-          <span>Mesob</span>
-          <span>House</span>
+          <span>Addis Eats</span>
         </Link>
 
 
-        {/* =================================================
-            MAIN NAVIGATION
-        ================================================= */}
+        {/*  MAIN NAVIGATION    ====== */}
 
-        <nav
+        {/* <nav
           className="site-nav"
           aria-label="Main navigation"
         >
-
-          {/* HOME */}
-
-          <Link href="/">
-            Home
-          </Link>
-
-
-          {/* MENU */}
-
-          <Link
-            href="/menu"
-            className={
-              isMenuActive
-                ? "active"
-                : undefined
-            }
-          >
-            Menu
-          </Link>
-
-
-          {/* FEATURED FOODS */}
 
           <Link
             href="/menu#featured"
@@ -83,51 +56,47 @@ function Header() {
             Foods
           </Link>
 
-          {/* ORDER HISTORY */}
 
-          <Link href="/order">
-            Order History
-          </Link>
-
-          {/* CART */}
-
-          <Link href="/cart">
-            Order &amp;
-            <br />
-            Cart
-          </Link>
+        </nav> */}
 
 
-
-          {/* DELIVERY & CHECKOUT */}
-
-          <Link href="/checkout">
-            Delivery &amp;
-            <br />
-            Checkout
-          </Link>
-
-        </nav>
-
-
-        {/* =================================================
-            HEADER ACTIONS
-        ================================================= */}
+        {/* =======HEADER ACTIONS  ================= */}
 
         <div className="header-actions">
 
           <Link
+            href="/menu"
+            className="register-link"
+          >
+            Menu
+          </Link>
+
+          <Link
             href="/cart"
-            className="cart-pill"
+            className="register-link"
           >
             Cart
           </Link>
 
           <Link
-            href="/login"
-            className="header-signin"
+            href="/checkout"
+            className="register-link"
           >
-            SignIn
+            Check Out
+          </Link>
+
+          <Link
+            href="/order"
+            className="register-link"
+          >
+            Order
+          </Link>
+
+          <Link
+            href="/login"
+            className="register-link"
+          >
+            Login
           </Link>
 
           <Link
