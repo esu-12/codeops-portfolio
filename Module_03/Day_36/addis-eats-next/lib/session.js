@@ -1,11 +1,13 @@
 // lib/session.js
+
 import "server-only";
 
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
+import { getUserById } from "@/lib/users";
 
 const COOKIE_NAME = "addis-eats-session";
-const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
+const SESSION_DURATION = 60 * 60 * 24 * 7;
 
 function getSecretKey() {
   const secret = process.env.SESSION_SECRET;
@@ -19,25 +21,17 @@ function getSecretKey() {
   return new TextEncoder().encode(secret);
 }
 
-/**
- * Creates a signed session token and stores it in an HTTP-only cookie.
- * Call this only after verifying the user's credentials on the server.
- */
 export async function createSession(user) {
   if (!user?.id || !["customer", "staff"].includes(user.role)) {
     throw new Error("A valid user ID and role are required.");
   }
 
-  const key = getSecretKey();
-
-  const token = await new SignJWT({
-    role: user.role,
-  })
+  const token = await new SignJWT({ role: user.role })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(String(user.id))
     .setIssuedAt()
     .setExpirationTime(`${SESSION_DURATION}s`)
-    .sign(key);
+    .sign(getSecretKey());
 
   const cookieStore = await cookies();
 
@@ -50,17 +44,11 @@ export async function createSession(user) {
   });
 }
 
-/**
- * Reads and verifies the signed session cookie.
- * Returns null when the user has no valid session.
- */
 export async function getSession() {
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
 
-  if (!token) {
-    return null;
-  }
+  if (!token) return null;
 
   try {
     const { payload } = await jwtVerify(token, getSecretKey(), {
@@ -74,18 +62,21 @@ export async function getSession() {
       return null;
     }
 
+    const user = await getUserById(payload.sub);
+
+    if (!user || user.role !== payload.role) {
+      return null;
+    }
+
     return {
-      id: payload.sub,
-      role: payload.role,
+      id: user.id,
+      role: user.role,
     };
   } catch {
     return null;
   }
 }
 
-/**
- * Deletes the session cookie during sign-out.
- */
 export async function deleteSession() {
   const cookieStore = await cookies();
 

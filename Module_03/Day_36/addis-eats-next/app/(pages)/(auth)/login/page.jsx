@@ -4,7 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { loginUser } from "@/app/actions";
 import "./SignIn.css";
 
 function SignIn() {
@@ -29,12 +29,12 @@ function SignIn() {
     }));
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
 
+  async function handleSubmit(event) {
+    event.preventDefault();
     setAuthError("");
 
-    if (!form.phone && !form.email) {
+    if (!form.phone.trim() && !form.email.trim()) {
       setAuthError("Please enter your phone number or email.");
       return;
     }
@@ -44,50 +44,41 @@ function SignIn() {
       return;
     }
 
-    const savedUser = localStorage.getItem("addisEatsUser");
-
-if (!savedUser) {
-  setAuthError(
-    "No registered account found. Please register first."
-  );
-  return;
-}
-
-const registeredUser = JSON.parse(savedUser);
-
-const identifierMatches =
-  form.phone === registeredUser.phone ||
-  form.email === registeredUser.email;
-
-const passwordMatches =
-  form.password === registeredUser.password;
-
-if (!identifierMatches || !passwordMatches) {
-  setAuthError(
-    "Incorrect phone/email or password."
-  );
-  return;
-}
-
     setIsSubmitting(true);
 
-    localStorage.setItem(
-      "addisEatsLoggedIn",
-      "true"
-    );
+    try {
+      const formData = new FormData(event.currentTarget);
 
-    localStorage.setItem(
-      "addisEatsCurrentUser",
-      JSON.stringify({
-        name: registeredUser.name,
-        phone: registeredUser.phone,
-        email: registeredUser.email,
-      })
-    );
+      // Email takes priority when both fields contain a value.
+      formData.set("email", form.email.trim());
+      formData.set("phone", form.phone.trim());
 
-    const redirect = new URLSearchParams(window.location.search).get("redirect");
+      // Support protected-page redirects and older redirect links.
+      const searchParams = new URLSearchParams(window.location.search);
+      formData.set(
+        "next",
+        searchParams.get("next") ||
+          searchParams.get("redirect") ||
+          "/menu"
+      );
 
-    router.push(redirect || "/menu");
+      const result = await loginUser(formData);
+
+      if (!result.success) {
+        setAuthError(
+          result.error || "Unable to sign in. Please try again."
+        );
+        return;
+      }
+
+      router.replace(result.redirectTo || "/menu");
+      router.refresh();
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+      setAuthError("Unable to sign in right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (

@@ -1,24 +1,22 @@
 .register-page {
-  width: min(1800px, calc(100% - 40px));
+  width: min(1300px, calc(100% - 40px));
   margin: 0 auto;
   padding: 9px 0 32px;
-  color: #54352b;
+  color: #087e25;
 }
 
 .register-breadcrumb {
   margin: 0 0 10px;
-  color: #8e6d60;
+  color: #46a766;
   font-size: 18px;
   font-weight: 600;
 }
 
 .register-breadcrumb strong {
-  color: #8e2c1c;
+  color: #d13b28;
 }
 
-/* =========================================================
-   MAIN LAYOUT
-========================================================= */
+/* MAIN LAYOUT */
 
 .register-layout {
   display: grid;
@@ -27,9 +25,7 @@
   align-items: stretch;
 }
 
-/* =========================================================
-   WELCOME PANEL
-========================================================= */
+/*  WELCOME PANEL */
 
 .register-welcome {
   padding: 15px 16px 14px;
@@ -66,9 +62,7 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* =========================================================
-   BENEFITS
-========================================================= */
+/*  BENEFITS */
 
 .welcome-benefits {
   display: grid;
@@ -112,9 +106,7 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* =========================================================
-   STORY CARD
-========================================================= */
+/*  STORY CARD */
 
 .register-story {
   display: grid;
@@ -156,9 +148,7 @@
   font-style: italic;
 }
 
-/* =========================================================
-   REGISTER CARD
-========================================================= */
+/*  REGISTER CARD */
 
 .register-card {
   padding: 22px 26px 18px;
@@ -182,9 +172,7 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-/* =========================================================
-   QUICK ACTIONS
-========================================================= */
+/*  QUICK ACTIONS */
 
 .quick-actions {
   display: grid;
@@ -208,9 +196,7 @@
   background: #f9e9df;
 }
 
-/* =========================================================
-   DIVIDER
-========================================================= */
+/*   DIVIDER */
 
 .divider {
   position: relative;
@@ -229,9 +215,7 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-/* =========================================================
-   FORM
-========================================================= */
+/*  FORM */
 
 .register-form {
   max-width: none;
@@ -287,10 +271,7 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-/* =========================================================
-   PHONE INPUT
-========================================================= */
-
+/*   PHONE INPUT */
 .phone-input {
   display: grid;
   grid-template-columns: 74px 1fr;
@@ -315,9 +296,7 @@
   margin-top: 0 !important;
 }
 
-/* =========================================================
-   PASSWORD
-========================================================= */
+/*  PASSWORD */
 
 .password-grid {
   display: grid;
@@ -325,9 +304,7 @@
   gap: 8px;
 }
 
-/* =========================================================
-   DINING PREFERENCE
-========================================================= */
+/* DINING PREFERENCE */
 
 .preference-field {
   margin: 10px 0;
@@ -384,9 +361,7 @@
   color: white;
 }
 
-/* =========================================================
-   TERMS
-========================================================= */
+/*  TERMS */
 
 .terms-row {
   display: flex !important;
@@ -413,9 +388,7 @@
   font-weight: 700;
 }
 
-/* =========================================================
-   FORM ERRORS
-========================================================= */
+/* FORM ERRORS */
 
 .register-error {
   margin: 7px 0;
@@ -426,9 +399,7 @@
   font-family: 'Times New Roman', Times, serif;
 }
 
-/* =========================================================
-   SUBMIT BUTTON
-========================================================= */
+/*  SUBMIT BUTTON */
 
 .register-submit {
   width: 100%;
@@ -445,7 +416,7 @@
 }
 
 .register-submit:hover {
-  background: #8e2b1b;
+  background: #0ba062;
 }
 
 .register-submit:disabled {
@@ -453,9 +424,7 @@
   cursor: not-allowed;
 }
 
-/* =========================================================
-   SIGN IN LINK
-========================================================= */
+/* SIGN IN LINK */
 
 .register-signin {
   margin: 9px 0 0;
@@ -471,9 +440,7 @@
   font-weight: 800;
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
+/*  TABLET */
 
 @media (max-width: 850px) {
   .register-layout {
@@ -485,9 +452,7 @@
   }
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/*  MOBILE */
 
 @media (max-width: 520px) {
   .register-page {

@@ -2,14 +2,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { registerUser } from "@/app/actions";
 import "./Register.css";
 
 export default function RegisterPage() {
   const router = useRouter();
 
-  /* =========================================================
-     Watch Password
-  ========================================================= */
+  /*    Watch Password */
 
 const [form, setForm] = useState({
   name: "",
@@ -21,6 +20,7 @@ const [form, setForm] = useState({
 });
 
 const [errors, setErrors] = useState({});
+const [serverError, setServerError] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false);
 
 const password = form.password;
@@ -36,12 +36,10 @@ function handleChange(event) {
 }
 
 
-  /* =========================================================
-     Submit Registration
-  ========================================================= */
-
-  function handleSubmit(event) {
+  /*    Submit Registration */
+  async function handleSubmit(event) {
     event.preventDefault();
+    setServerError("");
 
     const newErrors = {};
 
@@ -55,10 +53,22 @@ function handleChange(event) {
 
     if (!form.email.trim()) {
       newErrors.email = "Email address is required.";
+    } else if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())
+    ) {
+      newErrors.email = "Enter a valid email address.";
     }
 
-    if (!form.password) {
-      newErrors.password = "Password is required.";
+    if (form.password.length < 8) {
+      newErrors.password = "Password must contain at least 8 characters.";
+    } else if (
+      !/[A-Z]/.test(form.password) ||
+      !/[a-z]/.test(form.password) ||
+      !/[0-9]/.test(form.password) ||
+      !/[^A-Za-z0-9]/.test(form.password)
+    ) {
+      newErrors.password =
+        "Include an uppercase letter, lowercase letter, number, and symbol.";
     }
 
     if (form.password !== form.confirmPassword) {
@@ -77,19 +87,38 @@ function handleChange(event) {
 
     setIsSubmitting(true);
 
-    const registeredUser = {
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      password: form.password,
-    };
+    try {
+      const formData = new FormData(event.currentTarget);
 
-    localStorage.setItem(
-      "addisEatsUser",
-      JSON.stringify(registeredUser)
-    );
+      // Normalize Ethiopian mobile numbers to +251 format.
+      let phone = form.phone.trim().replace(/[\s()-]/g, "");
 
-    router.replace("/login");
+      if (/^0[79]\d{8}$/.test(phone)) {
+        phone = `+251${phone.slice(1)}`;
+      } else if (/^[79]\d{8}$/.test(phone)) {
+        phone = `+251${phone}`;
+      }
+
+      formData.set("phone", phone);
+
+      const result = await registerUser(formData);
+
+      if (!result.success) {
+        setServerError(
+          result.error || "Registration failed. Please try again."
+        );
+        return;
+      }
+
+      router.replace(result.redirectTo || "/menu");
+      router.refresh();
+    } catch {
+      setServerError(
+        "Something went wrong while creating your account. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -102,9 +131,7 @@ function handleChange(event) {
 
       <div className="register-layout">
 
-        {/* =========================
-            Welcome Section
-        ========================= */}
+        {/*   Welcome Section */}
 
         <aside className="register-welcome">
           <span className="member-badge">
@@ -230,9 +257,7 @@ function handleChange(event) {
           </div>
         </aside>
 
-        {/* =========================
-            Registration Card
-        ========================= */}
+        {/*  Registration Card   */}
 
         <div className="register-card">
 
@@ -263,9 +288,7 @@ function handleChange(event) {
             </span>
           </div>
 
-          {/* =========================
-              Registration Form
-          ========================= */}
+          {/*    Registration Form */}
 
           <form
             className="register-form"
@@ -299,7 +322,7 @@ function handleChange(event) {
               Ethiopian Mobile Number
 
               <span className="phone-input">
-                <span>🇪🇹　+251</span>
+                <span>ET　+251</span>
 
                 <input
                   type="tel"
@@ -386,9 +409,7 @@ function handleChange(event) {
 
             </div>
 
-            {/* =========================
-                Live Password Requirements
-            ========================= */}
+            {/*   Live Password Requirements */}
 
             <div className="password-requirements">
 
@@ -527,6 +548,13 @@ function handleChange(event) {
               </p>
             )}
 
+            {/* Display server errors */}
+            {serverError && (
+              <p className="register-error" role="alert">
+                {serverError}
+              </p>
+            )}
+
             {/* Submit */}
 
             <button
@@ -543,8 +571,8 @@ function handleChange(event) {
 
           <p className="register-signin">
             Already part of our dining family?{" "}
-            <Link href="/SignIn">
-              Sign in here
+            <Link href="/login">
+              Login in here
             </Link>
           </p>
 

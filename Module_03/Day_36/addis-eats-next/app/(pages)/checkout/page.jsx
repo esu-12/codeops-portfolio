@@ -1,4 +1,4 @@
-
+// app/(pages)/checkout/page.jsx
 "use client";
 
 import { useState } from "react";
@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import RequireAuth from "../../(components)/RequireAuth/RequireAuth";
 import { useCart } from "../../providers";
+import { placeOrder } from "@/app/actions";
 import "./Checkout.css";
 
 const DELIVERY_FEE = 158;
@@ -13,9 +14,7 @@ const DELIVERY_FEE = 158;
 function CheckoutPage() {
   const router = useRouter();
 
-  /* =========================
-     Zustand Cart
-  ========================= */
+  /* Zustand Cart */
 
   const {
     cartItems,
@@ -24,9 +23,7 @@ function CheckoutPage() {
     clearCart,
   } = useCart();
 
-  /* =========================
-     Checkout State
-  ========================= */
+  /*  Checkout State */
 
   const [deliveryMode, setDeliveryMode] =
     useState("immediate");
@@ -39,6 +36,9 @@ function CheckoutPage() {
 
   const [customerName, setCustomerName] =
     useState("");
+
+  const [orderError, setOrderError] = useState("");
+  const [orderId, setOrderId] = useState("");
 
 const [form, setForm] = useState({
   name: "",
@@ -57,40 +57,70 @@ function handleChange(event) {
     [name]: value,
   }));
 }
-  /* =========================
-     Order Total
-  ========================= */
-
+  /* Order Total */
   const grandTotal = totalPrice + DELIVERY_FEE;
 
-  /* =========================
-     Submit Order
-  ========================= */
+  /*    Submit Order */
+  async function onSubmit(event) {
+    event.preventDefault();
+    setOrderError("");
 
-  function onSubmit(event) {
-    event.preventDefault(); 
-    const orderData = {
-      ...form,
-      deliveryMode,
-      paymentMethod,
-      totalItems,
-      totalPrice,
-      deliveryFee: DELIVERY_FEE,
-      grandTotal,
-    };
+    const formData = new FormData();
 
-    console.log(
-      "Checkout submitted:",
-      orderData
+    formData.set("name", form.name);
+    formData.set("phone", form.phone);
+    formData.set("email", form.email);
+    formData.set("address", form.address);
+    formData.set("landmark", form.landmark);
+    formData.set("city", form.city);
+    formData.set("deliveryMode", deliveryMode);
+    formData.set("paymentMethod", paymentMethod);
+    formData.set("totalItems", String(totalItems));
+    formData.set("totalPrice", String(totalPrice));
+    formData.set("deliveryFee", String(DELIVERY_FEE));
+    formData.set("grandTotal", String(grandTotal));
+
+    formData.set(
+      "items",
+      JSON.stringify(
+        cartItems.map((item) => ({
+          id: String(item.id),
+          name: String(item.name),
+          price: Number(item.price),
+          quantity: Number(item.quantity),
+          description: item.description
+            ? String(item.description)
+            : "",
+          image: item.image ? String(item.image) : "",
+        }))
+      )
     );
 
-    setCustomerName(form.name);
-    setSubmitted(true);
+    try {
+      const result = await placeOrder(null, formData);
+
+      if (!result.success) {
+        setOrderError(
+          result.error || "Please check your order details."
+        );
+        return;
+      }
+
+      // Clear the cart only after the order is saved successfully.
+      clearCart();
+
+      setOrderId(result.order.id);
+      setCustomerName(form.name);
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Checkout failed:", error);
+      setOrderError(
+        "We could not submit your order. Please try again."
+      );
+    }
   }
 
-  /* =========================
-     Empty Cart
-  ========================= */
+  /* Empty Cart */
 
   if (cartItems.length === 0 && !submitted) {
     return (
@@ -118,9 +148,7 @@ function handleChange(event) {
     );
   }
 
-  /* =========================
-     Successful Order
-  ========================= */
+  /* Successful Order */
 
   if (submitted) {
     return (
@@ -135,6 +163,17 @@ function handleChange(event) {
           <h1>
             Thank you, {customerName}!
           </h1>
+
+          <p>
+            Order number: <strong>{orderId}</strong>
+          </p>
+
+          <Link
+            href="/orders"
+            className="checkout-primary-button"
+          >
+            View Order History
+          </Link>
 
           <p>
             Your Mesob feast has been sent for
@@ -164,9 +203,7 @@ function handleChange(event) {
   return (
     <RequireAuth>
     <section className="checkout-page">
-      {/* =========================
-          Breadcrumb
-      ========================= */}
+      {/* Breadcrumb */}
 
       <div className="checkout-breadcrumb">
         <Link href="/cart">Account</Link>
@@ -178,9 +215,7 @@ function handleChange(event) {
         </strong>
       </div>
 
-      {/* =========================
-          Checkout Progress
-      ========================= */}
+      {/* Checkout Progress */}
 
       <div
         className="checkout-progress"
@@ -217,9 +252,7 @@ function handleChange(event) {
         </div>
       </div>
 
-      {/* =========================
-          Delivery Mode
-      ========================= */}
+      {/* Delivery Mode */}
 
       <div className="checkout-mode-switch">
         <button
@@ -234,20 +267,22 @@ function handleChange(event) {
         </button>
       </div>
 
-      {/* =========================
-          Checkout Form
-      ========================= */}
+      {/* Checkout Form */}
 
       <form
         className="checkout-layout"
         onSubmit={onSubmit}
         noValidate
       >
+
+        {orderError && (
+          <p role="alert" className="checkout-error">
+            {orderError}
+          </p>
+        )}
         <div className="checkout-main-column">
 
-          {/* =========================
-              Contact Details
-          ========================= */}
+          {/* Contact Details */}
 
           <section className="checkout-panel">
             <div className="panel-heading">
@@ -315,9 +350,7 @@ function handleChange(event) {
             </div>
           </section>
 
-          {/* =========================
-              Delivery Location
-          ========================= */}
+          {/* Delivery Location */}
 
           <section className="checkout-panel">
             <div className="panel-heading">
@@ -384,9 +417,7 @@ function handleChange(event) {
               </label>
             </div>
 
-            {/* =========================
-                Delivery Options
-            ========================= */}
+            {/*  Delivery Options */}
 
             <div className="delivery-options">
 
@@ -459,9 +490,7 @@ function handleChange(event) {
             </div>
           </section>
 
-          {/* =========================
-              Payment
-          ========================= */}
+          {/*   Payment */}
 
           <section className="checkout-panel payment-panel">
             <div className="panel-heading">
@@ -661,9 +690,7 @@ function handleChange(event) {
             </button>
           </section>
 
-          {/* =========================
-              Mesob House Promise
-          ========================= */}
+          {/*  Mesob House Promise */}
 
           <div className="checkout-promise">
             <strong>
@@ -680,9 +707,7 @@ function handleChange(event) {
           </div>
         </div>
 
-        {/* =========================
-            Order Summary
-        ========================= */}
+        {/* Order Summary */}
 
         <aside className="order-summary">
 

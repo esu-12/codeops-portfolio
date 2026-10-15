@@ -1,14 +1,20 @@
 // app/(pages)/order/(history)/page.jsx
-
 import Link from "next/link";
-import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/session";
+import { getOrdersForUser } from "@/lib/db";
 import CancelOrderButton from "@/app/(components)/CancelOrderButton/CancelOrderButton";
 
 export const dynamic = "force-dynamic";
 
 export default async function OrderPage() {
-  const orders = await db.order.findMany();
-  console.log("ORDER HISTORY:", orders);
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login?next=%2Forders");
+  }
+
+  const orders = await getOrdersForUser(session.id);
 
   return (
     <main>
@@ -22,8 +28,33 @@ export default async function OrderPage() {
             <li key={order.id}>
               <h2>Order {order.id}</h2>
               <p>Name: {order.name}</p>
-              <p>Dish: {order.dishId}</p>
-              <p>Quantity: {order.quantity}</p>
+              
+              {order.items?.length ? (
+                <div>
+                  <h3>Dishes</h3>
+
+                  <ul>
+                    {order.items.map((item, index) => (
+                      <li key={`${item.id}-${index}`}>
+                        {item.name} — {item.quantity} × ETB{" "}
+                        {Number(item.price).toLocaleString()}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <>
+                  <p>Dish: {order.dishId || "Not specified"}</p>
+                  <p>Quantity: {order.quantity ?? 1}</p>
+                </>
+              )}
+
+              {order.grandTotal !== undefined && (
+                <p>
+                  Total: <strong>ETB {Number(order.grandTotal).toLocaleString()}</strong>
+                </p>
+              )}
+
               <p>Status: {order.status}</p>
 
               {order.status === "PENDING" && (

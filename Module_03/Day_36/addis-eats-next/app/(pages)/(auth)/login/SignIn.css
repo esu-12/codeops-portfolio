@@ -7,7 +7,7 @@
   max-width: 1600px;
   margin: 0 auto;
   padding: 10px 20px 24px;
-  color: #4d3027;
+  color: #09b620;
   box-sizing: border-box;
 }
 
@@ -20,7 +20,7 @@
   gap: 6px;
   margin-bottom: 12px;
 
-  color: #8e756c;
+  color: #11be45;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -656,7 +656,7 @@
   height: 10px;
   margin: 0;
 
-  accent-color: #9f3522;
+  accent-color: #057c41;
 }
 
 /* =========================================================

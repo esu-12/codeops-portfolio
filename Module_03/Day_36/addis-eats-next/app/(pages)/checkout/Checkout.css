@@ -870,3 +870,12 @@
   min-width: 0;
   border-radius: 0 8px 8px 0;
 }
+
+.checkout-error {
+  color: #a21d1d;
+  background: #fff0f0;
+  border: 1px solid #e5b5b5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
