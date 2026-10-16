@@ -8,7 +8,7 @@ import "./DishList.css";
 export default function DishList({ dishes }) {
   return (
     <ul className="dish-list">
-      {dishes.map((dish) => (
+      {dishes.map((dish, index) => (
         <li className="dish-card" key={dish.id}>
 
           {dish.image ? (
@@ -19,6 +19,8 @@ export default function DishList({ dishes }) {
                 alt={dish.nameEn}
                 width={500}
                 height={300}
+                sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 300px"
+                priority={index === 0}
               />
             </div>
           ) : (

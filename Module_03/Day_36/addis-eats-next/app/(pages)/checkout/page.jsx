@@ -1,6 +1,7 @@
 // app/(pages)/checkout/page.jsx
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -739,9 +740,12 @@ function handleChange(event) {
               >
                 <div className="summary-thumb">
                   {item.image ? (
-                    <img
+                    <Image
                       src={item.image}
                       alt=""
+                      width={44}
+                      height={38}
+                      sizes="(max-width: 768px) 40px, 44px"
                     />
                   ) : (
                     <span>🍛</span>

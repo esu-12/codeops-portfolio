@@ -1,4 +1,7 @@
+// app/(pages)/(auth)/register/page.jsx
 "use client";
+
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,7 +12,6 @@ export default function RegisterPage() {
   const router = useRouter();
 
   /*    Watch Password */
-
 const [form, setForm] = useState({
   name: "",
   phone: "",
@@ -235,9 +237,12 @@ function handleChange(event) {
           </div>
 
           <div className="register-story">
-            <img
+            <Image
               src="/images/doro-wat.jpg"
               alt="Traditional Ethiopian Doro Wat"
+              width={800}
+              height={600}
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
 
             <div>
@@ -258,7 +263,6 @@ function handleChange(event) {
         </aside>
 
         {/*  Registration Card   */}
-
         <div className="register-card">
 
           <div className="register-card__heading">
@@ -289,7 +293,6 @@ function handleChange(event) {
           </div>
 
           {/*    Registration Form */}
-
           <form
             className="register-form"
             onSubmit={handleSubmit}
@@ -297,7 +300,6 @@ function handleChange(event) {
           >
 
             {/* Full Name */}
-
             <label>
               Full Name
 
@@ -317,7 +319,6 @@ function handleChange(event) {
             </label>
 
             {/* Phone */}
-
             <label>
               Ethiopian Mobile Number
 
@@ -346,7 +347,6 @@ function handleChange(event) {
             </label>
 
             {/* Email */}
-
             <label>
               Email Address
 
@@ -366,7 +366,6 @@ function handleChange(event) {
             </label>
 
             {/* Password */}
-
             <div className="password-grid">
 
               <label>
@@ -388,7 +387,6 @@ function handleChange(event) {
               </label>
 
               {/* Confirm Password */}
-
               <label>
                 Confirm Password
 
@@ -410,7 +408,6 @@ function handleChange(event) {
             </div>
 
             {/*   Live Password Requirements */}
-
             <div className="password-requirements">
 
               <p
@@ -481,7 +478,6 @@ function handleChange(event) {
             </div>
 
             {/* Dining Preference */}
-
             <div className="preference-field">
               <strong>
                 Primary Dining Preference (Optional)
@@ -517,7 +513,6 @@ function handleChange(event) {
             </div>
 
             {/* Terms */}
-
             <label className="terms-row">
               <input
                 type="checkbox"
@@ -556,7 +551,6 @@ function handleChange(event) {
             )}
 
             {/* Submit */}
-
             <button
               className="register-submit"
               type="submit"

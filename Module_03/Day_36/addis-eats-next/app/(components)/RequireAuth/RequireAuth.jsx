@@ -1,6 +1,4 @@
 // app/(components)/RequireAuth/RequireAuth.jsx
-
-
 "use client";
 
 import { useEffect, useState } from "react";

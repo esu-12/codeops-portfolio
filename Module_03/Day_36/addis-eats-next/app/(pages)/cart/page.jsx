@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import "./Cart.css";
 import { useCart } from "../../providers";
@@ -17,9 +18,7 @@ function CartPage() {
 
   const grandTotal = totalPrice + DELIVERY_FEE;
 
-  /* =====================================================
-     EMPTY CART
-  ===================================================== */
+  /*   EMPTY CART */
 
   if (cartItems.length === 0) {
     return (
@@ -69,9 +68,7 @@ function CartPage() {
   return (
     <section className="cart-page">
 
-      {/* =================================================
-          DELIVERY BANNER
-      ================================================= */}
+      {/*   DELIVERY BANNER */}
 
       <div className="cart-delivery-banner">
         🚚 <strong>Free Highland Delivery:</strong>{" "}
@@ -80,10 +77,7 @@ function CartPage() {
         <span>✓ THRESHOLD UNLOCKED</span>
       </div>
 
-      {/* =================================================
-          PAGE HEADER
-      ================================================= */}
-
+      {/*  PAGE HEADER */}
       <div className="cart-heading-row">
 
         <div>
@@ -115,16 +109,10 @@ function CartPage() {
 
       </div>
 
-      {/* =================================================
-          MAIN CART LAYOUT
-      ================================================= */}
-
+      {/*  MAIN CART LAYOUT */}
       <div className="cart-layout">
 
-        {/* =================================================
-            LEFT
-        ================================================= */}
-
+        {/*  LEFT */}
         <div className="cart-main">
 
           <div className="cart-section-heading">
@@ -155,9 +143,12 @@ function CartPage() {
 
                 <div className="cart-item-image-wrap">
                   {item.image ? (
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
+                      width={140}
+                      height={100}
+                      sizes="(max-width: 768px) 65px, 140px"
                       className="cart-item-image"
                     />
                   ) : (
@@ -251,10 +242,7 @@ function CartPage() {
 
           </div>
 
-          {/* =================================================
-              DINING ETIQUETTE
-          ================================================= */}
-
+          {/*  DINING ETIQUETTE */}
           <section className="cart-info-card">
 
             <h3>
@@ -306,10 +294,7 @@ function CartPage() {
 
           </section>
 
-          {/* =================================================
-              GURSHA INFORMATION
-          ================================================= */}
-
+          {/*  GURSHA INFORMATION */}
           <section className="gursha-meaning">
 
             <div className="gursha-icon">
@@ -333,10 +318,7 @@ function CartPage() {
 
         </div>
 
-        {/* =================================================
-            RIGHT - BASKET LEDGER
-        ================================================= */}
-
+        {/*  RIGHT - BASKET LEDGER */}
         <aside className="basket-ledger">
 
           <div className="ledger-header">
@@ -468,10 +450,7 @@ function CartPage() {
 
       </div>
 
-      {/* =================================================
-          FRESH JEBENA
-      ================================================= */}
-
+      {/*  FRESH JEBENA */}
       <section className="fresh-jebena">
 
         <div className="fresh-jebena-icon">

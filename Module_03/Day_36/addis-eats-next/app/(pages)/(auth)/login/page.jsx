@@ -1,6 +1,7 @@
 // app/(pages)/(auth)/login/page.jsx
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -84,10 +85,7 @@ function SignIn() {
   return (
     <section className="signin-page">
 
-      {/* =====================================================
-          TOP BREADCRUMB
-      ====================================================== */}
-
+      {/*  TOP BREADCRUMB */}
       <div className="signin-breadcrumb">
         <Link href="/">HOME</Link>
 
@@ -100,16 +98,10 @@ function SignIn() {
         <strong>SIGN IN</strong>
       </div>
 
-      {/* =====================================================
-          MAIN TWO-COLUMN AREA
-      ====================================================== */}
-
+      {/*  MAIN TWO-COLUMN AREA */}
       <div className="signin-layout">
 
-        {/* ===================================================
-            LEFT WELCOME PANEL
-        ==================================================== */}
-
+        {/*  LEFT WELCOME PANEL */}
         <aside className="signin-welcome">
 
           <span className="signin-badge">
@@ -130,9 +122,13 @@ function SignIn() {
 
           <div className="signin-feature-image">
 
-            <img
+            <Image
               src="/images/doro-wat.jpg"
               alt="Traditional Ethiopian food"
+              width={800}
+              height={542}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
 
             <div className="signin-image-overlay">
@@ -235,10 +231,7 @@ function SignIn() {
 
         </aside>
 
-        {/* ===================================================
-            RIGHT SIGN-IN CARD
-        ==================================================== */}
-
+        {/*  RIGHT SIGN-IN CARD */}
         <div className="signin-card">
 
           <div className="signin-card-heading">
@@ -259,10 +252,7 @@ function SignIn() {
 
           </div>
 
-          {/* =================================================
-              QUICK LOGIN
-          ================================================== */}
-
+          {/* QUICK LOGIN */}
           <div className="signin-quick-actions">
 
             <button type="button">
@@ -307,9 +297,7 @@ function SignIn() {
 
           </div>
 
-          {/* =================================================
-              DIVIDER
-          ================================================== */}
+          {/*  DIVIDER */}
 
           <div className="signin-divider">
             <span>
@@ -317,9 +305,7 @@ function SignIn() {
             </span>
           </div>
 
-          {/* =================================================
-              LOGIN METHOD
-          ================================================== */}
+          {/*  LOGIN METHOD */}
 
           <div className="signin-methods">
 
@@ -336,9 +322,7 @@ function SignIn() {
 
           </div>
 
-          {/* =================================================
-              FORM
-          ================================================== */}
+          {/* FORM */}
 
           <form
             className="signin-form"
@@ -346,9 +330,8 @@ function SignIn() {
             noValidate
           >
 
-            {/* =================================================
-                FULL NAME
-            ================================================== */}
+            {/* 
+                FULL NAME */}
 
             <div className="signin-form-group">
 
@@ -367,10 +350,7 @@ function SignIn() {
 
             </div>
 
-            {/* =================================================
-                PHONE
-            ================================================== */}
-
+            {/*  PHONE */}
             <div className="signin-form-group">
 
               <label htmlFor="phone">
@@ -397,15 +377,9 @@ function SignIn() {
                 />
 
               </div>
-
-
-
             </div>
 
-            {/* =================================================
-                EMAIL
-            ================================================== */}
-
+            {/*  EMAIL */}
             <div className="signin-form-group">
 
               <label htmlFor="email">
@@ -421,14 +395,9 @@ function SignIn() {
                 onChange={handleChange}
               />
 
-
-
             </div>
 
-            {/* =================================================
-                PASSWORD
-            ================================================== */}
-
+            {/* PASSWORD */}
             <div className="signin-form-group">
 
               <div className="signin-password-heading">
@@ -470,10 +439,7 @@ function SignIn() {
 
             </div>
 
-            {/* =================================================
-                AUTH ERROR
-            ================================================== */}
-
+            {/*   AUTH ERROR*/}
             {authError && (
               <div
                 className="signin-auth-message"
@@ -485,10 +451,7 @@ function SignIn() {
               </div>
             )}
 
-            {/* =================================================
-                OPTIONS
-            ================================================== */}
-
+            {/*  OPTIONS */}
             <div className="signin-options">
 
               <label>
@@ -517,10 +480,7 @@ function SignIn() {
 
             </div>
 
-            {/* =================================================
-                SUBMIT
-            ================================================== */}
-
+            {/*  SUBMIT */}
             <button
               type="submit"
               className="signin-submit"
@@ -533,10 +493,7 @@ function SignIn() {
 
           </form>
 
-          {/* =================================================
-              REGISTER / GUEST
-          ================================================== */}
-
+          {/*  REGISTER / GUEST */}
           <div className="signin-register">
 
             <div>
@@ -561,10 +518,7 @@ function SignIn() {
 
       </div>
 
-      {/* =====================================================
-          BOTTOM INFORMATION STRIP
-      ====================================================== */}
-
+      {/*  BOTTOM INFORMATION STRIP */}
       <div className="signin-bottom-features">
 
         <div>

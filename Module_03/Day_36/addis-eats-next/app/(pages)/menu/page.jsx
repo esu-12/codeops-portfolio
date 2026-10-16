@@ -1,8 +1,6 @@
 import DishList from "../../(components)/(DishList)/DishList";
-import CategoryBar from "../../(components)/CategoryBar/CategoryBar";
 import FilterShell from "../../(components)/FilterShell/FilterShell";
-import SearchBox from "./SearchBox";
-
+import SideBar from "../../(components)/SideBar/SideBar";
 import "./menu.css";
 
 export const revalidate = 60;
@@ -10,12 +8,8 @@ export const revalidate = 60;
 const API_URL = "https://addis-eats-backend.onrender.com";
 
 
-/* =========================
-   Image Mapping
-========================= */
-
+/*  Image Mapping */
 const imageMap = {
-
   "Classic Doro Wat":
     "/images/doro-wat.jpg",
 
@@ -74,11 +68,7 @@ const imageMap = {
     "/images/House Fermented Tej (500ml Carafe).jpg",
 };
 
-
-/* =========================
-   Menu Page
-========================= */
-
+/*  Menu Page */
 export default async function MenuPage({ searchParams }) {
 
   const response = await fetch(`${API_URL}/menu/`);
@@ -92,9 +82,7 @@ export default async function MenuPage({ searchParams }) {
   const dishes = result.data || [];
 
 
-  /* =========================
-     Add Local Images
-  ========================= */
+  /*   Add Local Images */
 
   const dishesWithImages = dishes.map((dish) => ({
     ...dish,
@@ -102,20 +90,13 @@ export default async function MenuPage({ searchParams }) {
   }));
 
 
-  /* =========================
-     Read Category
-  ========================= */
-
+  /*   Read Category */
   const params = await searchParams;
 
   const selectedCategory =
     params?.category || "All";
 
-
-  /* =========================
-     Filter Dishes
-  ========================= */
-
+  /*    Filter Dishes */
   const filteredDishes =
     selectedCategory === "All"
       ? dishesWithImages
@@ -128,10 +109,7 @@ export default async function MenuPage({ searchParams }) {
   return (
     <main className="menu-page">
 
-      {/* =========================
-          Hero
-      ========================= */}
-
+      {/*    Hero */}
       <section className="menu-hero">
 
         <span className="menu-label">
@@ -151,19 +129,11 @@ export default async function MenuPage({ searchParams }) {
       </section>
 
 
-      {/* =========================
-          Menu Content
-      ========================= */}
-
+      {/*     Menu Content */}
         <FilterShell>
-          <aside className="menu-sidebar">
-            <SearchBox />
-            <CategoryBar />
-          </aside>
+           <SideBar />
 
           <div className="menu-dishes">
-
-
           <div className="menu-heading">
 
             <span>
@@ -184,10 +154,7 @@ export default async function MenuPage({ searchParams }) {
           </div>
 
 
-          {/* =========================
-              Dish List
-          ========================= */}
-
+          {/*   Dish List */}
           {filteredDishes.length > 0 ? (
 
             <DishList
