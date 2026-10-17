@@ -5,6 +5,17 @@ import "./menu.css";
 
 export const revalidate = 60;
 
+export const metadata = {
+  title: "Ethiopian Food Menu",
+  description:
+    "Explore Addis Eats' Ethiopian food menu, including traditional wat, sizzling tibs, vegan favorites, kitfo, and refreshing drinks.",
+  openGraph: {
+    title: "Ethiopian Food Menu",
+    description:
+      "Explore traditional Ethiopian dishes, freshly prepared with authentic flavors.",
+  },
+};
+
 const API_URL = "https://addis-eats-backend.onrender.com";
 
 

@@ -1,3 +1,4 @@
+// app/(components)/SideBar/SideBar.jsx
 import "./SearchBar.css";
 
 function SearchBar({ value, onChange }) {

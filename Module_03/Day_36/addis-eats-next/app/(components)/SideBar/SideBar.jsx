@@ -1,5 +1,4 @@
 // app/(components)/SideBar/SideBar.jsx
-"use client";
 
 import SearchBox from "../../(pages)/menu/SearchBox";
 import CategoryBar from "../CategoryBar/CategoryBar";
