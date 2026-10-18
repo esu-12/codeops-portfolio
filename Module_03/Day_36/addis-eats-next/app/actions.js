@@ -253,6 +253,7 @@ export async function logoutUser() {
 }
 
 // PLACE ORDER
+
 export async function placeOrder(previousState, formData) {
   const session = await getSession();
 
@@ -264,21 +265,23 @@ export async function placeOrder(previousState, formData) {
     };
   }
 
-  let items;
+  // Validate contact and delivery details on the server.
+  const name = String(formData.get("name") ?? "").trim();
+  const rawPhone = String(formData.get("phone") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim();
+  const address = String(formData.get("address") ?? "").trim();
+  const landmark = String(formData.get("landmark") ?? "").trim();
+  const city = String(formData.get("city") ?? "").trim();
 
-  try {
-    items = JSON.parse(String(formData.get("items") ?? "[]"));
-  } catch {
+  if (!name || !rawPhone || !address || !city) {
     return {
       fieldErrors: {},
       success: false,
-      error: "The cart data is invalid. Please review your cart.",
+      error: "Name, phone, street address, and neighborhood are required.",
     };
   }
 
-  // Normalize Ethiopian mobile numbers before validation.
-  let phone = String(formData.get("phone") ?? "").trim();
-  phone = phone.replace(/[\s()-]/g, "");
+  let phone = rawPhone.replace(/[\s()-]/g, "");
 
   if (/^0[79]\d{8}$/.test(phone)) {
     phone = `+251${phone.slice(1)}`;
@@ -286,21 +289,145 @@ export async function placeOrder(previousState, formData) {
     phone = `+251${phone}`;
   }
 
+  let requestedItems;
+
+  try {
+    requestedItems = JSON.parse(
+      String(formData.get("items") ?? "[]")
+    );
+  } catch {
+    return {
+      fieldErrors: {},
+      success: false,
+      error: "Your cart data is invalid. Please review your cart.",
+    };
+  }
+
+  if (
+    !Array.isArray(requestedItems) ||
+    requestedItems.length === 0 ||
+    requestedItems.length > 50
+  ) {
+    return {
+      fieldErrors: {},
+      success: false,
+      error: "Your cart is empty or contains too many items.",
+    };
+  }
+
+  // Read current prices from the existing menu backend.
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://addis-eats-backend.onrender.com";
+
+  let menu;
+
+  try {
+    const response = await fetch(`${apiUrl}/menu/`, {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Menu request failed: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    menu = Array.isArray(payload.data)
+      ? payload.data
+      : Array.isArray(payload)
+        ? payload
+        : [];
+
+    if (menu.length === 0) {
+      throw new Error("The menu response is empty.");
+    }
+  } catch (error) {
+    console.error("Checkout menu lookup failed:", error);
+
+    return {
+      fieldErrors: {},
+      success: false,
+      error: "We could not verify menu prices. Please try again shortly.",
+    };
+  }
+
+  // Never trust the prices, names, or totals submitted by the browser.
+  const verifiedItems = [];
+
+  for (const requested of requestedItems) {
+    if (
+      !requested ||
+      typeof requested.id !== "string" ||
+      !Number.isInteger(requested.quantity) ||
+      requested.quantity < 1 ||
+      requested.quantity > 50
+    ) {
+      return {
+        fieldErrors: {},
+        success: false,
+        error: "An item in your cart has invalid details.",
+      };
+    }
+
+    const dish = menu.find(
+      (item) => String(item.id) === requested.id
+    );
+
+    if (!dish || !Number.isFinite(Number(dish.priceETB))) {
+      return {
+        fieldErrors: {},
+        success: false,
+        error: "A menu item could not be verified. Please refresh your cart.",
+      };
+    }
+
+    if (dish.available === false) {
+      return {
+        fieldErrors: {},
+        success: false,
+        error: `${dish.nameEn || "A menu item"} is currently unavailable.`,
+      };
+    }
+
+    verifiedItems.push({
+      id: String(dish.id),
+      name: String(dish.nameEn || dish.name || "Menu item"),
+      price: Number(dish.priceETB),
+      quantity: requested.quantity,
+      description: String(dish.description || ""),
+      image: String(dish.image || ""),
+    });
+  }
+
+  const totalItems = verifiedItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
+  const totalPrice = verifiedItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  // Keep the delivery fee consistent with checkout for now.
+  const deliveryFee = 158;
+  const grandTotal = totalPrice + deliveryFee;
+
   const data = {
-    name: String(formData.get("name") ?? "").trim(),
+    name,
     phone,
-    email: String(formData.get("email") ?? "").trim(),
-    address: String(formData.get("address") ?? "").trim(),
-    landmark: String(formData.get("landmark") ?? "").trim(),
-    city: String(formData.get("city") ?? "").trim(),
+    email,
+    address,
+    landmark,
+    city,
     deliveryMode: String(formData.get("deliveryMode") ?? ""),
     paymentMethod: String(formData.get("paymentMethod") ?? ""),
-    items,
-    totalItems: Number(formData.get("totalItems")),
-    totalPrice: Number(formData.get("totalPrice")),
-    deliveryFee: Number(formData.get("deliveryFee")),
-    grandTotal: Number(formData.get("grandTotal")),
-    notes: String(formData.get("landmark") ?? "").trim(),
+    items: verifiedItems,
+    totalItems,
+    totalPrice,
+    deliveryFee,
+    grandTotal,
+    notes: landmark,
   };
 
   const result = orderSchema.safeParse(data);
@@ -334,7 +461,6 @@ export async function placeOrder(previousState, formData) {
     };
   }
 }
-
 
  // CANCEL ORDER
 export async function cancelOrder(orderId) {

@@ -18,9 +18,9 @@ export const orderSchema = z.object({
   phone: z.string({
     required_error: "Phone number is required",
   }).regex(
-    /^(09|\+2519)\d{8}$/,
-    "Phone number must start with 09… or +2519… followed by 8 digits"
-  ),
+  /^\+251[79]\d{8}$/,
+  "Enter a valid Ethiopian mobile number."
+),
 
   // Keep these for existing single-dish order workflows.
   dishId: z.string().optional(),

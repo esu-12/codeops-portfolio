@@ -5,8 +5,9 @@ import { notFound } from "next/navigation";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://addis-eats-backend.onrender.com";
 async function getDish(id) {
   try {
     const response = await fetch(`${API_URL}/menu/`, {
@@ -38,14 +39,20 @@ async function getDish(id) {
   }
 }
 
+
+
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const dish = await getDish(id);
 
   if (!dish) {
     return {
-      title: "Dish Not Found",
+      title: "Dish Not Found | Addis Eats",
       description: "This dish could not be found on the Addis Eats menu.",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -55,31 +62,26 @@ export async function generateMetadata({ params }) {
 
   const dishUrl = `${SITE_URL}/menu/${encodeURIComponent(String(dish.id))}`;
 
-  // Next.js generates the image URL from the dish's opengraph-image file.
-  const imageUrl = `${dishUrl}/opengraph-image`;
+  // Uses the dynamic Open Graph image for this specific dish.
+
 
   return {
-    title: dish.nameEn,
+    title: `${dish.nameEn} | Addis Eats`,
     description,
+    alternates: {
+      canonical: dishUrl,
+    },
     openGraph: {
       type: "website",
+      siteName: "Addis Eats",
       url: dishUrl,
-      title: dish.nameEn,
+      title: `${dish.nameEn} | Addis Eats`,
       description,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: dish.nameEn,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: dish.nameEn,
+      title: `${dish.nameEn} | Addis Eats`,
       description,
-      images: [imageUrl],
     },
   };
 }
@@ -94,7 +96,7 @@ export default async function DishPage({ params }) {
 
   const dishUrl = `${SITE_URL}/menu/${encodeURIComponent(String(dish.id))}`;
 
-  const imageUrl = `${SITE_URL}/opengraph-image`;
+  const imageUrl = `${dishUrl}/opengraph-image`;
 
   const structuredData = {
     "@context": "https://schema.org",
