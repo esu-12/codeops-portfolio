@@ -2,120 +2,147 @@
 
 ## Purpose
 
-This document identifies where Addis Eats code runs and explains why each component belongs on the server or client.
+This document describes where the Addis Eats App Router code executes and why components belong on the server or client. Classifications are based on the source directives and the current application structure.
 
 ## Server Components
 
 ### `app/layout.js`
 
-The root layout is a Server Component because it does not need browser APIs, React state, or event handlers. It renders the shared application layout and wraps page content with the client-side providers.
+The root layout is a Server Component. It defines document metadata and renders the shared header, providers, page content, and footer. It can render a Client Component such as `Providers` without becoming a Client Component itself.
 
 ### `app/page.js`
 
-The home page is a Server Component unless it explicitly declares `"use client"`. Its final rendering strategy must be confirmed by the production build.
+The home page is a Server Component because it does not declare `"use client"`.
 
 ### `app/(pages)/menu/page.jsx`
 
-The menu page is a Server Component. It fetches menu data, maps dish information and image paths, reads the selected category where supported by its route configuration, and renders the filtered menu.
+The menu page is an async Server Component. It fetches menu data on the server, maps dish data and image paths, applies route search parameters, and renders the menu. Its fetch uses a 60-second revalidation setting.
 
-Server rendering keeps data fetching out of the browser when possible.
+### `app/(pages)/menu/layout.jsx`
+
+The menu layout is a Server Component. It adds the menu heading and wraps the nested route content.
 
 ### `app/(components)/(DishList)/DishList.jsx`
 
-The dish list is a Server Component because it renders supplied dish data without requiring React state or browser APIs. `next/image` and `next/link` can be used in Server Components.
-
-### `app/(pages)/menu/[id]/page.js`
-
-The dynamic dish page runs on the server. It reads the route parameter, retrieves the requested dish, and uses `notFound()` when the dish does not exist.
+The dish list is a Server Component because its source does not declare `"use client"`. It renders the dish data supplied by its parent.
 
 ### `app/(components)/FilterShell/FilterShell.jsx`
 
-This component is a Client Component because it hosts interactive filtering. The server-rendered menu content can be passed through `children`, keeping the menu data-fetching logic on the server.
+FilterShell is a Server Component. It wraps its `children` in a section and does not declare `"use client"` or use client-only hooks.
+
+### `app/(pages)/menu/[id]/page.js`
+
+The individual dish page is an async Server Component. It resolves the route parameters and retrieves the requested dish on the server. It can use `notFound()` when a dish does not exist.
+
+### Order pages
+
+- `app/(pages)/orders/(history)/page.jsx` is a Server Component that reads the session and renders order history.
+- `app/orders/[id]/page.js` is a Server Component that reads the session and resolves an individual order.
+- `app/orders/[id]/OrderStatusClient.jsx` is a Client Component for interactive order-status behavior.
 
 ### `app/actions.js`
 
-This file contains Server Actions and declares `"use server"`. It validates order data, creates orders, checks the session and order ownership during cancellation, and revalidates relevant paths.
-
-Server Actions must enforce authorization and validation on the server; hiding a button in the UI is not a security boundary.
+This file declares `"use server"` and exports Server Actions. The actions use server-side helpers for user verification, session management, order operations, and path revalidation. Authorization and input validation must be enforced by the action itself, not just by the user interface.
 
 ### API route handlers
 
-These handlers run on the server:
+These route handlers execute on the server:
 
-- `app/api/dishes/route.js` — returns the dish collection.
-- `app/api/dishes/[id]/route.js` — returns one dish or a `404` response.
-- `app/api/orders/route.js` — validates order submissions and returns a `422` response for invalid input or `201` after creating an order.
+- `app/api/dishes/route.js` — dish collection.
+- `app/api/dishes/[id]/route.js` — individual dish lookup.
+- `app/api/dishes/search/route.js` — dish search.
+- `app/api/menu/route.js` — menu response.
+- `app/api/orders/route.js` — order submission.
+- `app/api/orders/[id]/route.js` — individual order lookup.
+- `app/api/time/route.js` — time endpoint.
+
+Their authentication, validation, status codes, and ownership checks must be verified against their implementation and with production requests.
+
+### Other server-rendered files
+
+- `app/robots.js` generates crawler rules.
+- `app/sitemap.js` generates the sitemap.
+- `app/opengraph-image.jsx` generates the site's Open Graph image.
+- `app/(pages)/menu/[id]/opengraph-image.js` generates an individual dish Open Graph image.
+- `app/not-found.js` defines the not-found UI.
 
 ## Client Components
 
 ### `app/(components)/(Header)/Header.jsx`
 
-The Header is a Client Component because it uses client-side navigation information to identify the active navigation item.
+The header declares `"use client"` and supports client-side navigation behavior.
 
 ### `app/(components)/CategoryBar/CategoryBar.jsx`
 
-The CategoryBar is a Client Component because it reads URL search parameters and provides interactive category navigation.
+The category bar declares `"use client"` for interactive category navigation.
+
+### `app/(components)/SearchBar/SearchBar.jsx`
+
+Verify the current source directive before assigning its boundary. The separate `app/(pages)/menu/SearchBox.jsx` explicitly declares `"use client"`.
 
 ### `app/providers.jsx`
 
-The cart provider is a Client Component because it uses React context and state. It manages cart items, quantities, item removal, clearing the cart, item count, and total price.
+The providers file declares `"use client"` and manages the cart context and related client-side state.
 
 ### `app/(components)/AddToCartButton/AddToCartButton.jsx`
 
-This is a Client Component because it handles button clicks, reads `localStorage`, navigates guests to login, and calls the cart provider to add a dish.
-
-The local-storage login flag is a client-side UI check, not secure server-side authentication.
+This Client Component handles button clicks, reads browser storage, redirects guests to login, and invokes the cart provider. A local-storage login flag is not secure authentication.
 
 ### `app/(components)/CancelOrderButton/CancelOrderButton.jsx`
 
-This is a Client Component because it uses React state, `useTransition`, `window.confirm()`, and client-side navigation refresh. It calls the server action `cancelOrder()` to request cancellation.
+This Client Component handles interactive cancellation UI and calls a Server Action. The Server Action must independently validate the session and order ownership.
 
-### `app/(pages)/(auth)/login/page.jsx`
+### `app/(components)/RequireAuth/RequireAuth.jsx`
 
-The login page is a Client Component because it manages form state, reads browser storage, validates user input, and navigates after login.
+This component declares `"use client"` and handles client-side access behavior. It is not a substitute for server-side authorization.
 
-### `app/(pages)/(auth)/register/page.jsx`
+### Authentication pages
 
-The registration page is a Client Component because it manages form state and client-side navigation.
+- `app/(pages)/(auth)/login/page.jsx` is a Client Component.
+- `app/(pages)/(auth)/register/page.jsx` is a Client Component.
 
-### `app/(pages)/cart/page.jsx`
+Both use client-side form behavior.
 
-The cart page uses client-side cart state. Confirm its directive and imports against the actual file.
+### Cart and checkout
 
-### `app/(pages)/checkout/page.jsx`
+- `app/(pages)/cart/page.jsx` is a Client Component that uses cart state.
+- `app/(pages)/checkout/page.jsx` is a Client Component that manages checkout interactions.
 
-The checkout page is a Client Component because it uses cart state, form interactions, and client-side navigation.
+### Error boundaries
 
-### Error boundary
+- `app/(pages)/error.jsx` is a Client Component for route-level error handling.
+- `app/error.js` is a Client Component for application-level error handling.
 
-`app/(pages)/error.jsx` is a Client Component because Next.js error boundaries require a Client Component.
+Next.js requires error boundary components to be Client Components.
 
 ## Composition Pattern
 
-The menu keeps data fetching and dish rendering on the server while interactive filtering runs on the client.
+The menu route keeps data fetching and dish rendering on the server. `FilterShell` is a server-side wrapper, not a client-side filter boundary. Interactive child components, such as the category bar and search box, declare their own client boundaries.
 
 ```text
 Menu Page (Server)
     |
     v
-FilterShell (Client)
+FilterShell (Server)
     |
-    +-- CategoryBar (Client)
+    +-- SideBar (verify source directive)
     |
-    +-- children
-          |
-          +-- DishList (Server)
+    +-- DishList (Server)
+    |
+    +-- Interactive child components (Client where declared)
 ```
 
-The server-rendered dish list is passed through `children`; the client filter shell does not import the server component directly.
+A Server Component may render Client Components as children. The absence of `"use client"` in `FilterShell.jsx` means the wrapper itself does not create a client boundary.
 
 ## Security Notes
 
 - Validate submitted data on the server.
-- Check authorization inside Server Actions and API handlers.
+- Enforce authentication and authorization inside Server Actions and API handlers.
+- Check order ownership before allowing a user to access or cancel an order.
 - Do not treat `localStorage` flags as proof of authentication.
-- Test invalid requests and unauthorized actions against the production server.
+- Test both valid and invalid requests against the production server.
+- An unauthenticated request returning `401` does not prove that authenticated input validation or authorization works correctly.
 
 ## Verification
 
-Compare this document with the actual source files and the production build. Update any inaccurate component classification or missing route before submission.
+Compare this document with the current source code and the latest successful production build. Update it whenever component directives, route handlers, or authentication behavior change. Do not mark a security or failure check as passed until its result has been observed.

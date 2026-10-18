@@ -10,8 +10,9 @@ const API_URL =
   "https://addis-eats-backend.onrender.com";
 async function getDish(id) {
   try {
+
     const response = await fetch(`${API_URL}/menu/`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {

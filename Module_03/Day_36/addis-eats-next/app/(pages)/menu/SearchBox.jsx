@@ -19,9 +19,16 @@ export default function SearchBox() {
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(initialPage);
 
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const nextQuery = input.trim();
+      const currentQuery = searchParams.get("q") || "";
+
+      // Don't navigate if the search query hasn't changed.
+      if (nextQuery === currentQuery) {
+        return;
+      }
 
       setQuery(nextQuery);
       setPage(1);
@@ -37,6 +44,7 @@ export default function SearchBox() {
       params.delete("page");
 
       const queryString = params.toString();
+
       router.replace(
         queryString ? `/menu?${queryString}` : "/menu",
         { scroll: false }
