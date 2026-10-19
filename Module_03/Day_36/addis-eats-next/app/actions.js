@@ -15,6 +15,7 @@ import {
   deleteSession,
 } from "@/lib/session";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 // Accept only safe, local application paths.
 function getSafeNextPath(value) {
@@ -245,11 +246,7 @@ export async function loginUser(formData) {
 export async function logoutUser() {
   await deleteSession();
   revalidatePath("/", "layout");
-
-  return {
-    success: true,
-    redirectTo: "/login",
-  };
+  redirect("/login");
 }
 
 // PLACE ORDER
@@ -479,6 +476,14 @@ export async function cancelOrder(orderId) {
     return {
       success: false,
       error: "Order not found or you are not allowed to cancel it.",
+    };
+  }
+
+    // Only allow cancellation of pending orders
+  if (order.status !== "PENDING") {
+    return {
+      success: false,
+      error: "Only pending orders can be cancelled.",
     };
   }
 
