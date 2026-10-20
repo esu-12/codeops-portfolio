@@ -513,5 +513,6 @@ export async function checkAuthStatus() {
 
   return {
     authenticated: Boolean(session),
+    role: session?.role ?? null,
   };
 }

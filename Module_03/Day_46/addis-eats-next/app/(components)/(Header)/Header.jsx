@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,12 +8,20 @@ import "./Header.css";
 
 function Header() {
   const pathname = usePathname();
+
   const [authenticated, setAuthenticated] = useState(false);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     checkAuthStatus()
-      .then((result) => setAuthenticated(result.authenticated))
-      .catch(() => setAuthenticated(false));
+      .then((result) => {
+        setAuthenticated(result.authenticated);
+        setRole(result.role);
+      })
+      .catch(() => {
+        setAuthenticated(false);
+        setRole(null);
+      });
   }, [pathname]);
 
   const isMenuActive = pathname === "/menu";
@@ -22,6 +29,8 @@ function Header() {
   const isCheckoutActive = pathname === "/checkout";
   const isOrdersActive =
     pathname === "/orders" || pathname.startsWith("/orders/");
+  const isDashboardActive =
+    pathname === "/dashboard" || pathname.startsWith("/dashboard/");
   const isLoginActive = pathname === "/login";
   const isRegisterActive = pathname === "/register";
 
@@ -60,6 +69,15 @@ function Header() {
           >
             Orders
           </Link>
+
+          {authenticated && role === "staff" && (
+            <Link
+              href="/dashboard"
+              className={`register-link ${isDashboardActive ? "active" : ""}`}
+            >
+              Dashboard
+            </Link>
+          )}
 
           {authenticated ? (
             <form action={logoutUser}>
