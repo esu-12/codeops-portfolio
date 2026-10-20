@@ -1,0 +1,237 @@
+/* =========================
+   Dish List
+========================= */
+
+.dish-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+
+/* =========================
+   Dish Card
+========================= */
+
+.dish-card {
+  overflow: hidden;
+
+  background: white;
+
+  border: 1px solid #eadfd3;
+  border-radius: 16px;
+
+  box-shadow:
+    0 6px 18px rgba(45, 36, 31, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dish-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 12px 28px rgba(45, 36, 31, 0.14);
+}
+
+
+/* =========================
+   Dish Image
+========================= */
+
+.dish-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.dish-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.3s ease;
+}
+
+.dish-card:hover .dish-image {
+  transform: scale(1.05);
+}
+
+
+/* =========================
+   Image Placeholder
+========================= */
+
+.dish-image-placeholder {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 200px;
+
+  background: #eee5db;
+
+  color: #76675e;
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================
+   Card Content
+========================= */
+
+.dish-card-content {
+  padding: 1.25rem;
+}
+
+
+/* =========================
+   Dish Name
+========================= */
+
+.dish-card h3 {
+  margin: 0;
+
+  color: #7b1e1e;
+
+  font-size: 1.2rem;
+
+  line-height: 1.3;
+}
+
+
+.dish-name-am {
+  margin: 0.35rem 0 0;
+
+  color: #76675e;
+
+  font-size: 0.95rem;
+}
+
+
+/* =========================
+   Description
+========================= */
+
+.dish-description {
+  margin: 0.8rem 0;
+
+  color: #5d5049;
+
+  font-size: 0.9rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================
+   Dish Information
+========================= */
+
+.dish-info {
+  margin-top: 1rem;
+
+  padding-top: 0.8rem;
+
+  border-top: 1px solid #eee3d8;
+}
+
+
+.dish-info p {
+  margin: 0.35rem 0;
+
+  color: #5d5049;
+
+  font-size: 0.85rem;
+}
+
+
+/* =========================
+   Price
+========================= */
+
+.dish-info .dish-price {
+  margin: 0.7rem 0;
+
+  color: #7b1e1e;
+
+  font-size: 1.2rem;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   View Dish Link
+========================= */
+
+.view-dish {
+  display: inline-block;
+
+  margin-top: 1rem;
+
+  padding: 0.65rem 1rem;
+
+  background: #7b1e1e;
+
+  color: white;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 0.9rem;
+
+  font-weight: bold;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.view-dish:hover {
+  background: #5c1616;
+
+  transform: translateX(3px);
+}
+
+
+/* =========================
+   Tablet
+========================= */
+
+@media (max-width: 1000px) {
+
+  .dish-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 600px) {
+
+  .dish-list {
+    grid-template-columns: 1fr;
+  }
+
+  .dish-image-wrapper {
+    height: 220px;
+  }
+
+}
