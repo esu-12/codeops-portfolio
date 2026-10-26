@@ -2,7 +2,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import RequireAuth from "../../(components)/RequireAuth/RequireAuth";
@@ -41,6 +41,9 @@ function CheckoutPage() {
   const [orderError, setOrderError] = useState("");
   const [orderId, setOrderId] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitLock = useRef(false);
+
 const [form, setForm] = useState({
   name: "",
   phone: "",
@@ -64,6 +67,12 @@ function handleChange(event) {
   /*    Submit Order */
   async function onSubmit(event) {
     event.preventDefault();
+
+    // Ignore rapid repeat submissions.
+    if (submitLock.current) return;
+
+    submitLock.current = true;
+    setIsSubmitting(true);
     setOrderError("");
 
     const formData = new FormData();
@@ -118,6 +127,9 @@ function handleChange(event) {
       setOrderError(
         "We could not submit your order. Please try again."
       );
+    } finally {
+      submitLock.current = false;
+      setIsSubmitting(false);
     }
   }
 
@@ -882,8 +894,11 @@ function handleChange(event) {
           <button
             type="submit"
             className="confirm-order"
+            disabled = {isSubmitting || submitted}
           >
-            {`◉ Confirm Order & Pay ETB ${grandTotal.toLocaleString()}`}
+            {isSubmitting
+              ? "Placing your order ..."
+              : `◉ Confirm Order & Pay ETB ${grandTotal.toLocaleString()}`}
           </button>
 
           {/* Return Cart */}
