@@ -3,7 +3,7 @@ import FilterShell from "../../(components)/FilterShell/FilterShell";
 import SideBar from "../../(components)/SideBar/SideBar";
 import "./menu.css";
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Ethiopian Food Menu",

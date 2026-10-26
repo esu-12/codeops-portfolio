@@ -1,9 +1,11 @@
-// app/(pages)/order/(history)/page.jsx
+// app/(pages)/orders/(history)/page.jsx
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { getOrdersForUser } from "@/lib/db";
 import CancelOrderButton from "@/app/(components)/CancelOrderButton/CancelOrderButton";
+import ExportOrdersButton from "@/app/(components)/ExportOrdersButton/ExportOrdersButton";
+import { etb, when } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +22,8 @@ export default async function OrderPage() {
     <main>
       <h1>Order History</h1>
 
+      <ExportOrdersButton orders={orders} />
+
       {orders.length === 0 ? (
         <p>No orders have been placed yet.</p>
       ) : (
@@ -27,8 +31,15 @@ export default async function OrderPage() {
           {orders.map((order) => (
             <li key={order.id}>
               <h2>Order {order.id}</h2>
-              <p>Name: {order.name}</p>
-              
+
+              <p>
+                <strong>Name:</strong> {order.name}
+              </p>
+
+              <p>
+                <strong>Placed:</strong> {when(order.createdAt)}
+              </p>
+
               {order.items?.length ? (
                 <div>
                   <h3>Dishes</h3>
@@ -36,8 +47,8 @@ export default async function OrderPage() {
                   <ul>
                     {order.items.map((item, index) => (
                       <li key={`${item.id}-${index}`}>
-                        {item.name} — {item.quantity} × ETB{" "}
-                        {Number(item.price).toLocaleString()}
+                        {item.name} — {item.quantity} ×{" "}
+                        {etb(item.price)}
                       </li>
                     ))}
                   </ul>
@@ -51,15 +62,23 @@ export default async function OrderPage() {
 
               {order.grandTotal !== undefined && (
                 <p>
-                  Total: <strong>ETB {Number(order.grandTotal).toLocaleString()}</strong>
+                  Total: <strong>{etb(order.grandTotal)}</strong>
                 </p>
               )}
 
-              <p>Status: {order.status}</p>
+              <p>
+                <strong>Status:</strong> {order.status}
+              </p>
 
               {order.status === "PENDING" && (
                 <CancelOrderButton orderId={order.id} />
               )}
+
+              <p>
+                <Link href={`/orders/${encodeURIComponent(order.id)}`}>
+                  Track this order
+                </Link>
+              </p>
             </li>
           ))}
         </ul>
