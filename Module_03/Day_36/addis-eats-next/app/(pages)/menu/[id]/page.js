@@ -12,7 +12,7 @@ async function getDish(id) {
   try {
 
     const response = await fetch(`${API_URL}/menu/`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 3600 },
     });
 
     if (!response.ok) {
@@ -20,7 +20,6 @@ async function getDish(id) {
     }
 
     const result = await response.json();
-
     const dishes = Array.isArray(result)
       ? result
       : Array.isArray(result.data)
@@ -64,8 +63,6 @@ export async function generateMetadata({ params }) {
   const dishUrl = `${SITE_URL}/menu/${encodeURIComponent(String(dish.id))}`;
 
   // Uses the dynamic Open Graph image for this specific dish.
-
-
   return {
     title: `${dish.nameEn} | Addis Eats`,
     description,

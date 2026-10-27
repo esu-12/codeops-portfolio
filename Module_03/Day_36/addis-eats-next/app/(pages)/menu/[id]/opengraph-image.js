@@ -1,5 +1,4 @@
 // app/(pages)/menu/[id]/opengraph-image.js
-
 import { ImageResponse } from "next/og";
 
 export const alt = "A featured dish from Addis Eats";
