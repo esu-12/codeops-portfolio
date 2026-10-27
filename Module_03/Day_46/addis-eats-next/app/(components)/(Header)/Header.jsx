@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { checkAuthStatus, logoutUser } from "@/app/actions";
+import { useCart } from "../../providers";
 import "./Header.css";
 
 function Header() {
   const pathname = usePathname();
-
+  const { totalItems, totalPrice } = useCart();
   const [authenticated, setAuthenticated] = useState(false);
   const [role, setRole] = useState(null);
 
@@ -38,6 +39,11 @@ function Header() {
     <header className="site-header">
       <div className="site-header__inner">
         <Link href="/" className="brand">
+          <img
+            src="/ethiopian-flag.svg"
+            alt="Ethiopian flag"
+            className="brand-flag"
+          />
           <span>Addis Eats</span>
         </Link>
 
@@ -52,8 +58,21 @@ function Header() {
           <Link
             href="/cart"
             className={`register-link ${isCartActive ? "active" : ""}`}
+            aria-label={`Cart, ${totalItems} items, ETB ${totalPrice.toLocaleString()}`}
           >
-            Cart
+            <span className="cart-pill__icon" aria-hidden="true">
+              🛒
+            </span>
+
+            <span className="cart-pill__details">
+              <span className="cart-pill__count">
+                Cart ({totalItems})
+              </span>
+
+              <span className="cart-pill__price">
+                ETB {totalPrice.toLocaleString()}
+              </span>
+            </span>
           </Link>
 
           <Link
