@@ -1,4 +1,8 @@
-import { useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +13,7 @@ import {
   useCartTotalItems,
   useCartTotalPrice,
 } from "../../store/cartStore";
+import { useAuthStore } from "../../store/authStore";
 
 import { checkoutSchema } from "../../utils/schemas";
 
@@ -18,6 +23,11 @@ const DELIVERY_FEE = 158;
 
 function Checkout() {
   const navigate = useNavigate();
+
+// Get the logged-in user
+  const user = useAuthStore(
+  (state) => state.user
+);
 
   /* =========================
      Zustand Cart
@@ -54,6 +64,7 @@ function Checkout() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(checkoutSchema),
@@ -68,6 +79,31 @@ function Checkout() {
       paymentMethod: "telebirr",
     },
   });
+
+// Automatically fill the checkout
+useEffect(() => {
+  if (!user) {
+    return;
+  }
+
+  reset((currentValues) => ({
+    ...currentValues,
+
+    name:
+      user.name ||
+      user.fullName ||
+      "",
+
+    phone:
+      user.phone ||
+      "",
+
+    email:
+      user.email ||
+      "",
+  }));
+}, [user, reset]);
+
 
   /* =========================
      Order Total
@@ -303,7 +339,7 @@ function Checkout() {
 
                 <input
                   type="tel"
-                  placeholder="09XXXXXXXX"
+                  placeholder="7/9XXXXXXXX"
                   {...register("phone")}
                 />
 
@@ -561,7 +597,7 @@ function Checkout() {
                   <div className="verify-row">
                     <input
                       type="tel"
-                      placeholder="09XXXXXXXX"
+                      placeholder="9XXXXXXXX"
                       aria-label="Telebirr verification phone"
                     />
 
@@ -907,7 +943,7 @@ function Checkout() {
 
               <small>
                 Direct kitchen desk:
-                +251 911 234 567
+                +251 904 204 944
               </small>
             </div>
 

@@ -843,3 +843,30 @@
   }
 
 }
+
+
+
+.checkout-phone-input {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.checkout-phone-input span {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #f5e9dc;
+  border: 1px solid #d8c1ae;
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  color: #5c3525;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.checkout-phone-input input {
+  flex: 1;
+  min-width: 0;
+  border-radius: 0 8px 8px 0;
+}

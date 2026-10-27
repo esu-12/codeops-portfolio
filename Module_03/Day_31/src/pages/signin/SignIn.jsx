@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Link,
   useLocation,
@@ -21,26 +21,70 @@ function SignIn() {
     (state) => state.signIn
   );
 
+  const registeredUser = useAuthStore(
+    (state) => state.registeredUser
+  );
+
   const [authError, setAuthError] = useState("");
-  const [noAccount, setNoAccount] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(signInSchema),
 
     defaultValues: {
+      name: "",
       email: "",
       phone: "",
       password: "",
     },
   });
 
+  /*
+   * ========================================================
+   * AUTO-FILL REGISTERED USER
+   * ========================================================
+   *
+   * After registration, the user's information is already
+   * stored in Zustand. When Sign In opens, automatically
+   * populate the form with that information.
+   */
+  useEffect(() => {
+    if (!registeredUser) {
+      return;
+    }
+
+    reset({
+      name:
+        registeredUser.name ||
+        registeredUser.fullName ||
+        "",
+
+      email:
+        registeredUser.email ||
+        "",
+
+      phone:
+        registeredUser.phone ||
+        "",
+
+      password:
+        registeredUser.password ||
+        "",
+    });
+  }, [registeredUser, reset]);
+
+  /*
+   * ========================================================
+   * SIGN IN
+   * ========================================================
+   */
+
   const onSubmit = (data) => {
     setAuthError("");
-    setNoAccount(false);
 
     const result = signIn({
       email: data.email.trim(),
@@ -48,25 +92,32 @@ function SignIn() {
       password: data.password,
     });
 
+    /*
+     * No account found
+     */
     if (!result?.success) {
-      if (
-        result?.message ===
-        "No account found. Please register first."
-      ) {
-        setNoAccount(true);
-        setAuthError(
-          "You don't have an account yet. Please register first."
-        );
-      } else {
-        setAuthError(
-          result?.message ||
-            "Invalid email, phone number, or password."
-        );
+      if (result.reason === "NO_ACCOUNT") {
+        navigate("/register", {
+          replace: true,
+        });
+
+        return;
       }
+
+      /*
+       * Account exists but password is incorrect
+       */
+      setAuthError(
+        result.message ||
+          "Your password is incorrect. Please try again."
+      );
 
       return;
     }
 
+    /*
+     * Login successful
+     */
     const returnTo =
       location.state?.from || "/";
 
@@ -83,10 +134,14 @@ function SignIn() {
       ====================================================== */}
 
       <div className="signin-breadcrumb">
-        <span>HOME</span>
+        <Link to="/">HOME</Link>
+
         <span>/</span>
-        <span>ACCOUNT</span>
+
+        <Link to="/cart">ACCOUNT</Link>
+
         <span>/</span>
+
         <strong>SIGN IN</strong>
       </div>
 
@@ -120,12 +175,14 @@ function SignIn() {
           </p>
 
           <div className="signin-feature-image">
+
             <img
               src="/images/doro-wat.jpg"
               alt="Traditional Ethiopian food"
             />
 
             <div className="signin-image-overlay">
+
               <strong>
                 Sunday Jebena Buna Circle
               </strong>
@@ -133,17 +190,21 @@ function SignIn() {
               <span>
                 Exclusive to dining guests
               </span>
+
             </div>
+
           </div>
 
           <div className="signin-perks">
 
             <article>
+
               <span className="signin-perk-icon">
                 ◉
               </span>
 
               <div>
+
                 <strong>
                   10 Gursha Points / ETB 100
                 </strong>
@@ -152,15 +213,19 @@ function SignIn() {
                   Redeem against house-brewed
                   specialties and communal platters.
                 </p>
+
               </div>
+
             </article>
 
             <article>
+
               <span className="signin-perk-icon">
                 ♨
               </span>
 
               <div>
+
                 <strong>
                   Free Bole &amp; Kazanchis Delivery
                 </strong>
@@ -169,15 +234,19 @@ function SignIn() {
                   Priority courier dispatch with
                   heat-insulated clay-stone trays.
                 </p>
+
               </div>
+
             </article>
 
             <article>
+
               <span className="signin-perk-icon">
                 ▣
               </span>
 
               <div>
+
                 <strong>
                   Instant Telebirr &amp; CBE Birr
                 </strong>
@@ -186,13 +255,18 @@ function SignIn() {
                   Zero-fee instant table settlement
                   and 1-tap reordering.
                 </p>
+
               </div>
+
             </article>
 
           </div>
 
           <div className="signin-quote">
-            <span>❝</span>
+
+            <span>
+              ❝
+            </span>
 
             <p>
               The table ordering is as seamless as
@@ -202,6 +276,7 @@ function SignIn() {
             <small>
               — ER. SELAMAWIT H. — BOLÉ MEMBER
             </small>
+
           </div>
 
         </aside>
@@ -213,7 +288,10 @@ function SignIn() {
         <div className="signin-card">
 
           <div className="signin-card-heading">
-            <span>MEMBER PORTAL</span>
+
+            <span>
+              MEMBER PORTAL
+            </span>
 
             <h2>
               Welcome to the Mesob Table
@@ -224,53 +302,73 @@ function SignIn() {
               Telebirr rewards, and reserved dining
               mesas.
             </p>
+
           </div>
 
-          {/* QUICK LOGIN */}
+          {/* =================================================
+              QUICK LOGIN
+          ================================================== */}
 
           <div className="signin-quick-actions">
 
             <button type="button">
+
               <span className="quick-icon">
                 ▣
               </span>
 
               <span>
+
                 <strong>
                   Telebirr SuperApp
+
                   <small>
                     Scan or Tap to Login
                   </small>
                 </strong>
+
               </span>
+
             </button>
 
             <button type="button">
+
               <span className="quick-icon">
                 G
               </span>
 
               <span>
+
                 <strong>
                   Google Sign-In
+
                   <small>
                     Continue with Google
                   </small>
                 </strong>
+
               </span>
+
             </button>
 
           </div>
 
-          {/* DIVIDER */}
+          {/* =================================================
+              DIVIDER
+          ================================================== */}
 
           <div className="signin-divider">
-            <span>OR WITH PHONE / EMAIL</span>
+            <span>
+              OR WITH PHONE / EMAIL
+            </span>
           </div>
 
-          {/* LOGIN METHOD */}
+          {/* =================================================
+              LOGIN METHOD
+          ================================================== */}
 
           <div className="signin-methods">
+
             <button
               type="button"
               className="active"
@@ -281,9 +379,12 @@ function SignIn() {
             <button type="button">
               Email Address
             </button>
+
           </div>
 
-          {/* FORM */}
+          {/* =================================================
+              FORM
+          ================================================== */}
 
           <form
             className="signin-form"
@@ -291,7 +392,28 @@ function SignIn() {
             noValidate
           >
 
-            {/* PHONE */}
+            {/* =================================================
+                FULL NAME
+            ================================================== */}
+
+            <div className="signin-form-group">
+
+              <label htmlFor="name">
+                Full Name
+              </label>
+
+              <input
+                id="name"
+                type="text"
+                placeholder="Your full name"
+                {...register("name")}
+              />
+
+            </div>
+
+            {/* =================================================
+                PHONE
+            ================================================== */}
 
             <div className="signin-form-group">
 
@@ -305,12 +427,14 @@ function SignIn() {
 
               <div className="signin-phone-input">
 
-                <span>🇪🇹 +251</span>
+                <span>
+                  🇪🇹 +251
+                </span>
 
                 <input
                   id="phone"
                   type="tel"
-                  placeholder="0911 234 567"
+                  placeholder="7/911 234 567"
                   {...register("phone")}
                 />
 
@@ -324,7 +448,9 @@ function SignIn() {
 
             </div>
 
-            {/* EMAIL */}
+            {/* =================================================
+                EMAIL
+            ================================================== */}
 
             <div className="signin-form-group">
 
@@ -347,7 +473,9 @@ function SignIn() {
 
             </div>
 
-            {/* PASSWORD */}
+            {/* =================================================
+                PASSWORD
+            ================================================== */}
 
             <div className="signin-form-group">
 
@@ -368,7 +496,9 @@ function SignIn() {
 
               <div className="signin-password-input">
 
-                <span>♙</span>
+                <span>
+                  ♙
+                </span>
 
                 <input
                   id="password"
@@ -377,7 +507,9 @@ function SignIn() {
                   {...register("password")}
                 />
 
-                <span>◉</span>
+                <span>
+                  ◉
+                </span>
 
               </div>
 
@@ -389,37 +521,29 @@ function SignIn() {
 
             </div>
 
-            {/* AUTH ERROR */}
+            {/* =================================================
+                AUTH ERROR
+            ================================================== */}
 
             {authError && (
               <div
-                className={`signin-auth-message ${
-                  noAccount
-                    ? "no-account-message"
-                    : ""
-                }`}
+                className="signin-auth-message"
                 role="alert"
               >
                 <p className="signin-form-error">
                   {authError}
                 </p>
-
-                {noAccount && (
-                  <Link
-                    to="/register"
-                    className="signin-register-now"
-                  >
-                    Create Your Account →
-                  </Link>
-                )}
               </div>
             )}
 
-            {/* OPTIONS */}
+            {/* =================================================
+                OPTIONS
+            ================================================== */}
 
             <div className="signin-options">
 
               <label>
+
                 <input
                   type="checkbox"
                 />
@@ -427,9 +551,11 @@ function SignIn() {
                 <span>
                   Keep me signed in on this device
                 </span>
+
               </label>
 
               <label>
+
                 <input
                   type="checkbox"
                 />
@@ -437,11 +563,14 @@ function SignIn() {
                 <span>
                   Remember Addis address
                 </span>
+
               </label>
 
             </div>
 
-            {/* SUBMIT */}
+            {/* =================================================
+                SUBMIT
+            ================================================== */}
 
             <button
               type="submit"
@@ -455,11 +584,14 @@ function SignIn() {
 
           </form>
 
-          {/* REGISTER */}
+          {/* =================================================
+              REGISTER / GUEST
+          ================================================== */}
 
           <div className="signin-register">
 
             <div>
+
               <span>
                 New to our dining family?
               </span>
@@ -467,6 +599,7 @@ function SignIn() {
               <Link to="/register">
                 Join the Mesob Table &amp; Register →
               </Link>
+
             </div>
 
             <button type="button">
@@ -476,6 +609,7 @@ function SignIn() {
           </div>
 
         </div>
+
       </div>
 
       {/* =====================================================
@@ -485,6 +619,7 @@ function SignIn() {
       <div className="signin-bottom-features">
 
         <div>
+
           <strong>
             ♢ ENCRYPTED SECURITY
           </strong>
@@ -492,9 +627,11 @@ function SignIn() {
           <span>
             Telebirr PIN &amp; CBE verified
           </span>
+
         </div>
 
         <div>
+
           <strong>
             ♧ FASTING FEASTS
           </strong>
@@ -502,9 +639,11 @@ function SignIn() {
           <span>
             Tsom Tuesdays &amp; Wednesdays
           </span>
+
         </div>
 
         <div>
+
           <strong>
             ◉ FRESH INJERA STEAM
           </strong>
@@ -512,16 +651,19 @@ function SignIn() {
           <span>
             Baked three times each day
           </span>
+
         </div>
 
         <div>
+
           <strong>
-            ☎ BOLE CONCIERGE
+            ☎ MEGENAGNA CONCIERGE
           </strong>
 
           <span>
-            +251 911 234 567
+            +251 904 204 944
           </span>
+
         </div>
 
       </div>

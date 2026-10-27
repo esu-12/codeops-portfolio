@@ -3,17 +3,25 @@ function CategoryBar({ category, onSelect }) {
     "All",
     "Traditional Stews & Wat",
     "Tibs & Grills",
-    "Raw & Cured Delicacies / Kitfo",
     "Fasting & Vegan / Tsom",
+    "Raw & Cured Delicacies / Kitfo",
     "Beverages & Tej",
   ];
 
   return (
-    <nav>
+    <nav
+      className="category-bar"
+      aria-label="Menu categories"
+    >
       {categories.map((categoryName) => (
         <button
           key={categoryName}
-          className={category === categoryName ? "selected" : ""}
+          type="button"
+          className={
+            category === categoryName
+              ? "selected"
+              : ""
+          }
           onClick={() => onSelect(categoryName)}
         >
           {categoryName}

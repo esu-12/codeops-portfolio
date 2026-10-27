@@ -1,5 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+
+import {
+  useForm,
+  useWatch,
+} from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { registerSchema } from "../../utils/schemas";
@@ -17,6 +22,7 @@ function Register() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -27,8 +33,23 @@ function Register() {
       email: "",
       password: "",
       confirmPassword: "",
+      terms: false,
     },
   });
+
+  /* =========================================================
+     Watch Password
+  ========================================================= */
+
+  const password = useWatch({
+    control,
+    name: "password",
+    defaultValue: "",
+  });
+
+  /* =========================================================
+     Submit Registration
+  ========================================================= */
 
   const onSubmit = async (data) => {
     registerUser({
@@ -47,11 +68,13 @@ function Register() {
   return (
     <section className="register-page">
       <div className="register-breadcrumb">
-        <span>Account</span> /{" "}
+        <Link to="/cart">Account</Link>
+        <span>/</span>
         <strong>Join the Mesob Family</strong>
       </div>
 
       <div className="register-layout">
+
         {/* =========================
             Welcome Section
         ========================= */}
@@ -74,6 +97,7 @@ function Register() {
           </p>
 
           <div className="welcome-benefits">
+
             <article>
               <span className="benefit-icon">♜</span>
 
@@ -154,6 +178,7 @@ function Register() {
                 </p>
               </div>
             </article>
+
           </div>
 
           <div className="register-story">
@@ -172,7 +197,9 @@ function Register() {
                 ancient essence of long communion.”
               </p>
 
-              <small>— Habesha Proverb</small>
+              <small>
+                — Habesha Proverb
+              </small>
             </div>
           </div>
         </aside>
@@ -182,6 +209,7 @@ function Register() {
         ========================= */}
 
         <div className="register-card">
+
           <div className="register-card__heading">
             <h2>
               Create Your Mesob House Account
@@ -218,6 +246,7 @@ function Register() {
             onSubmit={handleSubmit(onSubmit)}
             noValidate
           >
+
             {/* Full Name */}
 
             <label>
@@ -246,7 +275,7 @@ function Register() {
 
                 <input
                   type="tel"
-                  placeholder="911234567"
+                  placeholder="7/911234567"
                   {...register("phone")}
                 />
               </span>
@@ -284,6 +313,7 @@ function Register() {
             {/* Password */}
 
             <div className="password-grid">
+
               <label>
                 Password
 
@@ -300,6 +330,8 @@ function Register() {
                 )}
               </label>
 
+              {/* Confirm Password */}
+
               <label>
                 Confirm Password
 
@@ -315,6 +347,80 @@ function Register() {
                   </small>
                 )}
               </label>
+
+            </div>
+
+            {/* =========================
+                Live Password Requirements
+            ========================= */}
+
+            <div className="password-requirements">
+
+              <p
+                className={
+                  password.length >= 8
+                    ? "valid"
+                    : "invalid"
+                }
+              >
+                {password.length >= 8
+                  ? "✅"
+                  : "❌"}{" "}
+                At least 8 characters
+              </p>
+
+              <p
+                className={
+                  /[A-Z]/.test(password)
+                    ? "valid"
+                    : "invalid"
+                }
+              >
+                {/[A-Z]/.test(password)
+                  ? "✅"
+                  : "❌"}{" "}
+                One uppercase letter (A-Z)
+              </p>
+
+              <p
+                className={
+                  /[a-z]/.test(password)
+                    ? "valid"
+                    : "invalid"
+                }
+              >
+                {/[a-z]/.test(password)
+                  ? "✅"
+                  : "❌"}{" "}
+                One lowercase letter (a-z)
+              </p>
+
+              <p
+                className={
+                  /[0-9]/.test(password)
+                    ? "valid"
+                    : "invalid"
+                }
+              >
+                {/[0-9]/.test(password)
+                  ? "✅"
+                  : "❌"}{" "}
+                One number (0-9)
+              </p>
+
+              <p
+                className={
+                  /[^A-Za-z0-9]/.test(password)
+                    ? "valid"
+                    : "invalid"
+                }
+              >
+                {/[^A-Za-z0-9]/.test(password)
+                  ? "✅"
+                  : "❌"}{" "}
+                One symbol
+              </p>
+
             </div>
 
             {/* Dining Preference */}
@@ -330,6 +436,7 @@ function Register() {
               </p>
 
               <div className="preference-pills">
+
                 <button
                   type="button"
                   className="selected"
@@ -348,6 +455,7 @@ function Register() {
                 <button type="button">
                   100% Pure Teff (Gluten-Free)
                 </button>
+
               </div>
             </div>
 
@@ -392,6 +500,7 @@ function Register() {
                 ? "Creating Account..."
                 : "Create Account & Receive Welcome Gursha　➜"}
             </button>
+
           </form>
 
           <p className="register-signin">
@@ -400,6 +509,7 @@ function Register() {
               Sign in here
             </Link>
           </p>
+
         </div>
       </div>
     </section>

@@ -1,0 +1,93 @@
+/* =========================================================
+   CATEGORY BAR
+========================================================= */
+
+.category-bar {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin: 0 0 18px;
+
+  overflow-x: auto;
+
+  padding-bottom: 3px;
+
+  scrollbar-width: none;
+}
+
+.category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =========================================================
+   CATEGORY BUTTON
+========================================================= */
+
+.category-bar button {
+  flex-shrink: 0;
+
+  padding: 6px 10px;
+
+  border: 1px solid #e5d2c8;
+  border-radius: 999px;
+
+  background: #fffaf7;
+
+  color: #765448;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.category-bar button:hover {
+  border-color: #a93621;
+
+  color: #a93621;
+}
+
+
+/* =========================================================
+   SELECTED CATEGORY
+========================================================= */
+
+.category-bar button.selected {
+  border-color: #a93621;
+
+  background: #a93621;
+
+  color: #fff;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+  .category-bar {
+    margin-bottom: 14px;
+  }
+
+  .category-bar button {
+    padding: 6px 9px;
+
+    font-size: 9px;
+  }
+}

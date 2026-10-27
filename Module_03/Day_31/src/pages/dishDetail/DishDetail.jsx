@@ -102,7 +102,15 @@ function DishDetail() {
 
         const result = await response.json();
 
-        const foundDish = result?.data?.find(
+        const dishes = Array.isArray(result)
+          ? result
+          : Array.isArray(result?.data)
+          ? result.data
+          : Array.isArray(result?.data?.data)
+          ? result.data.data
+          : [];
+
+        const foundDish = dishes.find(
           (item) => String(item.id) === String(id)
         );
 
@@ -112,17 +120,23 @@ function DishDetail() {
 
         setDish(foundDish);
       } catch (err) {
-        if (err.name !== "AbortError") {
-          setError(err.message);
+        if (err.name === "AbortError") {
+          return;
         }
+
+        setError(err.message);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchDish();
 
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+    };
   }, [id]);
 
   const image = useMemo(

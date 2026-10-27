@@ -28,14 +28,14 @@ function Footer() {
 
         <section>
           <h4>ADDIS LOCATION</h4>
-          <p>Bole Medhanialem, Addis Ababa &amp; Express delivery across town.</p>
-          <a href="tel:+251911234567">+251 911 234 567</a>
+          <p>Megenegna, Addis Ababa &amp; Express delivery across town.</p>
+          <a href="tel:+251911234567">+251 904 204 944</a>
           <div className="footer-icons" aria-hidden="true">◫　♜　▣</div>
         </section>
       </div>
 
       <div className="site-footer__bottom">
-        <span>© 2025 Mesob House Habesha Dining. Authentic Ethiopian &amp; Eritrean Heritage.</span>
+        <span>© 2026 Mesob House Habesha Dining. Authentic Ethiopian &amp; Eritrean Heritage.</span>
         <span>Gursha Hospitality　 Privacy Policy　 Terms of Table</span>
       </div>
     </footer>

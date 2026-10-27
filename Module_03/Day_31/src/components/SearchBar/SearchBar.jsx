@@ -1,8 +1,10 @@
+import "./SearchBar.css";
+
 function SearchBar({ value, onChange }) {
   return (
     <div className="search-row">
       <label className="search-box">
-        <span aria-hidden="true">⌕</span>
+        <span className="search-icon" aria-hidden="true">🔍</span>
         <input
           type="search"
           placeholder="Search dishes by name (e.g. Kitfo, Shiro, Tibs, Doro Wat)..."

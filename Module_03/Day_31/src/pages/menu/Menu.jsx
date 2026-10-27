@@ -1,11 +1,14 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+
+import {
+  Link,
+  useSearchParams,
+} from "react-router-dom";
 
 import {
   useCartTotalItems,
   useCartTotalPrice,
 } from "../../store/cartStore";
-import { useSearchParams } from "react-router-dom";
 
 import CategoryBar from "../../components/CategoryBar/CategoryBar.jsx";
 import DishList from "../../components/DishList/DishList.jsx";
@@ -17,13 +20,37 @@ import { API_URL } from "../../api.js";
 import "./Menu.css";
 
 function Menu() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState("");
+  /* =====================================================
+     URL CATEGORY
+  ===================================================== */
+
+  const [searchParams, setSearchParams] =
+    useSearchParams();
+
+  /* =====================================================
+     SEARCH
+  ===================================================== */
+
+  const [searchTerm, setSearchTerm] =
+    useState("");
+
+  /* =====================================================
+     CART
+  ===================================================== */
 
   const totalItems = useCartTotalItems();
   const totalPrice = useCartTotalPrice();
 
-  const category = searchParams.get("category") || "All";
+  /* =====================================================
+     CURRENT CATEGORY
+  ===================================================== */
+
+  const category =
+    searchParams.get("category") || "All";
+
+  /* =====================================================
+     LOAD MENU
+  ===================================================== */
 
   const {
     data: result,
@@ -33,21 +60,40 @@ function Menu() {
 
   const dishes = result?.data || [];
 
+  /* =====================================================
+     FILTER DISHES
+  ===================================================== */
+
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => {
+
       const matchesCategory =
         category === "All" ||
         dish.category === category;
 
-      const matchesSearch = String(dish.nameEn || "")
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      const matchesSearch =
+        String(dish.nameEn || "")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
-      return matchesCategory && matchesSearch;
+      return (
+        matchesCategory &&
+        matchesSearch
+      );
     });
-  }, [dishes, category, searchTerm]);
+  }, [
+    dishes,
+    category,
+    searchTerm,
+  ]);
 
-  function handleCategoryChange(newCategory) {
+  /* =====================================================
+     CATEGORY CHANGE
+  ===================================================== */
+
+  function handleCategoryChange(
+    newCategory
+  ) {
     if (newCategory === "All") {
       setSearchParams({});
     } else {
@@ -57,35 +103,55 @@ function Menu() {
     }
   }
 
+  /* =====================================================
+     LOADING
+  ===================================================== */
+
   if (loading) {
     return (
-      <section className="menu-page">
+      <main className="menu-page">
         <div className="menu-loading">
           Loading menu...
         </div>
-      </section>
+      </main>
     );
   }
 
+  /* =====================================================
+     ERROR
+  ===================================================== */
+
   if (error) {
     return (
-      <section className="menu-page">
+      <main className="menu-page">
         <div className="menu-empty">
-          <h2>Unable to load the menu</h2>
-          <p>Error: {error}</p>
+
+          <h2>
+            Unable to load the menu
+          </h2>
+
+          <p>
+            Error: {error}
+          </p>
+
         </div>
-      </section>
+      </main>
     );
   }
+
+  /* =====================================================
+     PAGE
+  ===================================================== */
 
   return (
     <main className="menu-page">
 
-      {/* =====================================================
-          MENU INTRO
-      ===================================================== */}
+      {/* =================================================
+          INTRO
+      ================================================= */}
 
       <section className="menu-intro">
+
         <p className="menu-eyebrow">
           HANDCRAFTED ETHIOPIAN FLAVORS
         </p>
@@ -95,14 +161,20 @@ function Menu() {
         </h1>
 
         <p className="menu-description">
-          Explore traditional Ethiopian dishes prepared
-          with authentic spices, fresh ingredients, and
-          100% pure teff injera.
+          Explore traditional Ethiopian dishes
+          prepared with authentic spices, fresh
+          ingredients, and 100% pure teff injera.
         </p>
 
-        {/* Search */}
+
+        {/* SEARCH */}
+
         <div className="menu-search-box">
-          <span className="menu-search-icon">
+
+          <span
+            className="menu-search-icon"
+            aria-hidden="true"
+          >
             🔍
           </span>
 
@@ -112,14 +184,20 @@ function Menu() {
             placeholder="Search dishes by name..."
             value={searchTerm}
             onChange={(event) =>
-              setSearchTerm(event.target.value)
+              setSearchTerm(
+                event.target.value
+              )
             }
             aria-label="Search dishes"
           />
+
         </div>
 
-        {/* Menu feature badges */}
+
+        {/* FEATURE BADGES */}
+
         <div className="menu-badges">
+
           <span>
             100% Pure Teff Injera
           </span>
@@ -131,41 +209,65 @@ function Menu() {
           <span>
             Berbere Spiced
           </span>
+
         </div>
+
       </section>
 
-      {/* =====================================================
-          CATEGORY FILTER
-      ===================================================== */}
+
+      {/* =================================================
+          CATEGORY BAR
+      ================================================= */}
 
       <CategoryBar
         category={category}
         onSelect={handleCategoryChange}
       />
 
-      {/* =====================================================
-          DISHES
-      ===================================================== */}
 
-      {filteredDishes.length === 0 ? (
-        <div className="menu-empty">
-          <h2>No dishes found</h2>
+      {/* =================================================
+          DISHES / FEATURED FOODS
+      ================================================= */}
 
-          <p>
-            Try another search or choose a different
-            category.
-          </p>
-        </div>
-      ) : (
-        <DishList dishes={filteredDishes} />
-      )}
+      <section
+        id="featured"
+        className="menu-dishes-section"
+      >
 
-      {/* =====================================================
+        {filteredDishes.length === 0 ? (
+
+          <div className="menu-empty">
+
+            <h2>
+              No dishes found
+            </h2>
+
+            <p>
+              Try another search or choose
+              a different category.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <DishList
+            dishes={filteredDishes}
+          />
+
+        )}
+
+      </section>
+
+
+      {/* =================================================
           COMMUNITY MESSAGE
-      ===================================================== */}
+      ================================================= */}
 
       <section className="menu-community">
+
         <div>
+
           <strong>
             Experience Communal Dining Around the Mesob
           </strong>
@@ -175,48 +277,71 @@ function Menu() {
             Ethiopian hospitality and fresh house-made
             injera.
           </p>
+
         </div>
 
         <button type="button">
           Reserve a Group Mesob Table
         </button>
+
       </section>
 
+
+      {/* =================================================
+          CART BAR
+      ================================================= */}
+
       {totalItems > 0 && (
-  <div className="menu-cart-bar">
-    <div className="menu-cart-bar__left">
 
-      <div className="menu-cart-bar__icon">
-        🛍️
-        <span>{totalItems}</span>
-      </div>
+        <div className="menu-cart-bar">
 
-      <div className="menu-cart-bar__info">
-        <div className="menu-cart-bar__summary">
-          Selected: {totalItems}{" "}
-          {totalItems === 1 ? "Item" : "Items"}
+          <div className="menu-cart-bar__left">
 
-          <strong>
-            • ETB {totalPrice.toLocaleString()}
-          </strong>
+            <div className="menu-cart-bar__icon">
+              🛍️
+              <span>
+                {totalItems}
+              </span>
+            </div>
+
+
+            <div className="menu-cart-bar__info">
+
+              <div className="menu-cart-bar__summary">
+
+                Selected: {totalItems}{" "}
+
+                {totalItems === 1
+                  ? "Item"
+                  : "Items"}
+
+                <strong>
+                  {" "}• ETB{" "}
+                  {totalPrice.toLocaleString()}
+                </strong>
+
+              </div>
+
+              <p>
+                Communal injera included •
+                Ready for banquet checkout
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <Link
+            to="/cart"
+            className="menu-cart-bar__button"
+          >
+            Proceed to Cart →
+          </Link>
+
         </div>
 
-        <p>
-          Communal injera included • Ready for
-          banquet checkout
-        </p>
-      </div>
-
-    </div>
-
-    <Link
-      to="/cart"
-      className="menu-cart-bar__button"
-    >
-      Proceed to Cart →
-    </Link>
-  </div>
-)}
+      )}
 
     </main>
   );

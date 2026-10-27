@@ -515,3 +515,24 @@
     font-size: 13px;
   }
 }
+
+
+.password-requirements {
+  margin-top: 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.password-requirements p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.password-requirements .valid {
+  color: #2f7d32;
+}
+
+.password-requirements .invalid {
+  color: #a33a25;
+}

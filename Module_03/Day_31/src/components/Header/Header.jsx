@@ -1,4 +1,8 @@
-import { NavLink, Link } from "react-router-dom";
+import {
+  NavLink,
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 import {
   useCartTotalItems,
@@ -14,6 +18,8 @@ import {
 import "./Header.css";
 
 function Header() {
+  const location = useLocation();
+
   const totalItems = useCartTotalItems();
   const totalPrice = useCartTotalPrice();
 
@@ -24,67 +30,146 @@ function Header() {
     (state) => state.signOut
   );
 
-  const getInitials = (name = "") => {
+  /* =====================================================
+     ACTIVE NAVIGATION
+  ===================================================== */
+
+  // Menu is active ONLY on /menu
+  const isMenuActive =
+    location.pathname === "/menu" &&
+    location.hash !== "#featured";
+
+  // Featured Foods is active on:
+  // /menu#featured
+  // /menu/menu-1
+  // /menu/menu-2
+  // etc.
+  const isFeaturedActive =
+    location.hash === "#featured" ||
+    (
+      location.pathname.startsWith("/menu/") &&
+      location.pathname !== "/menu"
+    );
+
+  /* =====================================================
+     USER INITIALS
+  ===================================================== */
+
+  function getInitials(name = "") {
     const parts = name.trim().split(/\s+/);
 
     if (parts.length === 1) {
-      return parts[0].slice(0, 2).toUpperCase();
+      return parts[0]
+        .slice(0, 2)
+        .toUpperCase();
     }
 
     return `${parts[0][0]}${
       parts[parts.length - 1][0]
     }`.toUpperCase();
-  };
-
-  const firstName =
-    user?.name?.split(" ")[0] || "Guest";
+  }
 
   return (
     <header className="site-header">
+
       <div className="site-header__inner">
 
-        {/* Logo */}
-        <Link to="/" className="brand">
+        {/* =================================================
+            LOGO
+        ================================================= */}
+
+        <Link
+          to="/"
+          className="brand"
+        >
           <span>Mesob</span>
           <span>House</span>
         </Link>
 
-        {/* Main Navigation */}
+
+        {/* =================================================
+            MAIN NAVIGATION
+        ================================================= */}
+
         <nav
           className="site-nav"
           aria-label="Main navigation"
         >
-          <NavLink to="/">
+
+          {/* HOME */}
+
+          <NavLink
+            to="/"
+            end
+          >
             Home
           </NavLink>
 
-          <NavLink to="/menu">
-            Menu
-          </NavLink>
 
-          <NavLink to="/menu#featured">
+          {/* MENU */}
+
+          <Link
+            to="/menu"
+            className={
+              isMenuActive
+                ? "active"
+                : undefined
+            }
+          >
+            Menu
+          </Link>
+
+
+          {/* FEATURED FOODS */}
+
+          <Link
+            to="/menu#featured"
+            className={
+              isFeaturedActive
+                ? "active"
+                : undefined
+            }
+          >
             Featured
             <br />
             Foods
-          </NavLink>
+          </Link>
 
-          <NavLink to="/cart">
+
+          {/* ORDER & CART */}
+
+          <NavLink
+            to="/cart"
+            end
+          >
             Order &amp;
             <br />
             Cart ({totalItems})
           </NavLink>
 
-          <NavLink to="/checkout">
+
+          {/* DELIVERY & CHECKOUT */}
+
+          <NavLink
+            to="/checkout"
+            end
+          >
             Delivery &amp;
             <br />
             Checkout
           </NavLink>
+
         </nav>
 
-        {/* Header Actions */}
+
+        {/* =================================================
+            HEADER ACTIONS
+        ================================================= */}
+
         <div className="header-actions">
 
-          {/* Cart */}
+          {/* CART SUMMARY */}
+
           <Link
             to="/cart"
             className="cart-pill"
@@ -99,28 +184,42 @@ function Header() {
             </span>
           </Link>
 
+
+          {/* =================================================
+              NOT AUTHENTICATED
+          ================================================= */}
+
           {!isAuthenticated ? (
             <>
-              {/* Sign In */}
+
+              {/* SIGN IN */}
+
               <NavLink
                 to="/signin"
                 className="header-signin"
+                end
               >
-                Sign
-                <br />
-                In
+                SignIn
               </NavLink>
 
-              {/* Register */}
+
+              {/* REGISTER */}
+
               <NavLink
                 to="/register"
                 className="register-link"
+                end
               >
                 Register
               </NavLink>
+
             </>
           ) : (
-            /* Logged-in User */
+
+            /* =================================================
+               AUTHENTICATED USER
+            ================================================= */
+
             <div className="header-user">
 
               <div className="header-welcome">
@@ -133,6 +232,7 @@ function Header() {
                 onClick={signOut}
                 title="Sign out"
               >
+
                 <span className="profile-avatar">
                   {getInitials(user?.name)}
                 </span>
@@ -140,13 +240,16 @@ function Header() {
                 <span className="profile-name">
                   Selam, {user?.name}
                 </span>
+
               </button>
 
             </div>
           )}
 
         </div>
+
       </div>
+
     </header>
   );
 }

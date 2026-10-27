@@ -10,7 +10,6 @@ function Dish({
   name,
   price,
   spicy,
-  currency,
   image,
 }) {
   const [count, setCount] = useState(0);
@@ -20,12 +19,14 @@ function Dish({
   );
 
   const handleAdd = () => {
-    setCount((previousCount) => previousCount + 1);
+    setCount(
+      (previousCount) => previousCount + 1
+    );
 
     addToCart({
       id,
       name,
-      price,
+      price: Number(price),
       image,
     });
   };
@@ -64,10 +65,12 @@ function Dish({
 
         <div className="dish-card__footer">
 
+          {/* Price */}
           <span className="dish-card__price">
-            {currency} {price}
+            {Number(price).toLocaleString()} ETB
           </span>
 
+          {/* Add Button */}
           <button
             type="button"
             onClick={handleAdd}
@@ -90,7 +93,6 @@ function Dish({
 }
 
 Dish.defaultProps = {
-  currency: "ETB",
   spicy: false,
 };
 
@@ -99,8 +101,7 @@ Dish.propTypes = {
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   spicy: PropTypes.bool,
-  currency: PropTypes.string,
-  image: PropTypes.string,
+  image: PropTypes.string.isRequired,
 };
 
 export default Dish;
