@@ -91,7 +91,7 @@ function SignIn() {
 
         <span>/</span>
 
-        <Link href="/cart">ACCOUNT</Link>
+        <Link href="/cart" >ACCOUNT</Link>
 
         <span>/</span>
 

@@ -126,7 +126,7 @@ function handleChange(event) {
   return (
     <section className="register-page">
       <div className="register-breadcrumb">
-        <Link href="/cart">Account</Link>
+        <Link href="/cart" prefetch = {false}>Account</Link>
         <span>/</span>
         <strong>Join the Mesob Family</strong>
       </div>
