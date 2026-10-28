@@ -53,6 +53,9 @@ const imageMap = {
 
   "Addis Style Dulet":
     "/images/Addis Style Dulet.jpg",
+  
+  "Full Vegan Beyaynetu Platter":
+    "/images/Full Vegan Beyaynetu Platter.jpg",
 
   "Lake Tana Crispy Fish Tibs":
     "/images/Lake Tana Crispy Fish Tibs.jpg",
