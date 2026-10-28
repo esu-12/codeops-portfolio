@@ -86,7 +86,7 @@ const imageMap = {
 export default async function MenuPage({ searchParams }) {
 
   const response = await fetch(`${API_URL}/menu/`, {
-    next: { revalidate: 60 },
+    next: { revalidate: 3600 },
   });
   
   if (!response.ok) {
