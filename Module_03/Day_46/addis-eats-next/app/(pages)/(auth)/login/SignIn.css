@@ -780,6 +780,29 @@
   line-height: 1.3;
 }
 
+
+.signin-password-input .password-toggle {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #7b1e1e;
+  padding: 8px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.signin-password-input .password-toggle:focus-visible {
+  outline: 2px solid #7b1e1e;
+  outline-offset: 2px;
+}
+
+.signin-password-input input {
+  min-width: 0;
+  flex: 1;
+}
+
 /* =========================================================
    TABLET
 ========================================================= */

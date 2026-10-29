@@ -20,6 +20,7 @@ function SignIn() {
 
   const [authError, setAuthError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -399,12 +400,8 @@ function SignIn() {
 
             {/* PASSWORD */}
             <div className="signin-form-group">
-
               <div className="signin-password-heading">
-
-                <label htmlFor="password">
-                  Password
-                </label>
+                <label htmlFor="password">Password</label>
 
                 <button
                   type="button"
@@ -412,31 +409,31 @@ function SignIn() {
                 >
                   Forgot Password?
                 </button>
-
               </div>
 
               <div className="signin-password-input">
-
-                <span>
-                  ♙
-                </span>
+                <span aria-hidden="true">♙</span>
 
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your confidential password"
                   value={form.password}
                   onChange={handleChange}
+                  autoComplete="current-password"
                 />
 
-                <span>
-                  ◉
-                </span>
-
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword((visible) => !visible)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
               </div>
-
-
             </div>
 
             {/*   AUTH ERROR*/}

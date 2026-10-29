@@ -440,6 +440,55 @@
   font-weight: 800;
 }
 
+.register-password-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d8cec4;
+  border-radius: 8px;
+  background: #fff;
+  padding: 0 8px 0 12px;
+}
+
+.register-password-input input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.register-password-input input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.register-password-input:focus-within {
+  outline: 2px solid #7b1e1e;
+  outline-offset: 2px;
+}
+
+.register-password-input .password-toggle {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  background: transparent;
+  color: #7b1e1e;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-password-input .password-toggle:focus-visible {
+  outline: 2px solid #7b1e1e;
+  outline-offset: 2px;
+}
+
 /*  TABLET */
 
 @media (max-width: 850px) {

@@ -24,7 +24,8 @@ const [form, setForm] = useState({
 const [errors, setErrors] = useState({});
 const [serverError, setServerError] = useState("");
 const [isSubmitting, setIsSubmitting] = useState(false);
-
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 const password = form.password;
 
 
@@ -365,19 +366,31 @@ function handleChange(event) {
               )}
             </label>
 
-            {/* Password */}
+            {/* Password and Confirm Password */}
             <div className="password-grid">
-
               <label>
                 Password
 
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Minimum 8 characters"
-                  value={form.password}
-                  onChange={handleChange}
-                />
+                <div className="register-password-input">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Minimum 8 characters"
+                    value={form.password}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword((visible) => !visible)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
 
                 {errors.password && (
                   <small className="register-error">
@@ -390,13 +403,32 @@ function handleChange(event) {
               <label>
                 Confirm Password
 
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Repeat password"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                />
+                <div className="register-password-input">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    placeholder="Repeat password"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    autoComplete="new-password"
+                  />
+
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() =>
+                      setShowConfirmPassword((visible) => !visible)
+                    }
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide confirm password"
+                        : "Show confirm password"
+                    }
+                    aria-pressed={showConfirmPassword}
+                  >
+                    {showConfirmPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
 
                 {errors.confirmPassword && (
                   <small className="register-error">
@@ -404,7 +436,6 @@ function handleChange(event) {
                   </small>
                 )}
               </label>
-
             </div>
 
             {/*   Live Password Requirements */}
