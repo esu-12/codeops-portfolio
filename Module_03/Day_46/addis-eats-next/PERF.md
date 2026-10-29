@@ -82,3 +82,33 @@ The initial Lighthouse run reported a browser-cache timeout and possible Indexed
 For a more consistent comparison, run Lighthouse in a Chrome Incognito window using the same route, device emulation, network throttling, and audit settings.
 
 Performance results are estimates and may vary between runs. Further optimization should focus on JavaScript execution and image delivery while preserving the application's cart, menu filtering, and other interactive functionality.
+
+## Latest Mobile Audit
+
+- **Audit date:** October 29, 2026
+- **Route:** `/`
+- **URL used:** `https://codeops-portfolio-ta4p.vercel.app/`
+- **Device:** Emulated Moto G Power
+- **Network:** Slow 4G
+- **Tool:** Lighthouse 13.5.0
+
+| Metric | Latest result |
+|---|---:|
+| Performance score | 80 |
+| Accessibility score | 98 |
+| Best Practices score | 100 |
+| SEO score | 100 |
+| First Contentful Paint (FCP) | 1.1 s |
+| Largest Contentful Paint (LCP) | 1.6 s |
+| Total Blocking Time (TBT) | 810 ms |
+| Cumulative Layout Shift (CLS) | 0 |
+| Speed Index | 2.3 s |
+
+### Remaining Findings
+
+- Review the heading hierarchy flagged by the accessibility audit.
+- Investigate long main-thread tasks and unused JavaScript.
+- Review render-blocking requests and the network dependency tree.
+- Continue measuring performance using the same URL, route, device emulation, and network settings.
+
+These results belong to the homepage audit and should not be presented as measurements for `/menu`. Lighthouse results can vary between runs.

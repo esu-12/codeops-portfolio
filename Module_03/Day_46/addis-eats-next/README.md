@@ -114,7 +114,7 @@ This project can be deployed to [Vercel](https://vercel.com/).
 6. Set `SESSION_SECRET` to a strong, unique production secret. Do not reuse a secret shared in chat or committed to a file.
 7. Deploy and verify the home page, menu, checkout validation, authentication, order routes, and dashboard access.
 
-**Live URL:** To be added after successful deployment.
+**Live URL:** https://codeops-portfolio-ta4p4.vercel.app/
 
 ## Data Storage Note
 
