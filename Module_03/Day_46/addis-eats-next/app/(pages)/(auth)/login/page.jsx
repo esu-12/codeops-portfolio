@@ -24,9 +24,12 @@ function SignIn() {
 
   function handleChange(event) {
     const { name, value } = event.target;
+
     setForm((currentForm) => ({
       ...currentForm,
       [name]: value,
+      ...(name === "email" ? { phone: "" } : {}),
+      ...(name === "phone" ? { email: "" } : {}),
     }));
   }
 
