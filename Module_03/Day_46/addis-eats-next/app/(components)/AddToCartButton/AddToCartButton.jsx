@@ -1,5 +1,4 @@
 // app/(components)/AddToCartButton/AddToCartButton.jsx
-
 "use client";
 
 import { useState } from "react";
@@ -19,7 +18,6 @@ export default function AddToCartButton({ dish }) {
 
     try {
       const result = await checkAuthStatus();
-
       if (!result.authenticated) {
         router.push(
           `/login?next=${encodeURIComponent("/menu")}`

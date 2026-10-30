@@ -8,7 +8,6 @@ import { fetcher } from "@/lib/fetcher";
 export default function SearchBox() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const initialQuery = searchParams.get("q") || "";
   const initialPage = Math.max(
     1,
@@ -18,7 +17,6 @@ export default function SearchBox() {
   const [input, setInput] = useState(initialQuery);
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(initialPage);
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,7 +38,6 @@ export default function SearchBox() {
       } else {
         params.delete("q");
       }
-
       params.delete("page");
 
       const queryString = params.toString();
@@ -85,7 +82,6 @@ export default function SearchBox() {
 
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(nextPage));
-
     router.replace(`/menu?${params.toString()}`, { scroll: false });
   }
 

@@ -1,9 +1,9 @@
-// db.js
 
 import "server-only";
 import { randomUUID } from "node:crypto";
+import { sql } from "@/lib/neon";
 
-// Mock dish records
+// Existing dish records.
 const mockDishes = [
   {
     id: "dish_1",
@@ -47,11 +47,121 @@ const mockDishes = [
   },
 ];
 
-// Preserve mock data during Next.js development reloads.
-const globalForDb = globalThis;
+// Convert PostgreSQL rows to the camelCase structure used by the UI.
+function mapOrder(row) {
+  if (!row) return null;
 
-const mockOrders =
-  globalForDb.mockOrders ?? (globalForDb.mockOrders = []);
+  return {
+    id: row.id,
+    userId: row.userId,
+    name: row.name,
+    phone: row.phone,
+    email: row.email,
+    address: row.address,
+    landmark: row.landmark,
+    city: row.city,
+    deliveryMode: row.deliveryMode,
+    paymentMethod: row.paymentMethod,
+    dishId: row.dishId,
+    quantity: Number(row.quantity ?? 1),
+    items: Array.isArray(row.items) ? row.items : [],
+    totalItems: Number(row.totalItems ?? 0),
+    totalPrice: Number(row.totalPrice ?? 0),
+    deliveryFee: Number(row.deliveryFee ?? 0),
+    grandTotal: Number(row.grandTotal ?? 0),
+    notes: row.notes,
+    status: row.status,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  };
+}
+
+const orderSelect = `
+  id,
+  user_id AS "userId",
+  name,
+  phone,
+  email,
+  address,
+  landmark,
+  city,
+  delivery_mode AS "deliveryMode",
+  payment_method AS "paymentMethod",
+  dish_id AS "dishId",
+  quantity,
+  items,
+  total_items AS "totalItems",
+  total_price AS "totalPrice",
+  delivery_fee AS "deliveryFee",
+  grand_total AS "grandTotal",
+  notes,
+  status,
+  created_at AS "createdAt",
+  updated_at AS "updatedAt"
+`;
+
+async function fetchOrders(userId) {
+  let rows;
+
+  if (userId) {
+    rows = await sql`
+      SELECT
+        id,
+        user_id AS "userId",
+        name,
+        phone,
+        email,
+        address,
+        landmark,
+        city,
+        delivery_mode AS "deliveryMode",
+        payment_method AS "paymentMethod",
+        dish_id AS "dishId",
+        quantity,
+        items,
+        total_items AS "totalItems",
+        total_price AS "totalPrice",
+        delivery_fee AS "deliveryFee",
+        grand_total AS "grandTotal",
+        notes,
+        status,
+        created_at AS "createdAt",
+        updated_at AS "updatedAt"
+      FROM orders
+      WHERE user_id = ${userId}
+      ORDER BY created_at DESC
+    `;
+  } else {
+    rows = await sql`
+      SELECT
+        id,
+        user_id AS "userId",
+        name,
+        phone,
+        email,
+        address,
+        landmark,
+        city,
+        delivery_mode AS "deliveryMode",
+        payment_method AS "paymentMethod",
+        dish_id AS "dishId",
+        quantity,
+        items,
+        total_items AS "totalItems",
+        total_price AS "totalPrice",
+        delivery_fee AS "deliveryFee",
+        grand_total AS "grandTotal",
+        notes,
+        status,
+        created_at AS "createdAt",
+        updated_at AS "updatedAt"
+      FROM orders
+      ORDER BY created_at DESC
+    `;
+  }
+
+  return rows.map(mapOrder);
+}
 
 export const db = {
   dish: {
@@ -59,18 +169,9 @@ export const db = {
     findUnique: async ({ where }) =>
       mockDishes.find((dish) => dish.id === where.id) ?? null,
   },
-
   order: {
-    // Optional user filter: callers can request only their own orders.
-    findMany: async ({ where } = {}) => {
-      if (where?.userId) {
-        return mockOrders.filter(
-          (order) => order.userId === where.userId
-        );
-      }
-
-      return [...mockOrders];
-    },
+    findMany: async ({ where } = {}) =>
+      fetchOrders(where?.userId),
   },
 };
 
@@ -79,40 +180,126 @@ export async function getDish(id) {
   return mockDishes.find((dish) => dish.id === id) ?? null;
 }
 
-// Create an order for the authenticated user.
+// Create and persist an order for the authenticated user.
 export async function createOrder(data, userId) {
   if (!userId) {
     throw new Error("An authenticated user is required to create an order.");
   }
 
-  const newOrder = {
-    id: `ord_${randomUUID()}`,
-    ...data,
-    userId,
-    status: "PENDING",
-    createdAt: new Date().toISOString(),
-  };
+  const id = `ord_${randomUUID()}`;
 
-  mockOrders.push(newOrder);
+  const rows = await sql`
+    INSERT INTO orders (
+      id,
+      user_id,
+      name,
+      phone,
+      email,
+      address,
+      landmark,
+      city,
+      delivery_mode,
+      payment_method,
+      dish_id,
+      quantity,
+      items,
+      total_items,
+      total_price,
+      delivery_fee,
+      grand_total,
+      notes,
+      status
+    )
+    VALUES (
+      ${id},
+      ${userId},
+      ${data.name},
+      ${data.phone},
+      ${data.email ?? null},
+      ${data.address ?? null},
+      ${data.landmark ?? null},
+      ${data.city ?? null},
+      ${data.deliveryMode ?? null},
+      ${data.paymentMethod ?? null},
+      ${data.dishId ?? null},
+      ${data.quantity ?? 1},
+      ${JSON.stringify(data.items ?? [])}::jsonb,
+      ${data.totalItems ?? 0},
+      ${data.totalPrice ?? 0},
+      ${data.deliveryFee ?? 0},
+      ${data.grandTotal ?? 0},
+      ${data.notes ?? null},
+      'PENDING'
+    )
+    RETURNING
+      id,
+      user_id AS "userId",
+      name,
+      phone,
+      email,
+      address,
+      landmark,
+      city,
+      delivery_mode AS "deliveryMode",
+      payment_method AS "paymentMethod",
+      dish_id AS "dishId",
+      quantity,
+      items,
+      total_items AS "totalItems",
+      total_price AS "totalPrice",
+      delivery_fee AS "deliveryFee",
+      grand_total AS "grandTotal",
+      notes,
+      status,
+      created_at AS "createdAt",
+      updated_at AS "updatedAt"
+  `;
 
-  return newOrder;
+  return mapOrder(rows[0]);
 }
 
-// Retrieve a specific order by ID.
+// Retrieve a specific order.
 export async function getOrder(id) {
-  return mockOrders.find((order) => order.id === id) ?? null;
+  const rows = await sql`
+    SELECT
+      id,
+      user_id AS "userId",
+      name,
+      phone,
+      email,
+      address,
+      landmark,
+      city,
+      delivery_mode AS "deliveryMode",
+      payment_method AS "paymentMethod",
+      dish_id AS "dishId",
+      quantity,
+      items,
+      total_items AS "totalItems",
+      total_price AS "totalPrice",
+      delivery_fee AS "deliveryFee",
+      grand_total AS "grandTotal",
+      notes,
+      status,
+      created_at AS "createdAt",
+      updated_at AS "updatedAt"
+    FROM orders
+    WHERE id = ${id}
+    LIMIT 1
+  `;
+
+  return mapOrder(rows[0]);
 }
 
-// Return only orders belonging to a specific user.
+// Return only orders belonging to a specific customer.
 export async function getOrdersForUser(userId) {
   if (!userId) return [];
-
-  return mockOrders.filter((order) => order.userId === userId);
+  return fetchOrders(userId);
 }
 
-
+// Return all orders for staff.
 export async function getOrders() {
-  return db.order.findMany();
+  return fetchOrders();
 }
 
 // Cancel an order only if it belongs to the requesting user.
@@ -121,20 +308,51 @@ export async function markCancelled(id, userId) {
     throw new Error("An authenticated user is required.");
   }
 
-  const order = mockOrders.find(
-    (item) => item.id === id && item.userId === userId
-  );
+  const rows = await sql`
+    UPDATE orders
+    SET
+      status = 'CANCELLED',
+      updated_at = NOW()
+    WHERE id = ${id}
+      AND user_id = ${userId}
+      AND status = 'PENDING'
+    RETURNING
+      id,
+      user_id AS "userId",
+      name,
+      phone,
+      email,
+      address,
+      landmark,
+      city,
+      delivery_mode AS "deliveryMode",
+      payment_method AS "paymentMethod",
+      dish_id AS "dishId",
+      quantity,
+      items,
+      total_items AS "totalItems",
+      total_price AS "totalPrice",
+      delivery_fee AS "deliveryFee",
+      grand_total AS "grandTotal",
+      notes,
+      status,
+      created_at AS "createdAt",
+      updated_at AS "updatedAt"
+  `;
 
-  if (!order) {
+  if (rows.length > 0) {
+    return mapOrder(rows[0]);
+  }
+
+  const existingOrder = await getOrder(id);
+
+  if (!existingOrder || existingOrder.userId !== userId) {
     throw new Error("Order not found or access denied.");
   }
 
-  if (order.status === "CANCELLED") {
-    return order;
+  if (existingOrder.status === "CANCELLED") {
+    return existingOrder;
   }
 
-  order.status = "CANCELLED";
-  order.updatedAt = new Date().toISOString();
-
-  return order;
+  throw new Error("Only pending orders can be cancelled.");
 }

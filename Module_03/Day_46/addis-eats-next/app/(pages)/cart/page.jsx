@@ -19,7 +19,6 @@ function CartPage() {
   const grandTotal = totalPrice + DELIVERY_FEE;
 
   /*   EMPTY CART */
-
   if (cartItems.length === 0) {
     return (
       <section className="cart-page">
@@ -36,7 +35,6 @@ function CartPage() {
             </p>
 
             <h1>Your Gursha Basket</h1>
-
             <p>
               Your basket is waiting for your next
               Ethiopian feast.
@@ -46,9 +44,7 @@ function CartPage() {
 
         <div className="cart-empty-card">
           <div className="cart-empty-icon">🛒</div>
-
           <h2>Your basket is empty</h2>
-
           <p>
             Choose your favorite dishes from our
             traditional Ethiopian menu.
@@ -69,7 +65,6 @@ function CartPage() {
     <section className="cart-page">
 
       {/*   DELIVERY BANNER */}
-
       <div className="cart-delivery-banner">
         🚚 <strong>Free Highland Delivery:</strong>{" "}
         Complimentary delivery across Bole,
@@ -79,7 +74,6 @@ function CartPage() {
 
       {/*  PAGE HEADER */}
       <div className="cart-heading-row">
-
         <div>
           <p className="cart-eyebrow">
             COMMUNAL FEASTING
@@ -89,7 +83,6 @@ function CartPage() {
         </div>
 
         <div className="cart-steps">
-
           <div className="cart-step active">
             <span>1</span>
             Review Basket
@@ -104,9 +97,7 @@ function CartPage() {
             <span>3</span>
             Confirmation
           </div>
-
         </div>
-
       </div>
 
       {/*  MAIN CART LAYOUT */}
@@ -134,7 +125,6 @@ function CartPage() {
           </div>
 
           <div className="cart-items">
-
             {cartItems.map((item) => (
               <article
                 className="cart-item"
@@ -159,13 +149,11 @@ function CartPage() {
                 </div>
 
                 <div className="cart-item-details">
-
                   <div className="cart-item-title-row">
                     <div>
                       <span className="cart-item-badge">
                         HERITAGE FEAST
                       </span>
-
                       <h3>{item.name}</h3>
                     </div>
 
@@ -182,9 +170,7 @@ function CartPage() {
                   </p>
 
                   <div className="cart-item-bottom">
-
                     <div className="quantity-controls">
-
                       <button
                         type="button"
                         onClick={() =>
@@ -199,7 +185,6 @@ function CartPage() {
                       </button>
 
                       <span>{item.quantity}</span>
-
                       <button
                         type="button"
                         onClick={() =>
@@ -212,7 +197,6 @@ function CartPage() {
                       >
                         +
                       </button>
-
                     </div>
 
                     <span className="cart-item-subtotal">
@@ -232,25 +216,18 @@ function CartPage() {
                     >
                       Remove
                     </button>
-
                   </div>
-
                 </div>
-
               </article>
             ))}
-
           </div>
 
           {/*  DINING ETIQUETTE */}
           <section className="cart-info-card">
-
             <h3>
               🍴 Gursha Hospitality &amp; Dining Etiquette
             </h3>
-
             <div className="cart-info-options">
-
               <label>
                 <input type="checkbox" />
                 <span>
@@ -276,14 +253,12 @@ function CartPage() {
                   </small>
                 </span>
               </label>
-
             </div>
 
             <div className="cart-preference">
               <strong>
                 Kitchen Chef Note / Injera Separation Preference
               </strong>
-
               <span>Optional</span>
 
               <input
@@ -291,7 +266,6 @@ function CartPage() {
                 placeholder="E.g. Please wrap extra Teff injera..."
               />
             </div>
-
           </section>
 
           {/*  GURSHA INFORMATION */}
@@ -300,12 +274,10 @@ function CartPage() {
             <div className="gursha-icon">
               ♡
             </div>
-
             <div>
               <h3>
                 The Meaning of Gursha
               </h3>
-
               <p>
                 In Abehsa dining culture, placing a savory
                 morsel directly into a companion's mouth
@@ -313,19 +285,15 @@ function CartPage() {
                 and shared celebration.
               </p>
             </div>
-
           </section>
-
         </div>
 
         {/*  RIGHT - BASKET LEDGER */}
         <aside className="basket-ledger">
-
           <div className="ledger-header">
             <h2>Basket Ledger</h2>
             <span>Bir (ETB)</span>
           </div>
-
           <div className="ledger-row">
             <span>
               Items Subtotal ({totalItems} items)
@@ -398,7 +366,6 @@ function CartPage() {
           </div>
 
           <div className="grand-total">
-
             <div>
               <span>GRAND TOTAL</span>
 
@@ -413,7 +380,6 @@ function CartPage() {
             <small>
               Taxes included
             </small>
-
           </div>
 
           <Link
@@ -443,20 +409,15 @@ function CartPage() {
               🔐 Encrypted checkout &amp; real-time
               dispatch SMS.
             </p>
-
           </div>
-
         </aside>
-
       </div>
 
       {/*  FRESH JEBENA */}
       <section className="fresh-jebena">
-
         <div className="fresh-jebena-icon">
           ☕
         </div>
-
         <div>
           <strong>
             Adding Fresh Jebena Buna?
@@ -467,13 +428,10 @@ function CartPage() {
             4:00 PM freshly roasted coffee beans.
           </p>
         </div>
-
         <Link href="/menu">
           ADD TO ORDER →
         </Link>
-
       </section>
-
     </section>
   );
 }

@@ -16,7 +16,6 @@ function CheckoutPage() {
   const router = useRouter();
 
   /* Zustand Cart */
-
   const {
     cartItems,
     totalItems,
@@ -25,22 +24,12 @@ function CheckoutPage() {
   } = useCart();
 
   /*  Checkout State */
-
-  const [deliveryMode, setDeliveryMode] =
-    useState("immediate");
-
-  const [paymentMethod, setPaymentMethod] =
-    useState("telebirr");
-
-  const [submitted, setSubmitted] =
-    useState(false);
-
-  const [customerName, setCustomerName] =
-    useState("");
-
+  const [deliveryMode, setDeliveryMode] = useState("immediate");
+  const [paymentMethod, setPaymentMethod] = useState("telebirr");
+  const [submitted, setSubmitted] = useState(false);
+  const [customerName, setCustomerName] = useState("");
   const [orderError, setOrderError] = useState("");
   const [orderId, setOrderId] = useState("");
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submitLock = useRef(false);
 
@@ -108,7 +97,6 @@ function handleChange(event) {
 
     try {
       const result = await placeOrder(null, formData);
-
       if (!result.success) {
         setOrderError(
           result.error || "Please check your order details."
@@ -118,7 +106,6 @@ function handleChange(event) {
 
       // Clear the cart only after the order is saved successfully.
       clearCart();
-
       setOrderId(result.order.id);
       setCustomerName(form.name);
       setSubmitted(true);
@@ -134,7 +121,6 @@ function handleChange(event) {
   }
 
   /* Empty Cart */
-
   if (cartItems.length === 0 && !submitted) {
     return (
       <section className="checkout-empty">
@@ -144,7 +130,6 @@ function handleChange(event) {
           </span>
 
           <h1>Your basket is empty</h1>
-
           <p>
             Add dishes from the menu before continuing
             to delivery and payment.
@@ -162,17 +147,14 @@ function handleChange(event) {
   }
 
   /* Successful Order */
-
   if (submitted) {
     return (
       <section className="checkout-success">
         <div className="checkout-success-card">
           <div className="success-mark">✓</div>
-
           <p className="checkout-eyebrow">
             ORDER RECEIVED
           </p>
-
           <h1>
             Thank you, {customerName}!
           </h1>
@@ -220,16 +202,13 @@ function handleChange(event) {
 
       <div className="checkout-breadcrumb">
         <Link href="/cart">Account</Link>
-
         <span>/</span>
-
         <strong>
           Delivery &amp; Checkout
         </strong>
       </div>
 
       {/* Checkout Progress */}
-
       <div
         className="checkout-progress"
         aria-label="Checkout progress"
@@ -238,35 +217,27 @@ function handleChange(event) {
           <span>✓</span>
 
           <small>STEP 1</small>
-
           <strong>Review Order</strong>
         </div>
 
         <div className="checkout-progress-line active" />
-
         <div className="checkout-progress-step active">
           <span>2</span>
-
           <small>STEP 2</small>
-
           <strong>
             Delivery &amp; Payment
           </strong>
         </div>
 
         <div className="checkout-progress-line" />
-
         <div className="checkout-progress-step">
           <span>3</span>
-
           <small>STEP 3</small>
-
           <strong>Confirmation</strong>
         </div>
       </div>
 
       {/* Delivery Mode */}
-
       <div className="checkout-mode-switch">
         <button
           className="mode-active"
@@ -281,7 +252,6 @@ function handleChange(event) {
       </div>
 
       {/* Checkout Form */}
-
       <form
         className="checkout-layout"
         onSubmit={onSubmit}
@@ -296,7 +266,6 @@ function handleChange(event) {
         <div className="checkout-main-column">
 
           {/* Contact Details */}
-
           <section className="checkout-panel">
             <div className="panel-heading">
               <div>
@@ -314,10 +283,8 @@ function handleChange(event) {
             <div className="form-grid two-columns">
 
               {/* Full Name */}
-
               <label>
                 Full Name
-
                 <input
                   type="text"
                   name="name"
@@ -325,15 +292,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="Enter your full name"
                 />
-
-
               </label>
 
               {/* Phone */}
-
               <label>
                 Phone (Calls &amp; Telebirr SMS)
-
                 <input
                   type="tel"
                   name="phone"
@@ -341,15 +304,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="7/9XXXXXXXX"
                 />
-
-
               </label>
 
               {/* Email */}
-
               <label className="full-span">
                 Email for Digital Receipt
-
                 <input
                   type="email"
                   name="email"
@@ -357,14 +316,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="Enter your email address"
                 />
-
-
               </label>
             </div>
           </section>
 
           {/* Delivery Location */}
-
           <section className="checkout-panel">
             <div className="panel-heading">
               <div>
@@ -382,10 +338,8 @@ function handleChange(event) {
             <div className="address-grid">
 
               {/* City */}
-
               <label>
                 Sub-City / Neighborhood
-
                 <input
                   type="text"
                   name="city"
@@ -393,15 +347,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="e.g. Bole"
                 />
-
-
               </label>
 
               {/* Address */}
-
               <label>
                 Street, Building, Plat No.
-
                 <input
                   type="text"
                   name="address"
@@ -409,15 +359,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="Street, building, house number..."
                 />
-
- 
               </label>
 
               {/* Landmark */}
-
               <label className="full-span">
                 Specific Landmark / Gate Instructions
-
                 <input
                   type="text"
                   name="landmark"
@@ -425,15 +371,11 @@ function handleChange(event) {
                   onChange={handleChange}
                   placeholder="Nearby landmark or gate instructions"
                 />
-
-
               </label>
             </div>
 
             {/*  Delivery Options */}
-
             <div className="delivery-options">
-
               <button
                 type="button"
                 className={
@@ -450,7 +392,6 @@ function handleChange(event) {
                 <strong>
                   Immediate Dispatch
                 </strong>
-
                 <small>
                   Fresh &amp; hot off the stove
                   (~35–45 min)
@@ -482,7 +423,6 @@ function handleChange(event) {
             </div>
 
             {/* Route Note */}
-
             <div className="route-note">
               <span>➤</span>
 
@@ -496,7 +436,6 @@ function handleChange(event) {
                   containers
                 </small>
               </div>
-
               <b>
                 Bole Zone Priority
               </b>
@@ -504,7 +443,6 @@ function handleChange(event) {
           </section>
 
           {/*   Payment */}
-
           <section className="checkout-panel payment-panel">
             <div className="panel-heading">
               <div>
@@ -520,7 +458,6 @@ function handleChange(event) {
             </div>
 
             {/* Telebirr */}
-
             <button
               type="button"
               className={
@@ -541,7 +478,6 @@ function handleChange(event) {
               <span className="payment-icon">
                 T
               </span>
-
               <span className="payment-copy">
                 <strong>
                   Telebirr{" "}
@@ -553,7 +489,6 @@ function handleChange(event) {
                   USSD confirmation
                 </small>
               </span>
-
               <span>⌘</span>
             </button>
 
@@ -591,7 +526,6 @@ function handleChange(event) {
             )}
 
             {/* CBE */}
-
             <button
               type="button"
               className={
@@ -623,12 +557,10 @@ function handleChange(event) {
                   Commercial Bank of Ethiopia
                 </small>
               </span>
-
               <span>⌂</span>
             </button>
 
             {/* Cash */}
-
             <button
               type="button"
               className={
@@ -666,7 +598,6 @@ function handleChange(event) {
             </button>
 
             {/* Awash */}
-
             <button
               type="button"
               className={
@@ -704,7 +635,6 @@ function handleChange(event) {
           </section>
 
           {/*  Mesob House Promise */}
-
           <div className="checkout-promise">
             <strong>
               ♨ The Mesob House Promise
@@ -721,17 +651,14 @@ function handleChange(event) {
         </div>
 
         {/* Order Summary */}
-
         <aside className="order-summary">
 
           {/* Summary Title */}
-
           <div className="summary-title">
             <div>
               <small>
                 HABESHA FEAST
               </small>
-
               <h2>
                 Order Summary
               </h2>
@@ -743,7 +670,6 @@ function handleChange(event) {
           </div>
 
           {/* Cart Items */}
-
           <div className="summary-items">
             {cartItems.map((item) => (
               <div
@@ -794,7 +720,6 @@ function handleChange(event) {
           </div>
 
           {/* Delivery Summary */}
-
           <div className="summary-delivery">
             <div>
               <small>
@@ -817,9 +742,7 @@ function handleChange(event) {
           </div>
 
           {/* Costs */}
-
           <div className="summary-costs">
-
             <div>
               <span>
                 Items Subtotal
@@ -866,7 +789,6 @@ function handleChange(event) {
           </div>
 
           {/* Total */}
-
           <div className="summary-total">
             <div>
               <small>
@@ -890,7 +812,6 @@ function handleChange(event) {
           </p>
 
           {/* Confirm Order */}
-
           <button
             type="submit"
             className="confirm-order"
@@ -902,7 +823,6 @@ function handleChange(event) {
           </button>
 
           {/* Return Cart */}
-
           <Link
             href="/cart"
             className="return-cart"
@@ -912,7 +832,6 @@ function handleChange(event) {
           </Link>
 
           {/* Phone Support */}
-
           <div className="phone-support">
             <span>?</span>
 

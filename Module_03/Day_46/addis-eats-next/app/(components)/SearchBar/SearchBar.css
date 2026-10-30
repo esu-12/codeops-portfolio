@@ -1,16 +1,10 @@
-/* =========================================================
-   SEARCH SECTION
-========================================================= */
-
+   /* SEARCH SECTION */
 .search-row {
   width: 100%;
   margin-bottom: 24px;
 }
 
-/* =========================================================
-   SEARCH BOX
-========================================================= */
-
+   /* SEARCH BOX */
 .search-box {
   width: 100%;
   height: 46px;
@@ -27,10 +21,8 @@
 }
 
 /* Search Icon */
-
 .search-box span:first-child {
   width: 44px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +32,6 @@
 }
 
 /* Input */
-
 .search-box input {
   flex: 1;
   height: 100%;
@@ -50,32 +41,25 @@
   background: transparent;
 
   padding-right: 14px;
-
   color: #3d2922;
   font-size: 14px;
   font-family: inherit;
 }
 
 /* Placeholder */
-
 .search-box input::placeholder {
   color: #a78573;
 }
 
 /* Remove blue focus */
-
 .search-box:focus-within {
   border-color: #b16b3b;
   box-shadow: 0 0 0 2px rgba(177, 107, 59, 0.1);
 }
 
-/* =========================================================
-   QUICK TAGS
-========================================================= */
-
+   /* QUICK TAGS */
 .quick-tags {
   margin-top: 14px;
-
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -84,29 +68,23 @@
 
 .quick-tags span {
   padding: 7px 14px;
-
   border: 1px solid #e2cdbf;
   border-radius: 999px;
 
   background: #fff;
-
   color: #8b4d28;
   font-size: 12px;
   font-weight: 600;
 }
 
 /* Active Tag */
-
 .quick-tags span:first-child {
   background: #a65f32;
   color: white;
   border-color: #a65f32;
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
+   /* MOBILE */
 @media (max-width: 600px) {
   .search-box {
     height: 42px;

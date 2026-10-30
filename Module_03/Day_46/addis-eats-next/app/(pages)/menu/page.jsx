@@ -18,7 +18,6 @@ export const metadata = {
 
 const API_URL = "https://addis-eats-backend.onrender.com";
 
-
 /*  Image Mapping */
 const imageMap = {
   "Classic Doro Wat":
@@ -94,21 +93,16 @@ export default async function MenuPage({ searchParams }) {
   }
 
   const result = await response.json();
-
   const dishes = result.data || [];
 
-
   /*   Add Local Images */
-
   const dishesWithImages = dishes.map((dish) => ({
     ...dish,
     image: imageMap[dish.nameEn],
   }));
 
-
   /*   Read Category */
   const params = await searchParams;
-
   const selectedCategory =
     params?.category || "All";
 
@@ -121,13 +115,11 @@ export default async function MenuPage({ searchParams }) {
             dish.category === selectedCategory
         );
 
-
   return (
     <main className="menu-page">
 
       {/*    Hero */}
       <section className="menu-hero">
-
         <span className="menu-label">
           AUTHENTIC ETHIOPIAN CUISINE
         </span>
@@ -141,14 +133,11 @@ export default async function MenuPage({ searchParams }) {
           from traditional wat to sizzling tibs
           and delicious vegan dishes.
         </p>
-
       </section>
-
 
       {/*     Menu Content */}
         <FilterShell>
            <SideBar />
-
           <div className="menu-dishes">
           <div className="menu-heading">
 
@@ -166,29 +155,21 @@ export default async function MenuPage({ searchParams }) {
               Freshly prepared Ethiopian favorites
               made with traditional ingredients.
             </p>
-
           </div>
-
 
           {/*   Dish List */}
           {filteredDishes.length > 0 ? (
-
             <DishList
               dishes={filteredDishes}
             />
-
           ) : (
 
             <p className="no-dishes">
               No dishes found in this category.
             </p>
-
           )}
-
         </div>
-
       </FilterShell>
-
     </main>
   );
 }

@@ -17,7 +17,6 @@
 }
 
 /* MAIN LAYOUT */
-
 .register-layout {
   display: grid;
   grid-template-columns: 0.83fr 1.17fr;
@@ -26,7 +25,6 @@
 }
 
 /*  WELCOME PANEL */
-
 .register-welcome {
   padding: 15px 16px 14px;
   border-radius: 7px;
@@ -63,7 +61,6 @@
 }
 
 /*  BENEFITS */
-
 .welcome-benefits {
   display: grid;
   gap: 7px;
@@ -107,7 +104,6 @@
 }
 
 /*  STORY CARD */
-
 .register-story {
   display: grid;
   grid-template-columns: 92px 1fr;
@@ -149,7 +145,6 @@
 }
 
 /*  REGISTER CARD */
-
 .register-card {
   padding: 22px 26px 18px;
   border-radius: 7px;
@@ -173,7 +168,6 @@
 }
 
 /*  QUICK ACTIONS */
-
 .quick-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -197,7 +191,6 @@
 }
 
 /*   DIVIDER */
-
 .divider {
   position: relative;
   margin: 14px 0 10px;
@@ -216,7 +209,6 @@
 }
 
 /*  FORM */
-
 .register-form {
   max-width: none;
   margin: 0;
@@ -297,7 +289,6 @@
 }
 
 /*  PASSWORD */
-
 .password-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -305,7 +296,6 @@
 }
 
 /* DINING PREFERENCE */
-
 .preference-field {
   margin: 10px 0;
 }
@@ -362,7 +352,6 @@
 }
 
 /*  TERMS */
-
 .terms-row {
   display: flex !important;
   align-items: flex-start;
@@ -389,7 +378,6 @@
 }
 
 /* FORM ERRORS */
-
 .register-error {
   margin: 7px 0;
   color: #a22f1d;
@@ -400,7 +388,6 @@
 }
 
 /*  SUBMIT BUTTON */
-
 .register-submit {
   width: 100%;
   min-height: 42px;
@@ -425,7 +412,6 @@
 }
 
 /* SIGN IN LINK */
-
 .register-signin {
   margin: 9px 0 0;
   text-align: center;
@@ -490,7 +476,6 @@
 }
 
 /*  TABLET */
-
 @media (max-width: 850px) {
   .register-layout {
     grid-template-columns: 1fr;
@@ -502,7 +487,6 @@
 }
 
 /*  MOBILE */
-
 @media (max-width: 520px) {
   .register-page {
     width: min(100% - 20px, 560px);
@@ -549,7 +533,6 @@
     font-size: 13px;
   }
 }
-
 
 .password-requirements {
   margin-top: 8px;

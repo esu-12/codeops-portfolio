@@ -60,20 +60,15 @@ export default async function DashboardPage() {
   })).sort((a, b) => a.area.localeCompare(b.area));
 
   const days = getLastSevenDays();
-
   const dailyCounts = Object.fromEntries(
     days.map((day) => [day, 0])
   );
 
   for (const order of completedRevenueOrders) {
     if (!order.createdAt) continue;
-
     const date = new Date(order.createdAt);
-
     if (Number.isNaN(date.getTime())) continue;
-
     const day = date.toISOString().slice(0, 10);
-
     if (Object.hasOwn(dailyCounts, day)) {
       dailyCounts[day] += 1;
     }

@@ -21,9 +21,7 @@ export default async function OrderPage() {
   return (
     <main>
       <h1>Order History</h1>
-
       <ExportOrdersButton orders={orders} />
-
       {orders.length === 0 ? (
         <p>No orders have been placed yet.</p>
       ) : (

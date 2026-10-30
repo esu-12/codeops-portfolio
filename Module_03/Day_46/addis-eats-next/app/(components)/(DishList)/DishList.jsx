@@ -1,5 +1,4 @@
 // app/(components)/(DishList)/DishList.jsx
-
 import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "../AddToCartButton/AddToCartButton";

@@ -35,9 +35,7 @@ export default function RequireAuth({ children }) {
         setAuthorized(true);
       } catch (error) {
         if (cancelled) return;
-
         console.error("Session verification failed:", error);
-
         router.replace(
           `/login?next=${encodeURIComponent(pathname)}`
         );
@@ -45,7 +43,6 @@ export default function RequireAuth({ children }) {
     }
 
     verifySession();
-
     return () => {
       cancelled = true;
     };

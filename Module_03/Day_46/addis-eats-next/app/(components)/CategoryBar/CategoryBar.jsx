@@ -1,19 +1,14 @@
 // app/(components)/CategoryBar/CategoryBar.js
-
 "use client";
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
 import "./CategoryBar.css";
 
 export default function CategoryBar() {
 
   const searchParams = useSearchParams();
-
-  const selectedCategory =
-    searchParams.get("category") || "All";
-
+  const selectedCategory = searchParams.get("category") || "All";
 
   const categories = [
     "All",
@@ -24,19 +19,14 @@ export default function CategoryBar() {
     "Beverages & Tej",
   ];
 
-
   return (
     <aside className="category-sidebar">
-
       <h2>
         Categories
       </h2>
 
-
       <nav className="category-nav">
-
         {categories.map((category) => {
-
           const href =
             category === "All"
               ? "/menu"
@@ -44,10 +34,8 @@ export default function CategoryBar() {
                   category
                 )}`;
 
-
           const isActive =
             selectedCategory === category;
-
 
           return (
             <Link
@@ -62,11 +50,8 @@ export default function CategoryBar() {
               {category}
             </Link>
           );
-
         })}
-
       </nav>
-
     </aside>
   );
 }

@@ -87,7 +87,6 @@
   margin-bottom: 12px;
 }
 
-
 .checkout-mode-switch button {
   min-height: 44px;
   border: 0;
@@ -192,7 +191,6 @@
   font-weight: 700;
   color: #5e4940;
 }
-
 
 .checkout-panel input {
   width: 100%;
@@ -434,11 +432,7 @@
   color: #816d63;
 }
 
-
-/* =========================================================
-   ORDER SUMMARY
-========================================================= */
-
+   /* ORDER SUMMARY */
 .order-summary {
   background: #fff;
   border-radius: 6px;
@@ -686,11 +680,7 @@
   padding: 5px 7px;
 }
 
-
-/* =========================================================
-   EMPTY / SUCCESS
-========================================================= */
-
+   /* EMPTY / SUCCESS */
 .checkout-empty,
 .checkout-success {
   min-height: 520px;
@@ -767,12 +757,8 @@
   cursor: pointer;
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
-
+   /* TABLET */
 @media (max-width: 850px) {
-
   .checkout-layout {
     grid-template-columns: 1fr;
   }
@@ -794,16 +780,10 @@
     padding-left: 12px;
     padding-right: 12px;
   }
-
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
+   /* MOBILE */
 @media (max-width: 560px) {
-
   .two-columns,
   .address-grid,
   .delivery-options,
@@ -857,8 +837,6 @@
   }
 
 }
-
-
 
 .checkout-phone-input {
   display: flex;

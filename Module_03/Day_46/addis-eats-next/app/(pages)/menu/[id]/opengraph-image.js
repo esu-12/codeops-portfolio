@@ -1,16 +1,13 @@
 // app/(pages)/menu/[id]/opengraph-image.js
-
 import { ImageResponse } from "next/og";
 
 export const alt = "A featured dish from Addis Eats";
-
 export const size = {
   width: 1200,
   height: 630,
 };
 
 export const contentType = "image/png";
-
 export const revalidate = 60;
 
 const API_URL =
@@ -48,9 +45,7 @@ export default async function OpenGraphImage({ params }) {
   }
 
   const title = dish?.nameEn || "Discover Our Menu";
-
-  const price =
-    dish?.priceETB != null ? `${dish.priceETB} ETB` : "";
+  const price = dish?.priceETB != null ? `${dish.priceETB} ETB` : "";
 
   const subtitle = dish
     ? [price, dish.category || "Traditional favorite"]

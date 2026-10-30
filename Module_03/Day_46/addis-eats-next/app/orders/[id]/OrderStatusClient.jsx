@@ -92,7 +92,6 @@ export default function OrderStatusClient({ initialOrder }) {
 
       <section aria-labelledby="tracking-items-heading">
         <h2 id="tracking-items-heading">Your Dishes</h2>
-
         {items.length > 0 ? (
           <ul>
             {items.map((item) => (

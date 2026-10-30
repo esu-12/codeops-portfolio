@@ -16,7 +16,6 @@ export default function CancelOrderButton({ orderId }) {
     );
 
     if (!confirmed) return;
-
     startTransition(async () => {
       const result = await cancelOrder(orderId);
 
@@ -38,7 +37,6 @@ export default function CancelOrderButton({ orderId }) {
       >
         {isPending ? "Cancelling..." : "Cancel Order"}
       </button>
-
       {message && <p role="status">{message}</p>}
     </div>
   );

@@ -24,7 +24,6 @@ function SignIn() {
 
   function handleChange(event) {
     const { name, value } = event.target;
-
     setForm((currentForm) => ({
       ...currentForm,
       [name]: value,
@@ -65,7 +64,6 @@ function SignIn() {
       );
 
       const result = await loginUser(formData);
-
       if (!result.success) {
         setAuthError(
           result.error || "Unable to sign in. Please try again."
@@ -89,11 +87,9 @@ function SignIn() {
       {/*  TOP BREADCRUMB */}
       <div className="signin-breadcrumb">
         <Link href="/">HOME</Link>
-
         <span>/</span>
 
         <Link href="/cart" >ACCOUNT</Link>
-
         <span>/</span>
 
         <strong>SIGN IN</strong>
@@ -104,7 +100,6 @@ function SignIn() {
 
         {/*  LEFT WELCOME PANEL */}
         <aside className="signin-welcome">
-
           <span className="signin-badge">
             ✺ MESOB FEAST CIRCLE &amp; PERKS
           </span>
@@ -133,7 +128,6 @@ function SignIn() {
             />
 
             <div className="signin-image-overlay">
-
               <strong>
                 Sunday Jebena Buna Circle
               </strong>
@@ -141,21 +135,15 @@ function SignIn() {
               <span>
                 Exclusive to dining guests
               </span>
-
             </div>
-
           </div>
 
           <div className="signin-perks">
-
             <article>
-
               <span className="signin-perk-icon">
                 ◉
               </span>
-
               <div>
-
                 <strong>
                   10 Gursha Points / ETB 100
                 </strong>
@@ -166,15 +154,12 @@ function SignIn() {
                 </p>
 
               </div>
-
             </article>
 
             <article>
-
               <span className="signin-perk-icon">
                 ♨
               </span>
-
               <div>
 
                 <strong>
@@ -185,17 +170,14 @@ function SignIn() {
                   Priority courier dispatch with
                   heat-insulated clay-stone trays.
                 </p>
-
               </div>
 
             </article>
 
             <article>
-
               <span className="signin-perk-icon">
                 ▣
               </span>
-
               <div>
 
                 <strong>
@@ -206,19 +188,14 @@ function SignIn() {
                   Zero-fee instant table settlement
                   and 1-tap reordering.
                 </p>
-
               </div>
-
             </article>
-
           </div>
 
           <div className="signin-quote">
-
             <span>
               ❝
             </span>
-
             <p>
               The table ordering is as seamless as
               eating from our grandmother's mesob.
@@ -331,11 +308,8 @@ function SignIn() {
             noValidate
           >
 
-            {/* 
-                FULL NAME */}
-
+            {/* FULL NAME */}
             <div className="signin-form-group">
-
               <label htmlFor="name">
                 Full Name
               </label>
@@ -348,12 +322,10 @@ function SignIn() {
                 value={form.name}
                 onChange={handleChange}
               />
-
             </div>
 
             {/*  PHONE */}
             <div className="signin-form-group">
-
               <label htmlFor="phone">
                 Ethiopian Mobile Number
               </label>
@@ -363,7 +335,6 @@ function SignIn() {
               </span>
 
               <div className="signin-phone-input">
-
                 <span>
                   🇪🇹 +251
                 </span>
@@ -376,13 +347,11 @@ function SignIn() {
                   value={form.phone}
                   onChange={handleChange}
                 />
-
               </div>
             </div>
 
             {/*  EMAIL */}
             <div className="signin-form-group">
-
               <label htmlFor="email">
                 Email Address
               </label>
@@ -395,7 +364,6 @@ function SignIn() {
                 value={form.email}
                 onChange={handleChange}
               />
-
             </div>
 
             {/* PASSWORD */}
@@ -450,7 +418,6 @@ function SignIn() {
 
             {/*  OPTIONS */}
             <div className="signin-options">
-
               <label>
 
                 <input
@@ -460,7 +427,6 @@ function SignIn() {
                 <span>
                   Keep me signed in on this device
                 </span>
-
               </label>
 
               <label>
@@ -472,9 +438,7 @@ function SignIn() {
                 <span>
                   Remember Addis address
                 </span>
-
               </label>
-
             </div>
 
             {/*  SUBMIT */}
@@ -487,14 +451,11 @@ function SignIn() {
                 ? "Signing In..."
                 : "Sign In to Mesob House  ↪"}
             </button>
-
           </form>
 
           {/*  REGISTER / GUEST */}
           <div className="signin-register">
-
             <div>
-
               <span>
                 New to our dining family?
               </span>
@@ -502,72 +463,53 @@ function SignIn() {
               <Link href="/register">
                 Join the Mesob Table &amp; Register →
               </Link>
-
             </div>
 
             <button type="button">
               🔒 Continue as Guest
             </button>
-
           </div>
-
         </div>
-
       </div>
 
       {/*  BOTTOM INFORMATION STRIP */}
       <div className="signin-bottom-features">
-
         <div>
-
           <strong>
             ♢ ENCRYPTED SECURITY
           </strong>
-
           <span>
             Telebirr PIN &amp; CBE verified
           </span>
-
         </div>
 
         <div>
-
           <strong>
             ♧ FASTING FEASTS
           </strong>
-
           <span>
             Tsom Tuesdays &amp; Wednesdays
           </span>
-
         </div>
 
         <div>
-
           <strong>
             ◉ FRESH INJERA STEAM
           </strong>
-
           <span>
             Baked three times each day
           </span>
-
         </div>
 
         <div>
-
           <strong>
             ☎ MEGENAGNA CONCIERGE
           </strong>
-
           <span>
             +251 904 204 944
           </span>
-
         </div>
-
       </div>
-
     </section>
   );
 }

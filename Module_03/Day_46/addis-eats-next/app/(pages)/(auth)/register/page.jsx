@@ -28,7 +28,6 @@ const [showPassword, setShowPassword] = useState(false);
 const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 const password = form.password;
 
-
 function handleChange(event) {
   const { name, value, type, checked } = event.target;
 
@@ -37,7 +36,6 @@ function handleChange(event) {
     [name]: type === "checkbox" ? checked : value,
   });
 }
-
 
   /*    Submit Registration */
   async function handleSubmit(event) {
@@ -103,7 +101,6 @@ function handleChange(event) {
       }
 
       formData.set("phone", phone);
-
       const result = await registerUser(formData);
 
       if (!result.success) {
@@ -135,7 +132,6 @@ function handleChange(event) {
       <div className="register-layout">
 
         {/*   Welcome Section */}
-
         <aside className="register-welcome">
           <span className="member-badge">
             ✺　MEMBER CIRCLE
@@ -153,10 +149,8 @@ function handleChange(event) {
           </p>
 
           <div className="welcome-benefits">
-
             <article>
               <span className="benefit-icon">♜</span>
-
               <div>
                 <strong>
                   Welcome Gift: Pure Tej or Buna
@@ -173,12 +167,10 @@ function handleChange(event) {
 
             <article>
               <span className="benefit-icon">♧</span>
-
               <div>
                 <strong>
                   Communal Gursha Points
                 </strong>
-
                 <p>
                   Earn generous loyalty points redeemable
                   for hand-poured Buna, seasonal specials,
@@ -189,12 +181,10 @@ function handleChange(event) {
 
             <article>
               <span className="benefit-icon">♟</span>
-
               <div>
                 <strong>
                   Fasting Calendar Alerts
                 </strong>
-
                 <p>
                   Timely seasonal notifications for fasting
                   periods. Chef's Bayan specialty spreads
@@ -205,12 +195,10 @@ function handleChange(event) {
 
             <article>
               <span className="benefit-icon">✣</span>
-
               <div>
                 <strong>
                   Express Addis Delivery
                 </strong>
-
                 <p>
                   Save time on delivery requests across
                   Addis Ababa with priority slots and
@@ -221,12 +209,10 @@ function handleChange(event) {
 
             <article>
               <span className="benefit-icon">♜</span>
-
               <div>
                 <strong>
                   Priority Mesob Table Reservations
                 </strong>
-
                 <p>
                   Skip standard waitlists for authentic
                   seating and evening green-coffee roasting
@@ -234,7 +220,6 @@ function handleChange(event) {
                 </p>
               </div>
             </article>
-
           </div>
 
           <div className="register-story">
@@ -250,12 +235,10 @@ function handleChange(event) {
               <strong>
                 TRADITION IN EVERY BITE
               </strong>
-
               <p>
                 “Sharing from the same mesob is the
                 ancient essence of long communion.”
               </p>
-
               <small>
                 — Habesha Proverb
               </small>
@@ -265,12 +248,10 @@ function handleChange(event) {
 
         {/*  Registration Card   */}
         <div className="register-card">
-
           <div className="register-card__heading">
             <h2>
               Create Your Mesob House Account
             </h2>
-
             <p>
               Join our culinary heritage circle in less
               than a minute.
@@ -281,7 +262,6 @@ function handleChange(event) {
             <button type="button">
               ▣　Telebirr Quick Sign
             </button>
-
             <button type="button">
               G　Continue with Google
             </button>
@@ -299,11 +279,9 @@ function handleChange(event) {
             onSubmit={handleSubmit}
             noValidate
           >
-
             {/* Full Name */}
             <label>
               Full Name
-
               <input
                 type="text"
                 name="name"
@@ -322,10 +300,8 @@ function handleChange(event) {
             {/* Phone */}
             <label>
               Ethiopian Mobile Number
-
               <span className="phone-input">
                 <span>ET　+251</span>
-
                 <input
                   type="tel"
                   name="phone"
@@ -334,12 +310,10 @@ function handleChange(event) {
                   onChange={handleChange}
                 />
               </span>
-
               <small>
                 We will send a 4-digit code to your
                 Ethiopian mobile number.
               </small>
-
               {errors.phone && (
                 <small className="register-error">
                   {errors.phone}
@@ -350,7 +324,6 @@ function handleChange(event) {
             {/* Email */}
             <label>
               Email Address
-
               <input
                 type="email"
                 name="email"
@@ -358,7 +331,6 @@ function handleChange(event) {
                 value={form.email}
                 onChange={handleChange}
               />
-
               {errors.email && (
                 <small className="register-error">
                   {errors.email}
@@ -370,7 +342,6 @@ function handleChange(event) {
             <div className="password-grid">
               <label>
                 Password
-
                 <div className="register-password-input">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -402,7 +373,6 @@ function handleChange(event) {
               {/* Confirm Password */}
               <label>
                 Confirm Password
-
                 <div className="register-password-input">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
@@ -440,7 +410,6 @@ function handleChange(event) {
 
             {/*   Live Password Requirements */}
             <div className="password-requirements">
-
               <p
                 className={
                   password.length >= 8
@@ -505,7 +474,6 @@ function handleChange(event) {
                   : "❌"}{" "}
                 One symbol
               </p>
-
             </div>
 
             {/* Dining Preference */}
@@ -518,7 +486,6 @@ function handleChange(event) {
                 Helps us curate your welcome and fasting
                 recommendations.
               </p>
-
               <div className="preference-pills">
 
                 <button
@@ -539,7 +506,6 @@ function handleChange(event) {
                 <button type="button">
                   100% Pure Teff (Gluten-Free)
                 </button>
-
               </div>
             </div>
 
@@ -591,7 +557,6 @@ function handleChange(event) {
                 ? "Creating Account..."
                 : "Create Account & Receive Welcome Gursha　➜"}
             </button>
-
           </form>
 
           <p className="register-signin">
@@ -600,7 +565,6 @@ function handleChange(event) {
               Login in here
             </Link>
           </p>
-
         </div>
       </div>
     </section>

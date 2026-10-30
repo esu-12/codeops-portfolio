@@ -34,20 +34,17 @@ export default async function DashboardOrdersPage({ searchParams }) {
   }
 
   const params = await searchParams;
-
   const sort = ALLOWED_SORTS.includes(params?.sort)
     ? params.sort
     : "createdAt";
 
   const dir = params?.dir === "asc" ? "asc" : "desc";
-
   const requestedPage = Number.parseInt(params?.page ?? "1", 10);
   const safePage = Number.isFinite(requestedPage)
     ? Math.max(1, requestedPage)
     : 1;
 
   const orders = await getOrders();
-
   const sortedOrders = [...orders].sort((a, b) => {
     let comparison = 0;
 

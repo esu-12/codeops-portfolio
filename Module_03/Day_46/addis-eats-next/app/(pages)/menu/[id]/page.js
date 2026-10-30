@@ -2,15 +2,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://addis-eats-backend.onrender.com";
 async function getDish(id) {
   try {
-
     const response = await fetch(`${API_URL}/menu/`, {
       next: { revalidate: 60 },
     });
@@ -40,8 +37,6 @@ async function getDish(id) {
   }
 }
 
-
-
 export async function generateMetadata({ params }) {
   const { id } = await params;
   const dish = await getDish(id);
@@ -64,8 +59,6 @@ export async function generateMetadata({ params }) {
   const dishUrl = `${SITE_URL}/menu/${encodeURIComponent(String(dish.id))}`;
 
   // Uses the dynamic Open Graph image for this specific dish.
-
-
   return {
     title: `${dish.nameEn} | Addis Eats`,
     description,
@@ -96,7 +89,6 @@ export default async function DishPage({ params }) {
   }
 
   const dishUrl = `${SITE_URL}/menu/${encodeURIComponent(String(dish.id))}`;
-
   const imageUrl = `${dishUrl}/opengraph-image`;
 
   const structuredData = {
@@ -125,7 +117,6 @@ export default async function DishPage({ params }) {
       />
 
       <h1>{dish.nameEn}</h1>
-
       {dish.nameAm && <p>{dish.nameAm}</p>}
 
       <p>{dish.description}</p>
