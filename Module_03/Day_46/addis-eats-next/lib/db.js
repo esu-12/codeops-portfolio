@@ -51,6 +51,16 @@ const mockDishes = [
 function mapOrder(row) {
   if (!row) return null;
 
+  let items = row.items;
+
+  if (typeof items === "string") {
+    try {
+      items = JSON.parse(items);
+    } catch {
+      items = [];
+    }
+  }
+
   return {
     id: row.id,
     userId: row.userId,
@@ -64,7 +74,7 @@ function mapOrder(row) {
     paymentMethod: row.paymentMethod,
     dishId: row.dishId,
     quantity: Number(row.quantity ?? 1),
-    items: Array.isArray(row.items) ? row.items : [],
+    items: Array.isArray(items) ? items : [],
     totalItems: Number(row.totalItems ?? 0),
     totalPrice: Number(row.totalPrice ?? 0),
     deliveryFee: Number(row.deliveryFee ?? 0),
@@ -162,6 +172,7 @@ async function fetchOrders(userId) {
 
   return rows.map(mapOrder);
 }
+
 
 export const db = {
   dish: {

@@ -20,7 +20,8 @@ export async function GET(request, { params }) {
   const initialOrder = await getOrder(id);
 
   // Do not reveal another user's order.
-  if (!initialOrder || initialOrder.userId !== session.id) {
+  if (!initialOrder || 
+    (initialOrder.userId !== session.id && session.role !=="staff")) {
     return NextResponse.json(
       { error: "Order not found." },
       { status: 404 }
@@ -66,7 +67,8 @@ export async function GET(request, { params }) {
         try {
           const order = await getOrder(id);
 
-          if (!order || order.userId !== session.id) {
+          if (!order || 
+            (order.userId !== session.id && session.role !=="staff")) {
             close();
             return;
           }
