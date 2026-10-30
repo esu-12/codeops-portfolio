@@ -1,83 +1,89 @@
 
 import "server-only";
-
 import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
-
-const globalForUsers = globalThis;
-
-const users =
-  globalForUsers.addisEatsUsers ??
-  (globalForUsers.addisEatsUsers = []);
+import { sql } from "@/lib/neon";
 
 export async function createUser({ name, phone, email, password }) {
-  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedName = name.trim();
   const normalizedPhone = phone.trim();
-
-  const existingUser = users.find(
-    (user) =>
-      user.email === normalizedEmail ||
-      user.phone === normalizedPhone
-  );
-
-  if (existingUser) {
-    return {
-      success: false,
-      error: "An account with that email or phone already exists.",
-    };
-  }
+  const normalizedEmail = email.trim().toLowerCase();
 
   const passwordHash = await bcrypt.hash(password, 12);
 
-  const user = {
-    id: randomUUID(),
-    name: name.trim(),
-    phone: normalizedPhone,
-    email: normalizedEmail,
-    passwordHash,
-    role:
-      process.env.NODE_ENV === "development" &&
-      normalizedEmail === process.env.DEV_STAFF_EMAIL?.trim().toLowerCase()
-        ? "staff"
-        : "customer",
-  };
+  const id = randomUUID();
 
-  users.push(user);
+  try {
+    const rows = await sql`
+      INSERT INTO users (
+        id,
+        name,
+        phone,
+        email,
+        password_hash,
+        role
+      )
+      VALUES (
+        ${id},
+        ${normalizedName},
+        ${normalizedPhone},
+        ${normalizedEmail},
+        ${passwordHash},
+        ${
+          process.env.NODE_ENV === "development" &&
+          normalizedEmail ===
+            process.env.DEV_STAFF_EMAIL?.trim().toLowerCase()
+            ? "staff"
+            : "customer"
+        }
+      )
+      RETURNING id, name, phone, email, role
+    `;
 
-  return {
-    success: true,
-    user: {
-      id: user.id,
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-      role: user.role,
-    },
-  };
+    return {
+      success: true,
+      user: rows[0],
+    };
+  } catch (error) {
+    if (error.code === "23505") {
+      return {
+        success: false,
+        error: "An account with that email or phone already exists.",
+      };
+    }
+
+    throw error;
+  }
 }
 
 export async function verifyUser({ identifier, password }) {
   const normalizedIdentifier = identifier.trim().toLowerCase();
   const normalizedPhone = identifier.trim();
 
-  const user = users.find(
-    (candidate) =>
-      candidate.email === normalizedIdentifier ||
-      candidate.phone === normalizedPhone
-  );
+  const rows = await sql`
+    SELECT
+      id,
+      name,
+      phone,
+      email,
+      password_hash AS "passwordHash",
+      role
+    FROM users
+    WHERE email = ${normalizedIdentifier}
+       OR phone = ${normalizedPhone}
+    LIMIT 1
+  `;
 
-  if (!user) {
-    return null;
-  }
+  const user = rows[0];
+
+  if (!user) return null;
 
   const passwordMatches = await bcrypt.compare(
     password,
     user.passwordHash
   );
 
-  if (!passwordMatches) {
-    return null;
-  }
+  if (!passwordMatches) return null;
 
   return {
     id: user.id,
@@ -89,17 +95,12 @@ export async function verifyUser({ identifier, password }) {
 }
 
 export async function getUserById(id) {
-  const user = users.find((candidate) => candidate.id === id);
+  const rows = await sql`
+    SELECT id, name, phone, email, role
+    FROM users
+    WHERE id = ${id}
+    LIMIT 1
+  `;
 
-  if (!user) {
-    return null;
-  }
-
-  return {
-    id: user.id,
-    name: user.name,
-    phone: user.phone,
-    email: user.email,
-    role: user.role,
-  };
+  return rows[0] ?? null;
 }
