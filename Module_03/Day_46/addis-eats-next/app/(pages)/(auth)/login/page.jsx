@@ -28,8 +28,6 @@ function SignIn() {
     setForm((currentForm) => ({
       ...currentForm,
       [name]: value,
-      ...(name === "email" ? { phone: "" } : {}),
-      ...(name === "phone" ? { email: "" } : {}),
     }));
   }
 
