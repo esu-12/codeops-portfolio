@@ -16,8 +16,12 @@ export default async function OrderStatusPage({ params }) {
   const { id } = await params;
   const order = await getOrder(id);
 
-  // Do not reveal whether another user's order exists.
-  if (!order || order.userId !== session.id) {
+  // Customers can view only their own orders.
+  // Staff can view all customer orders.
+  if (
+    !order ||
+    (order.userId !== session.id && session.role !== "staff")
+  ) {
     notFound();
   }
 
