@@ -1,0 +1,14 @@
+
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "rootDir": ".",
+    "incremental": false
+  },
+  "include": [
+    "main.ts",
+    "src/orders/**/*.ts"
+  ]
+}
