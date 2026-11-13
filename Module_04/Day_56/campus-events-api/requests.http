@@ -1,0 +1,31 @@
+
+### Create a new campus event
+POST http://localhost:3000/api/events
+Content-Type: application/json
+
+{
+  "title": "Campus Technology Expo",
+  "description": "A showcase of student technology projects.",
+  "location": "Main Campus",
+  "eventDate": "2026-12-20T09:00:00.000Z",
+  "category": "technology",
+  "isPublished": true
+}
+
+
+
+### Get the newly created event
+GET http://localhost:3000/api/events/evt-1794574066556
+
+
+### Test invalid event data
+POST http://localhost:3000/api/events
+Content-Type: application/json
+
+{
+  "description": "An event without a title.",
+  "location": "Main Campus",
+  "eventDate": "2026-12-20T09:00:00.000Z",
+  "category": "technology",
+  "isPublished": true
+}
