@@ -4,11 +4,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { Event } from './types/event.interface';
-import { Session } from './types/session.interface';
+import { Event } from './types/event.interface.js';
+import { Session } from './types/session.interface.js';
 
-import { events } from './data/events.seed';
-import { sessions } from './data/sessions.seed';
+import { events } from './data/events.seed.js';
+import { sessions } from './data/sessions.seed.js';
 
 export interface FindEventsQuery {
   category?: string;

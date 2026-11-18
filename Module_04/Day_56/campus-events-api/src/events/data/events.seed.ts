@@ -1,4 +1,4 @@
-import { Event } from '../types/event.interface';
+import { Event } from '../types/event.interface.js';
 
 export const events: Event[] = [
   {

@@ -1,4 +1,4 @@
-import { Session } from '../types/session.interface';
+import { Session } from '../types/session.interface.js';
 
 export const sessions: Session[] = [
   {
