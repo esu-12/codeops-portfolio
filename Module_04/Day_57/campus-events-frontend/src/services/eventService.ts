@@ -51,9 +51,26 @@ export function getSession(
   );
 }
 
-export function createEvent(data: Omit<Event, 'id'>): Promise<Event> {
-  return request<Event>('/events', {
+
+export async function createEvent(
+  data: Omit<Event, 'id'>,
+): Promise<Event> {
+  const response = await fetch('/api/events', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(data),
+    cache: 'no-store',
   });
+
+  if (!response.ok) {
+    const result = await response.json().catch(() => null);
+
+    throw new Error(
+      result?.message ?? `API request failed: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  return response.json() as Promise<Event>;
 }
