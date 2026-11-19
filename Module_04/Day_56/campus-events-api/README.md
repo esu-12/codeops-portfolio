@@ -2,6 +2,11 @@
 
 A RESTful Campus Events API built with NestJS and TypeScript.
 
+## Live API
+
+- **Production API:** https://campus-events-api.vercel.app
+- **Events Endpoint:** https://campus-events-api.vercel.app/api/events
+
 ## Features
 
 - List all campus events.
@@ -36,36 +41,42 @@ npm install
 npm run start:dev
 ```
 
-The API runs at:
+The local API runs at:
 
-http://localhost:3000/api
+`http://localhost:3001/api`
+
+The production API runs at:
+
+`https://campus-events-api.vercel.app/api`
 
 ## API Endpoints
 
-| Method | Endpoint                            | Description        |
-| ------ | ----------------------------------- | ------------------ |
-| GET    | /api/events                         | List events        |
-| GET    | /api/events/upcoming                | Upcoming events    |
-| GET    | /api/events/:id                     | Get one event      |
-| GET    | /api/events/:id/sessions            | Get event sessions |
-| GET    | /api/events/:id/sessions/:sessionId | Get one session    |
-| POST   | /api/events                         | Create an event    |
+| Method | Endpoint                              | Description        |
+| ------ | ------------------------------------- | ------------------ |
+| GET    | `/api/events`                         | List events        |
+| GET    | `/api/events/upcoming`                | Upcoming events    |
+| GET    | `/api/events/:id`                     | Get one event      |
+| GET    | `/api/events/:id/sessions`            | Get event sessions |
+| GET    | `/api/events/:id/sessions/:sessionId` | Get one session    |
+| POST   | `/api/events`                         | Create an event    |
 
 ## Query Parameters
 
-The GET /api/events endpoint supports:
+The `GET /api/events` endpoint supports:
 
-- category
-- location
-- isPublished
-- sortBy (eventDate or title)
-- order (asc or desc)
-- page
-- limit
+- `category`
+- `location`
+- `isPublished`
+- `sortBy` (`eventDate` or `title`)
+- `order` (`asc` or `desc`)
+- `page`
+- `limit`
 
 Example:
 
+```text
 /api/events?category=technology&sortBy=title&order=asc&page=1&limit=5
+```
 
 ## Example POST Request
 
@@ -103,3 +114,7 @@ The project uses in-memory arrays for events and sessions. Data is reset when th
 ```bash
 npm run build
 ```
+
+## Author
+
+Esayas Nigussie
