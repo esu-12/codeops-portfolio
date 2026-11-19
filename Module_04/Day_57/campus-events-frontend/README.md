@@ -1,5 +1,12 @@
-
 # CampusConnect – Campus Events Application
+
+## Live Demo
+
+- **Frontend:** https://campus-events-frontend-one.vercel.app/
+- **Backend API:** https://campus-events-api.vercel.app/api
+- **Events Endpoint:** https://campus-events-api.vercel.app/api/events
+
+The frontend is deployed on Vercel and communicates with the production NestJS REST API.
 
 ## Project Overview
 
@@ -58,13 +65,21 @@ npm install
 
 ## Environment Configuration
 
-Create a `.env.local` file in the project root:
+Create a `.env.local` file in the project root.
+
+For local development:
 
 ```env
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/api
 ```
 
-Make sure the NestJS backend is running on port 3001.
+For production, the frontend uses:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://campus-events-api.vercel.app/api
+```
+
+Make sure the NestJS backend is running on port 3001 during local development.
 
 ## Running the Application
 
@@ -81,12 +96,14 @@ http://localhost:3000
 ## Available Features
 
 ### Home Page
+
 - Welcome section
 - Upcoming events
 - Event cards
 - Navigation to all events
 
 ### All Events
+
 - Browse campus events
 - Search by event title
 - Filter by category
@@ -97,16 +114,19 @@ http://localhost:3000
 - Pagination
 
 ### Event Details
+
 - View full event information
 - View related sessions
 
 ### Session Details
+
 - View session title
 - View start and end times
 - View room information
 - Navigate to the related event
 
 ### Create Event
+
 - Create new campus events
 - Enter event information
 - Select category
@@ -120,14 +140,14 @@ The frontend uses the native Fetch API to communicate with the Campus Events bac
 
 Available endpoints:
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/events` | Get all events |
-| GET | `/api/events/upcoming` | Get upcoming events |
-| GET | `/api/events/:id` | Get event details |
-| GET | `/api/events/:id/sessions` | Get event sessions |
-| GET | `/api/events/:id/sessions/:sessionId` | Get session details |
-| POST | `/api/events` | Create an event |
+| Method | Endpoint                              | Purpose             |
+| ------ | ------------------------------------- | ------------------- |
+| GET    | `/api/events`                         | Get all events      |
+| GET    | `/api/events/upcoming`                | Get upcoming events |
+| GET    | `/api/events/:id`                     | Get event details   |
+| GET    | `/api/events/:id/sessions`            | Get event sessions  |
+| GET    | `/api/events/:id/sessions/:sessionId` | Get session details |
+| POST   | `/api/events`                         | Create an event     |
 
 ## Testing
 
@@ -152,6 +172,8 @@ npm run build
 ## Backend Project
 
 CampusConnect frontend connects to the NestJS Campus Events API developed in Module 4, Day 56.
+
+**Production API:** https://campus-events-api.vercel.app/api
 
 ## Author
 
