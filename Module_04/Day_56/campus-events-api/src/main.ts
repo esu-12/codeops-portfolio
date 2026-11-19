@@ -6,6 +6,16 @@ import { AppModule } from './app.module.js';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Allow requests from the local and deployed CampusConnect frontend
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://campus-events-frontend-one.vercel.app',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  });
+
   // Set the global API prefix
   app.setGlobalPrefix('api');
 
