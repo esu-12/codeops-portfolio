@@ -1,3 +1,4 @@
+
 export interface Event {
   id: string;
   title: string;
@@ -6,4 +7,7 @@ export interface Event {
   eventDate: string;
   category: string;
   isPublished: boolean;
+
+  // User ID of the event creator
+  createdBy?: string;
 }

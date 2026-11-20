@@ -426,3 +426,72 @@ npm run build
 ## Author
 
 Esayas Nigussie
+## Granular Permissions and Event Ownership
+
+Day61 extends role-based authorization with granular permissions and event ownership policies.
+
+### Permission Matrix
+
+| Permission | STUDENT | ORGANIZER | ADMIN |
+|---|---|---|---|
+| event:read | Yes | Yes | Yes |
+| event:create | No | Yes | Yes |
+| event:update | No | Own events | All events |
+| event:delete | No | Own events | All events |
+| event:publish | No | Own events | All events |
+| user:read | No | No | Yes |
+| user:update-role | No | No | Yes |
+
+### Authorization Components
+
+- RequirePermissions decorator declares required permissions.
+- PermissionsGuard checks permissions assigned to the authenticated user's role.
+- EventOwnershipPolicy enforces event ownership.
+- RolesGuard preserves role-based access restrictions.
+- JwtAuthGuard verifies authentication.
+
+### Event Ownership Rules
+
+- Organizers can update, publish, and delete events they created.
+- Organizers cannot manage another organizer's events.
+- Administrators can manage all events.
+- Students cannot create or manage events.
+- Seeded and API-key-imported events have no authenticated creator and can only be managed by administrators.
+
+### Additional Protected Event Endpoints
+
+| Method | Endpoint | Permission |
+|---|---|---|
+| PATCH | /api/events/:id | event:update |
+| PATCH | /api/events/:id/publish | event:publish |
+| DELETE | /api/events/:id | event:delete |
+
+All three operations enforce event ownership.
+
+### Authorization Testing
+
+| Test | Expected Result | Result |
+|---|---|---|
+| Organizer creates an event | 201 Created | Passed |
+| Organizer updates own event | 200 OK | Passed |
+| Organizer publishes own event | 200 OK | Passed |
+| Organizer deletes own event | 200 OK | Passed |
+| Organizer updates another user's event | 403 Forbidden | Passed |
+| Organizer deletes another user's event | 403 Forbidden | Passed |
+| Student attempts event creation | 403 Forbidden | Passed |
+| Administrator updates another user's event | 200 OK | Passed |
+
+### Additional Source Files
+
+- src/permissions/permission.enum.ts
+- src/permissions/role-permissions.ts
+- src/permissions/permissions.decorator.ts
+- src/permissions/permissions.guard.ts
+- src/policies/event-ownership.policy.ts
+- src/events/dto/update-event.dto.ts
+- src/events/dto/publish-event.dto.ts
+
+### Storage Limitation
+
+The application currently uses in-memory storage. Users, events, and ownership information are not persisted across server restarts. A persistent database is required for durable storage.
+

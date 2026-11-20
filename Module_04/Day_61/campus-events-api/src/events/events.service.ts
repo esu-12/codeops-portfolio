@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 
 import { Event } from './types/event.interface.js';
@@ -161,14 +162,42 @@ export class EventsService {
   }
 
   // Create a new event
-  create(data: Omit<Event, 'id'>): Event {
+  create(
+    data: Omit<Event, 'id' | 'createdBy'>,
+    userId?: string,
+  ): Event {
     const newEvent: Event = {
       id: `evt-${Date.now()}`,
       ...data,
+      ...(userId ? { createdBy: userId } : {}),
     };
 
     events.push(newEvent);
 
     return newEvent;
+  }
+
+
+  update(
+    id: string,
+    data: Partial<Omit<Event, 'id' | 'createdBy'>>,
+  ): Event {
+    const event = this.findOne(id);
+
+    Object.assign(event, data);
+
+    return event;
+  }
+
+  remove(id: string): Event {
+    const index = events.findIndex((event) => event.id === id);
+
+    if (index === -1) {
+      throw new NotFoundException(`Event with ID ${id} not found`);
+    }
+
+    const [deletedEvent] = events.splice(index, 1);
+
+    return deletedEvent;
   }
 }
