@@ -31,14 +31,17 @@ export class EventsService {
     if (query.category) {
       result = result.filter(
         (event) =>
-          event.category.toLowerCase() === query.category!.toLowerCase(),
+          (event.category ?? '').toLowerCase() ===
+          query.category!.toLowerCase(),
       );
     }
 
     // 2. Filter by location
     if (query.location) {
       result = result.filter((event) =>
-        event.location.toLowerCase().includes(query.location!.toLowerCase()),
+        (event.location ?? '')
+          .toLowerCase()
+          .includes(query.location!.toLowerCase()),
       );
     }
 
