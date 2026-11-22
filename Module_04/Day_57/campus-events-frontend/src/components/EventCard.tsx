@@ -1,11 +1,21 @@
+// src/components/EventCard.tsx
 import Link from 'next/link';
+import EventManagement from '@/components/EventManagement';
 import type { Event } from '@/types/event';
 
 interface EventCardProps {
   event: Event;
+  canManage?: boolean;
+  onUpdated?: (event: Event) => void;
+  onDeleted?: (eventId: string) => void;
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({
+  event,
+  canManage,
+  onUpdated,
+  onDeleted,
+}: EventCardProps) {
   const eventDate = new Date(event.eventDate);
 
   const formattedDate = eventDate.toLocaleDateString('en-US', {
@@ -39,6 +49,14 @@ export default function EventCard({ event }: EventCardProps) {
         >
           View event details →
         </Link>
+
+        {canManage && onUpdated && onDeleted && (
+          <EventManagement
+            event={event}
+            onUpdated={onUpdated}
+            onDeleted={onDeleted}
+          />
+        )}
       </div>
     </article>
   );

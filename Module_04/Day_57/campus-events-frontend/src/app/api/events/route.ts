@@ -1,13 +1,19 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const apiKey = process.env.CLASSROOM_API_KEY;
+  const token = request.cookies.get('access_token')?.value;
 
-  if (!apiBaseUrl || !apiKey) {
+  if (!token) {
     return NextResponse.json(
-      { message: 'API URL or API key is not configured.' },
+      { message: 'Please log in to create an event.' },
+      { status: 401 },
+    );
+  }
+
+  if (!apiBaseUrl) {
+    return NextResponse.json(
+      { message: 'API URL is not configured.' },
       { status: 500 },
     );
   }
@@ -19,7 +25,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
       cache: 'no-store',

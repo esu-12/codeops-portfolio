@@ -74,3 +74,73 @@ export async function createEvent(
 
   return response.json() as Promise<Event>;
 }
+
+export async function updateEvent(
+  id: string,
+  data: Partial<
+    Pick<Event, 'title' | 'description' | 'location' | 'eventDate' | 'category'>
+  >,
+): Promise<Event> {
+  const response = await fetch(`/api/events/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    cache: 'no-store',
+  });
+
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      result?.message ?? `Unable to update event: ${response.status}`,
+    );
+  }
+
+  return result as Event;
+}
+
+export async function publishEvent(
+  id: string,
+  isPublished: boolean,
+): Promise<Event> {
+  const response = await fetch(
+    `/api/events/${encodeURIComponent(id)}/publish`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ isPublished }),
+      cache: 'no-store',
+    },
+  );
+
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      result?.message ?? `Unable to update publication: ${response.status}`,
+    );
+  }
+
+  return result as Event;
+}
+
+export async function deleteEvent(id: string): Promise<Event> {
+  const response = await fetch(`/api/events/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    cache: 'no-store',
+  });
+
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(
+      result?.message ?? `Unable to delete event: ${response.status}`,
+    );
+  }
+
+  return result as Event;
+}

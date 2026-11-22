@@ -14,6 +14,10 @@ const PAGE_SIZE = 6;
 
 export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
+  const [currentUser, setCurrentUser] = useState<{
+    id: string;
+    role: 'STUDENT' | 'ORGANIZER' | 'ADMIN';
+  } | null>(null);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
@@ -64,25 +68,55 @@ export default function EventsPage() {
     loadEvents();
   }, [page, category, location, isPublished, sortBy, order]);
 
-  const filteredEvents = useMemo(() => {
-    const searchTerm = search.trim().toLowerCase();
-
-    if (!searchTerm) return events;
-
-    return events.filter((event) =>
-      event.title.toLowerCase().includes(searchTerm),
-    );
-  }, [events, search]);
-
   const categories = useMemo(
-    () => [...new Set(events.map((event) => event.category))].sort(),
+    () => [
+      ...new Set(
+        events
+          .map((event) => event.category)
+          .filter(Boolean),
+      ),
+    ].sort(),
     [events],
   );
+
+  useEffect(() => {
+  async function loadCurrentUser() {
+    try {
+      const response = await fetch('/api/auth/profile', {
+        cache: 'no-store',
+      });
+
+      if (!response.ok) return;
+
+      const user = await response.json();
+
+      setCurrentUser(user);
+    } catch {
+      setCurrentUser(null);
+    }
+  }
+
+  loadCurrentUser();
+}, []);
 
   const locations = useMemo(
-    () => [...new Set(events.map((event) => event.location))].sort(),
+    () => [
+      ...new Set(
+        events
+          .map((event) => event.location)
+          .filter(Boolean),
+      ),
+    ].sort(),
     [events],
   );
+
+  const filteredEvents = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    return events.filter((event) =>
+      (event.title ?? '').toLowerCase().includes(normalizedSearch),
+    );
+  }, [events, search]);
 
   function updateFilter(
     setter: (value: string) => void,
@@ -168,7 +202,28 @@ export default function EventsPage() {
           <>
             <div className="event-grid">
               {filteredEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <EventCard
+                  key={event.id}
+                  event={event}
+                  canManage={
+                    currentUser?.role === 'ADMIN' ||
+                    (currentUser?.role === 'ORGANIZER' &&
+                      currentUser.id === event.createdBy)
+                  }
+                  onUpdated={(updated) =>
+                    setEvents((current) =>
+                      current.map((item) =>
+                        item.id === updated.id ? updated : item,
+                      ),
+                    )
+                  }
+                  onDeleted={(eventId) => {
+                    setEvents((current) =>
+                      current.filter((item) => item.id !== eventId),
+                    );
+                    setTotal((current) => Math.max(0, current - 1));
+                  }}
+                />
               ))}
             </div>
 

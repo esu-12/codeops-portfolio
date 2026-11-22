@@ -6,6 +6,7 @@ export interface Event {
   eventDate: string;
   category: string;
   isPublished: boolean;
+  createdBy?: string;
 }
 
 export interface Session {
