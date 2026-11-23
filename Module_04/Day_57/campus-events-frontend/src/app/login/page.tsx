@@ -38,7 +38,12 @@ export default function LoginPage() {
         );
       }
 
-      router.push('/events');
+      if (result.user?.mustChangePassword) {
+        router.push('/change-password');
+      } else {
+        router.push('/events');
+      }
+
       router.refresh();
     } catch (err) {
       setError(

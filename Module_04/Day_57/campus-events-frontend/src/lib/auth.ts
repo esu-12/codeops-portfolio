@@ -5,6 +5,7 @@ export interface CurrentUser {
   name?: string;
   email: string;
   role: 'STUDENT' | 'ORGANIZER' | 'ADMIN';
+  mustChangePassword: boolean;
 }
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {

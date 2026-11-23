@@ -7,6 +7,7 @@ export default async function Navbar() {
 
   const canCreateEvents =
     user?.role === 'ORGANIZER' || user?.role === 'ADMIN';
+  const isAdmin = user?.role === 'ADMIN';
 
   return (
     <header className="navbar">
@@ -25,6 +26,12 @@ export default async function Navbar() {
           {canCreateEvents && (
             <Link href="/create-event" className="nav-button">
               + Create Event
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link href="/admin/organizers" className="nav-button">
+              Manage Organizers
             </Link>
           )}
 
