@@ -6,5 +6,6 @@ export interface User {
   email: string;
   password: string;
   role: UserRole;
+  mustChangePassword: boolean;
   createdAt: Date;
 }

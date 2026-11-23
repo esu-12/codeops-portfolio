@@ -1,7 +1,9 @@
+
 import {
   Body,
   Controller,
   Get,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -11,12 +13,14 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
+import { ChangePasswordDto } from './dto/change-password.dto.js';
 
 interface AuthenticatedRequest extends Request {
   user: {
     id: string;
     email: string;
     role: string;
+    mustChangePassword: boolean;
   };
 }
 
@@ -38,5 +42,14 @@ export class AuthController {
   @Get('profile')
   getProfile(@Req() request: AuthenticatedRequest) {
     return request.user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('change-password')
+  changePassword(
+    @Req() request: AuthenticatedRequest,
+    @Body() dto: ChangePasswordDto,
+  ) {
+    return this.authService.changePassword(request.user.id, dto);
   }
 }

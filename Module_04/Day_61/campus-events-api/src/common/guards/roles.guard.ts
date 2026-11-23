@@ -1,3 +1,4 @@
+
 import {
   CanActivate,
   ExecutionContext,
@@ -13,6 +14,7 @@ interface AuthenticatedRequest {
     id: string;
     email: string;
     role: UserRole;
+    mustChangePassword: boolean;
   };
 }
 
@@ -36,6 +38,15 @@ export class RolesGuard implements CanActivate {
     if (!request.user || !requiredRoles.includes(request.user.role)) {
       throw new ForbiddenException(
         'You do not have permission to access this resource',
+      );
+    }
+
+    if (
+      request.user.role === 'ORGANIZER' &&
+      request.user.mustChangePassword
+    ) {
+      throw new ForbiddenException(
+        'You must change your temporary password before accessing this feature',
       );
     }
 

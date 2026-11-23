@@ -1,3 +1,4 @@
+
 import {
   ConflictException,
   Injectable,
@@ -26,6 +27,7 @@ export class UsersService {
     email: string,
     hashedPassword: string,
     role: UserRole = UserRole.STUDENT,
+    mustChangePassword = false,
   ): User {
     const normalizedEmail = email.toLowerCase();
 
@@ -39,6 +41,7 @@ export class UsersService {
       email: normalizedEmail,
       password: hashedPassword,
       role,
+      mustChangePassword,
       createdAt: new Date(),
     };
 
@@ -51,15 +54,28 @@ export class UsersService {
   }
 
   updateRole(id: string, role: UserRole): User {
-  const user = this.findById(id);
+    const user = this.findById(id);
 
-  if (!user) {
-    throw new NotFoundException('User not found');
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.role = role;
+    return user;
   }
 
-  user.role = role;
-  return user;
-}
+  updatePassword(id: string, hashedPassword: string): User {
+    const user = this.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.password = hashedPassword;
+    user.mustChangePassword = false;
+
+    return user;
+  }
 
   remove(id: string): void {
     const index = this.users.findIndex((user) => user.id === id);

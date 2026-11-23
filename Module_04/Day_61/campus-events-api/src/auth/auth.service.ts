@@ -1,3 +1,4 @@
+
 import {
   Injectable,
   UnauthorizedException,
@@ -7,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service.js';
 import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
+import { ChangePasswordDto } from './dto/change-password.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -53,7 +55,31 @@ export class AuthService {
         name: user.name,
         email: user.email,
         role: user.role,
+        mustChangePassword: user.mustChangePassword,
       },
+    };
+  }
+
+  async changePassword(
+    userId: string,
+    dto: ChangePasswordDto,
+  ) {
+    const user = this.usersService.findById(userId);
+
+    if (
+      !user ||
+      !(await bcrypt.compare(dto.currentPassword, user.password))
+    ) {
+      throw new UnauthorizedException('Current password is incorrect');
+    }
+
+    const hashedPassword = await bcrypt.hash(dto.newPassword, 12);
+
+    this.usersService.updatePassword(userId, hashedPassword);
+
+    return {
+      message: 'Password changed successfully',
+      mustChangePassword: false,
     };
   }
 }
