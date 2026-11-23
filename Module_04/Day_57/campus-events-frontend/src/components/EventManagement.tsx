@@ -170,6 +170,7 @@ export default function EventManagement({
       ) : (
         <div className="event-management-actions">
           <button
+            className="event-management-edit"
             type="button"
             onClick={() => setEditing(true)}
             disabled={loading}
@@ -179,6 +180,7 @@ export default function EventManagement({
 
           <button
             type="button"
+            className={event.isPublished ? 'unpublish-button' : 'publish-button'}
             onClick={handlePublish}
             disabled={loading}
           >
@@ -186,6 +188,7 @@ export default function EventManagement({
           </button>
 
           <button
+            className="event-management-delete"
             type="button"
             onClick={handleDelete}
             disabled={loading}

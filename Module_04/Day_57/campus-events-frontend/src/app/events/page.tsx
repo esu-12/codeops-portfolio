@@ -130,7 +130,7 @@ export default function EventsPage() {
     <main className="page-section">
       <div className="container">
         <div className="section-heading">
-          <span className="eyebrow">EXPLORE YOUR CAMPUS</span>
+          <span className="eyebrow">EXPLORE OUR CAMPUS</span>
           <h1>All Events</h1>
           <p>Discover events, workshops, conferences, and activities.</p>
         </div>

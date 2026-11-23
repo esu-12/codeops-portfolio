@@ -26,7 +26,7 @@ export default async function Home() {
     <main>
       <section className="hero">
         <div className="container hero-content">
-          <span className="hero-label">YOUR CAMPUS, YOUR COMMUNITY</span>
+          <span className="hero-label">IBT COLLEGE, SQ COMMUNITY</span>
 
           <h1>
             Discover What&apos;s

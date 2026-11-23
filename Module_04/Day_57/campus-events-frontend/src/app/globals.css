@@ -680,7 +680,166 @@ a {
   border: 1px solid #abefc6;
 }
 
+
+/* Event Management */
+.event-management {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.event-management-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.event-management button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.event-management button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.event-management button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Edit form */
+.event-management-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.event-management-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.event-management-form input,
+.event-management-form textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 14px;
+  color: #1f2937;
+  background: #ffffff;
+}
+
+.event-management-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.event-management-form input:focus,
+.event-management-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.event-management-form button[type="submit"] {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.event-management-form button[type="submit"]:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.event-management-form button[type="button"] {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.event-management-form button[type="button"]:hover:not(:disabled) {
+  background: #d1d5db;
+}
+
+/* Error message */
+.event-management .error-message {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+/* Event management action buttons */
+.event-management-actions .event-management-edit {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.event-management-actions .event-management-edit:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.event-management-actions .publish-button {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.event-management-actions .publish-button:hover:not(:disabled) {
+  background: #166534;
+}
+
+.event-management-actions .unpublish-button {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.event-management-actions .unpublish-button:hover:not(:disabled) {
+  background: #b45309;
+}
+
+.event-management-actions .event-management-delete {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.event-management-actions .event-management-delete:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+
+/* Small-screen layout */
 @media (max-width: 480px) {
+  .event-management-actions {
+    flex-direction: column;
+  }
+
+  .event-management-actions button {
+    width: 100%;
+  }
+
+  .event-management-form {
+    padding: 14px;
+  }
+
   .auth-page {
     padding: 32px 16px;
   }
