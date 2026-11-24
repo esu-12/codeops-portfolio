@@ -59,8 +59,8 @@ export default function CreateEventPage() {
   }
 
   return (
-    <main className="page-section">
-      <div className="container">
+    <main className="create-event-page">
+      <div className="create-event-container">
         <div className="section-heading">
           <span className="eyebrow">CAMPUSCONNECT</span>
           <h1>Create an Event</h1>
