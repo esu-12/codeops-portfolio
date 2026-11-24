@@ -10,6 +10,7 @@ import { Session } from './types/session.interface.js';
 
 import { events } from './data/events.seed.js';
 import { sessions } from './data/sessions.seed.js';
+import { UserRole } from '../users/types/user-role.enum.js';
 
 export interface FindEventsQuery {
   category?: string;
@@ -21,11 +22,37 @@ export interface FindEventsQuery {
   limit?: string;
 }
 
+interface EventViewer {
+  id: string;
+  role: UserRole;
+  mustChangePassword: boolean;
+}
+
 @Injectable()
 export class EventsService {
   // Return all events with filtering, sorting and pagination
-  findAll(query: FindEventsQuery) {
-    let result = [...events];
+findAll(
+  query: FindEventsQuery,
+  user: EventViewer | null = null,
+) {
+  let result = events.filter((event) => {
+    // Admins can see every event.
+    if (user?.role === UserRole.ADMIN) {
+      return true;
+    }
+
+    // Organizers who changed their temporary password
+    // can see their own drafts and all published events.
+    if (
+      user?.role === UserRole.ORGANIZER &&
+      !user.mustChangePassword
+    ) {
+      return event.isPublished || event.createdBy === user.id;
+    }
+
+    // Public visitors and students see published events only.
+    return event.isPublished;
+  });
 
     // 1. Filter by category
     if (query.category) {
@@ -117,12 +144,14 @@ export class EventsService {
     };
   }
 
-  // Return events whose date is today or later
-  findUpcoming() {
+  // Return upcoming events visible to the current user.
+  findUpcoming(user: EventViewer | null = null) {
     const today = new Date();
 
     return events.filter(
-      (event) => new Date(event.eventDate) >= today,
+      (event) =>
+        this.canViewEvent(event, user) &&
+        new Date(event.eventDate) >= today,
     );
   }
 
@@ -135,6 +164,73 @@ export class EventsService {
     }
 
     return event;
+  }
+
+    // Check whether a user can view an event.
+  private canViewEvent(
+    event: Event,
+    user: EventViewer | null,
+  ): boolean {
+    if (user?.role === UserRole.ADMIN) {
+      return true;
+    }
+
+    if (
+      user?.role === UserRole.ORGANIZER &&
+      !user.mustChangePassword
+    ) {
+      return event.isPublished || event.createdBy === user.id;
+    }
+
+    return event.isPublished;
+  }
+
+  // Find an event only if the current user can view it.
+  findVisibleOne(
+    id: string,
+    user: EventViewer | null = null,
+  ): Event {
+    const event = this.findOne(id);
+
+    if (!this.canViewEvent(event, user)) {
+      throw new NotFoundException(`Event with ID ${id} not found`);
+    }
+
+    return event;
+  }
+
+  // Find sessions only for events the user can view.
+  findVisibleSessions(
+    eventId: string,
+    user: EventViewer | null = null,
+  ): Session[] {
+    this.findVisibleOne(eventId, user);
+
+    return sessions.filter(
+      (session) => session.eventId === eventId,
+    );
+  }
+
+  // Find one session only if its event is visible.
+  findVisibleSession(
+    eventId: string,
+    sessionId: string,
+    user: EventViewer | null = null,
+  ): Session {
+    this.findVisibleOne(eventId, user);
+
+    const session = sessions.find(
+      (item) =>
+        item.id === sessionId && item.eventId === eventId,
+    );
+
+    if (!session) {
+      throw new NotFoundException(
+        `Session ${sessionId} not found for event ${eventId}`,
+      );
+    }
+
+    return session;
   }
 
   // Find all sessions belonging to an event
@@ -167,12 +263,12 @@ export class EventsService {
   // Create a new event
   create(
     data: Omit<Event, 'id' | 'createdBy'>,
-    userId?: string,
+    userId: string,
   ): Event {
     const newEvent: Event = {
       id: `evt-${Date.now()}`,
       ...data,
-      ...(userId ? { createdBy: userId } : {}),
+      createdBy: userId,
     };
 
     events.push(newEvent);
@@ -180,6 +276,19 @@ export class EventsService {
     return newEvent;
   }
 
+    // Create an event imported by a trusted API integration.
+    createImported(
+      data: Omit<Event, 'id' | 'createdBy'>,
+    ): Event {
+      const newEvent: Event = {
+        id: `evt-${Date.now()}`,
+        ...data,
+      };
+
+      events.push(newEvent);
+
+      return newEvent;
+    }
 
   update(
     id: string,

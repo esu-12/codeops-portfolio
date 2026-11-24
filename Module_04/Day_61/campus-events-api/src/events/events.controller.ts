@@ -16,6 +16,7 @@ import {
 import type { Request } from 'express';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard.js';
 import { ApiKeyGuard } from '../common/guards/api-key.guard.js';
 import { Roles } from '../common/decorators/roles.decorator.js';
 import { RolesGuard } from '../common/guards/roles.guard.js';
@@ -39,8 +40,13 @@ interface AuthenticatedRequest extends Request {
     id: string;
     email: string;
     role: UserRole;
+    mustChangePassword: boolean;
   };
 }
+
+type OptionalAuthenticatedRequest = Omit<Request, 'user'> & {
+  user?: AuthenticatedRequest['user'];
+};
 
 @UseInterceptors(TimingInterceptor)
 @Controller('events')
@@ -50,43 +56,71 @@ export class EventsController {
     private readonly eventOwnershipPolicy: EventOwnershipPolicy,
   ) {}
 
+  // Public event listing with optional authentication.
+  @UseGuards(OptionalJwtAuthGuard)
   @Get()
   findAll(
     @Query() query: Omit<FindEventsQuery, 'page' | 'limit'>,
     @Query('page', new ParseIntPipe({ optional: true })) page?: number,
     @Query('limit', new ParseIntPipe({ optional: true })) limit?: number,
+    @Req() request?: OptionalAuthenticatedRequest,
   ) {
-    return this.eventsService.findAll({
-      ...query,
-      page: page?.toString(),
-      limit: limit?.toString(),
-    });
+    return this.eventsService.findAll(
+      {
+        ...query,
+        page: page?.toString(),
+        limit: limit?.toString(),
+      },
+      request?.user ?? null,
+    );
   }
 
+  // Upcoming events with optional authentication.
+  @UseGuards(OptionalJwtAuthGuard)
   @Get('upcoming')
-  findUpcoming() {
-    return this.eventsService.findUpcoming();
+  findUpcoming(@Req() request: OptionalAuthenticatedRequest) {
+    return this.eventsService.findUpcoming(request.user ?? null);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id/sessions/:sessionId')
   findOneSession(
     @Param('id') id: string,
     @Param('sessionId') sessionId: string,
+    @Req() request: OptionalAuthenticatedRequest,
   ) {
-    return this.eventsService.findOneSession(id, sessionId);
+    return this.eventsService.findVisibleSession(
+      id,
+      sessionId,
+      request.user ?? null,
+    );
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id/sessions')
-  findSessions(@Param('id') id: string) {
-    return this.eventsService.findSessions(id);
+  findSessions(
+    @Param('id') id: string,
+    @Req() request: OptionalAuthenticatedRequest,
+  ) {
+    return this.eventsService.findVisibleSessions(
+      id,
+      request.user ?? null,
+    );
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventsService.findOne(id);
+  findOne(
+    @Param('id') id: string,
+    @Req() request: OptionalAuthenticatedRequest,
+  ) {
+    return this.eventsService.findVisibleOne(
+      id,
+      request.user ?? null,
+    );
   }
 
-  // JWT + role + permission: authorized event creation.
+  // Organizers and admins can create events.
   @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_CREATE)
@@ -98,14 +132,14 @@ export class EventsController {
     return this.eventsService.create(body, request.user.id);
   }
 
-  // API key: trusted server-to-server integrations.
+  // Trusted server-to-server event import.
   @UseGuards(ApiKeyGuard)
   @Post('import')
   importEvent(@Body() body: CreateEventDto) {
-    return this.eventsService.create(body);
+    return this.eventsService.createImported(body);
   }
 
-    // Organizers can update their own events; admins can update any event.
+  // Organizers can update their own events; admins can update any event.
   @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_UPDATE)
@@ -122,7 +156,7 @@ export class EventsController {
     return this.eventsService.update(id, body);
   }
 
-    // Publishing requires its own permission and ownership check.
+  // Publishing requires its own permission and ownership check.
   @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_PUBLISH)

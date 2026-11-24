@@ -1,13 +1,25 @@
+
 import { Test, TestingModule } from '@nestjs/testing';
-import { EventsModule } from './events.module';
-import { EventsController } from './events.controller';
+import { EventsController } from './events.controller.js';
+import { EventsService } from './events.service.js';
+import { EventOwnershipPolicy } from '../policies/event-ownership.policy.js';
 
 describe('EventsController', () => {
   let controller: EventsController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [EventsModule],
+      controllers: [EventsController],
+      providers: [
+        {
+          provide: EventsService,
+          useValue: {},
+        },
+        {
+          provide: EventOwnershipPolicy,
+          useValue: {},
+        },
+      ],
     }).compile();
 
     controller = module.get<EventsController>(EventsController);
