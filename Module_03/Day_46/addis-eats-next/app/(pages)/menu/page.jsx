@@ -2,6 +2,7 @@ import DishList from "../../(components)/(DishList)/DishList";
 import FilterShell from "../../(components)/FilterShell/FilterShell";
 import SideBar from "../../(components)/SideBar/SideBar";
 import "./menu.css";
+import { Suspense } from "react";
 
 export const revalidate = 3600;
 
@@ -137,7 +138,9 @@ export default async function MenuPage({ searchParams }) {
 
       {/*     Menu Content */}
         <FilterShell>
+          <Suspense fallback={<p>Loading menu filters...</p>}>
            <SideBar />
+        </Suspense>
           <div className="menu-dishes">
           <div className="menu-heading">
 
