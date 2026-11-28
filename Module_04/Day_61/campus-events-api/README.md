@@ -40,11 +40,11 @@ Day61 is a separate enhancement of the Day59 project. The original Day56 and Day
 
 ### User Roles
 
-| Role | Permissions |
-|---|---|
-| STUDENT | Register, log in, view events and sessions |
-| ORGANIZER | Student permissions plus event creation |
-| ADMIN | Organizer permissions plus user role management |
+| Role      | Permissions                                     |
+| --------- | ----------------------------------------------- |
+| STUDENT   | Register, log in, view events and sessions      |
+| ORGANIZER | Student permissions plus event creation         |
+| ADMIN     | Organizer permissions plus user role management |
 
 ### Preserved Day59 Enhancements
 
@@ -90,6 +90,7 @@ ADMIN_PASSWORD=your_strong_admin_password
 Use your own strong secret values. Do not commit `.env`, JWT secrets, API keys, passwords, or access tokens.
 
 The application uses:
+
 - `JWT_SECRET` to sign and verify JWTs.
 - `CLASSROOM_API_KEY` to authorize trusted event imports.
 - `ADMIN_EMAIL` and `ADMIN_PASSWORD` to create the initial administrator account.
@@ -116,31 +117,113 @@ npm run build
 
 ## API Endpoints
 
-### Authentication
+## Authentication and Token Flow
 
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| POST | `/api/auth/register` | Register a user | Public |
-| POST | `/api/auth/login` | Authenticate and receive JWT | Public |
-| GET | `/api/auth/profile` | Retrieve authenticated user profile | JWT |
+The authentication system uses JWT access and refresh tokens.
+
+### Password Security
+
+- Passwords are hashed using Argon2 before storage.
+- Password hashes and refresh-token hashes are never returned in API responses.
+- Public registration creates users with the `STUDENT` role.
+- Client-supplied roles are rejected during registration.
+
+### Token Configuration
+
+Configure the following environment variables in the project root:
+
+```env
+JWT_ACCESS_SECRET=your_long_random_access_secret
+JWT_REFRESH_SECRET=your_long_random_refresh_secret
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_strong_admin_password
+CLASSROOM_API_KEY=your_classroom_api_key
+PORT=3002
+```
+
+Use separate, strong random values for the access and refresh secrets. Never commit real secrets or `.env` files.
+
+Token configuration:
+
+| Token         | Expiry     | Signing algorithm |
+| ------------- | ---------- | ----------------- |
+| Access token  | 15 minutes | HS256             |
+| Refresh token | 7 days     | HS256             |
+
+### Login and Token Usage
+
+1. The user submits their email and password to `POST /api/auth/login`.
+2. The API verifies the password using Argon2.
+3. The API issues an access token and a refresh token.
+4. The refresh token is hashed using Argon2 and stored against the user.
+5. The client uses the access token in the Authorization Bearer header when accessing protected endpoints.
+
+Example:
+
+```http
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+### Refresh Token Rotation
+
+When the access token expires, the client can submit the refresh token to `POST /api/auth/refresh`.
+
+The API:
+
+1. Verifies the refresh token's signature and expiry.
+2. Checks the submitted token against the stored Argon2 hash.
+3. Issues a new access token and refresh token.
+4. Stores a hash of the new refresh token, replacing the previous hash.
+
+The previous refresh token cannot be reused after successful rotation.
+
+### Logout Limitation
+
+The client sends an authenticated request to `POST /api/auth/logout`.
+
+The API clears the user's stored refresh-token hash, preventing that refresh token from being used again.
+
+**Important:** Logout does not immediately invalidate an already-issued access token. That access token remains valid until its 15-minute expiry unless another mechanism rejects it.
+
+### Organizer Password Change
+
+Administrators create organizer accounts with temporary passwords. Organizers must change their temporary password before accessing organizer features.
+
+The password-change endpoint is:
+
+`PATCH /api/auth/change-password`
+
+It requires a valid access token and the current and new passwords.
+
+### Authentication Endpoints
+
+| Method | Endpoint                    | Access                               |
+| ------ | --------------------------- | ------------------------------------ |
+| POST   | `/api/auth/register`        | Public                               |
+| POST   | `/api/auth/login`           | Public                               |
+| POST   | `/api/auth/refresh`         | Public, valid refresh token required |
+| GET    | `/api/auth/profile`         | JWT required                         |
+| GET    | `/api/auth/me`              | JWT required                         |
+| PATCH  | `/api/auth/change-password` | JWT required                         |
+| POST   | `/api/auth/logout`          | JWT required                         |
 
 ### Events
 
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| GET | `/api/events` | List events | Public |
-| GET | `/api/events/upcoming` | Retrieve upcoming events | Public |
-| GET | `/api/events/:id` | Retrieve one event | Public |
-| GET | `/api/events/:id/sessions` | Retrieve event sessions | Public |
-| GET | `/api/events/:id/sessions/:sessionId` | Retrieve one session | Public |
-| POST | `/api/events` | Create an event | ORGANIZER, ADMIN |
-| POST | `/api/events/import` | Import an event | API key |
+| Method | Endpoint                              | Description              | Access           |
+| ------ | ------------------------------------- | ------------------------ | ---------------- |
+| GET    | `/api/events`                         | List events              | Public           |
+| GET    | `/api/events/upcoming`                | Retrieve upcoming events | Public           |
+| GET    | `/api/events/:id`                     | Retrieve one event       | Public           |
+| GET    | `/api/events/:id/sessions`            | Retrieve event sessions  | Public           |
+| GET    | `/api/events/:id/sessions/:sessionId` | Retrieve one session     | Public           |
+| POST   | `/api/events`                         | Create an event          | ORGANIZER, ADMIN |
+| POST   | `/api/events/import`                  | Import an event          | API key          |
 
 ### User Management
 
-| Method | Endpoint | Description | Access |
-|---|---|---|---|
-| PATCH | `/api/users/:id/role` | Update a user's role | ADMIN |
+| Method | Endpoint              | Description          | Access |
+| ------ | --------------------- | -------------------- | ------ |
+| PATCH  | `/api/users/:id/role` | Update a user's role | ADMIN  |
 
 Protected JWT endpoints require:
 
@@ -345,18 +428,18 @@ This configuration validates incoming request properties, transforms data into D
 
 The Day61 implementation was manually tested using curl.
 
-| Test | Expected Result | Result |
-|---|---|---|
-| User registration | 201 Created | Passed |
-| Admin login | 201 Created | Passed |
-| Student login | 201 Created | Passed |
-| JWT profile endpoint | 200 OK | Passed |
-| Admin updates user role | 200 OK | Passed |
-| Student creates event | 403 Forbidden | Passed |
-| Organizer creates event | 201 Created | Passed |
-| API-key event import | 201 Created | Passed |
-| Invalid user ID for role update | 404 Not Found | Passed |
-| Production build | Successful build | Passed |
+| Test                            | Expected Result  | Result |
+| ------------------------------- | ---------------- | ------ |
+| User registration               | 201 Created      | Passed |
+| Admin login                     | 201 Created      | Passed |
+| Student login                   | 201 Created      | Passed |
+| JWT profile endpoint            | 200 OK           | Passed |
+| Admin updates user role         | 200 OK           | Passed |
+| Student creates event           | 403 Forbidden    | Passed |
+| Organizer creates event         | 201 Created      | Passed |
+| API-key event import            | 201 Created      | Passed |
+| Invalid user ID for role update | 404 Not Found    | Passed |
+| Production build                | Successful build | Passed |
 
 ## Data Storage
 
@@ -426,21 +509,22 @@ npm run build
 ## Author
 
 Esayas Nigussie
+
 ## Granular Permissions and Event Ownership
 
 Day61 extends role-based authorization with granular permissions and event ownership policies.
 
 ### Permission Matrix
 
-| Permission | STUDENT | ORGANIZER | ADMIN |
-|---|---|---|---|
-| event:read | Yes | Yes | Yes |
-| event:create | No | Yes | Yes |
-| event:update | No | Own events | All events |
-| event:delete | No | Own events | All events |
-| event:publish | No | Own events | All events |
-| user:read | No | No | Yes |
-| user:update-role | No | No | Yes |
+| Permission       | STUDENT | ORGANIZER  | ADMIN      |
+| ---------------- | ------- | ---------- | ---------- |
+| event:read       | Yes     | Yes        | Yes        |
+| event:create     | No      | Yes        | Yes        |
+| event:update     | No      | Own events | All events |
+| event:delete     | No      | Own events | All events |
+| event:publish    | No      | Own events | All events |
+| user:read        | No      | No         | Yes        |
+| user:update-role | No      | No         | Yes        |
 
 ### Authorization Components
 
@@ -460,26 +544,26 @@ Day61 extends role-based authorization with granular permissions and event owner
 
 ### Additional Protected Event Endpoints
 
-| Method | Endpoint | Permission |
-|---|---|---|
-| PATCH | /api/events/:id | event:update |
-| PATCH | /api/events/:id/publish | event:publish |
-| DELETE | /api/events/:id | event:delete |
+| Method | Endpoint                | Permission    |
+| ------ | ----------------------- | ------------- |
+| PATCH  | /api/events/:id         | event:update  |
+| PATCH  | /api/events/:id/publish | event:publish |
+| DELETE | /api/events/:id         | event:delete  |
 
 All three operations enforce event ownership.
 
 ### Authorization Testing
 
-| Test | Expected Result | Result |
-|---|---|---|
-| Organizer creates an event | 201 Created | Passed |
-| Organizer updates own event | 200 OK | Passed |
-| Organizer publishes own event | 200 OK | Passed |
-| Organizer deletes own event | 200 OK | Passed |
-| Organizer updates another user's event | 403 Forbidden | Passed |
-| Organizer deletes another user's event | 403 Forbidden | Passed |
-| Student attempts event creation | 403 Forbidden | Passed |
-| Administrator updates another user's event | 200 OK | Passed |
+| Test                                       | Expected Result | Result |
+| ------------------------------------------ | --------------- | ------ |
+| Organizer creates an event                 | 201 Created     | Passed |
+| Organizer updates own event                | 200 OK          | Passed |
+| Organizer publishes own event              | 200 OK          | Passed |
+| Organizer deletes own event                | 200 OK          | Passed |
+| Organizer updates another user's event     | 403 Forbidden   | Passed |
+| Organizer deletes another user's event     | 403 Forbidden   | Passed |
+| Student attempts event creation            | 403 Forbidden   | Passed |
+| Administrator updates another user's event | 200 OK          | Passed |
 
 ### Additional Source Files
 
@@ -494,4 +578,3 @@ All three operations enforce event ownership.
 ### Storage Limitation
 
 The application currently uses in-memory storage. Users, events, and ownership information are not persisted across server restarts. A persistent database is required for durable storage.
-

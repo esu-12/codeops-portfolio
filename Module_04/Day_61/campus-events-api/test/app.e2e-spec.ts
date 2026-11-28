@@ -89,6 +89,18 @@ describe('Authentication API (e2e)', () => {
       .expect(400);
   });
 
+  it('4b. rejects a client-supplied roles field during registration', async () => {
+    await request(app.getHttpServer())
+      .post('/api/auth/register')
+      .send({
+        name: 'Unauthorized Admin',
+        email: 'fake-roles-admin@example.com',
+        password,
+        roles: ['ADMIN'],
+      })
+      .expect(400);
+  });
+
   it('5. logs in and returns access and refresh tokens', async () => {
     const response = await request(app.getHttpServer())
       .post('/api/auth/login')
@@ -181,6 +193,12 @@ describe('Authentication API (e2e)', () => {
     await request(app.getHttpServer())
       .post('/api/auth/refresh')
       .send({ refreshToken: tokenToInvalidate })
+      .expect(401);
+  });
+
+  it('14. rejects logout without an access token', async () => {
+    await request(app.getHttpServer())
+      .post('/api/auth/logout')
       .expect(401);
   });
 });
