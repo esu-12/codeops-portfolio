@@ -8,6 +8,7 @@ interface JwtPayload {
   sub: string;
   email: string;
   role: string;
+  roles?: string[];
 }
 
 @Injectable()
@@ -19,7 +20,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
+      secretOrKey: configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
+      algorithms: ['HS256'],
     });
   }
 
@@ -34,6 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       id: user.id,
       email: user.email,
       role: user.role,
+      roles: [user.role],
       mustChangePassword: user.mustChangePassword,
     };
   }

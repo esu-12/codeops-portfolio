@@ -86,4 +86,26 @@ export class UsersService {
 
     this.users.splice(index, 1);
   }
+
+    updateRefreshHash(id: string, refreshHash: string | null): User {
+    const user = this.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (refreshHash === null) {
+      delete user.refreshHash;
+    } else {
+      user.refreshHash = refreshHash;
+    }
+
+    return user;
+  }
+
+  findByRefreshHash(id: string): User | undefined {
+    const user = this.findById(id);
+
+    return user?.refreshHash ? user : undefined;
+  }
 }

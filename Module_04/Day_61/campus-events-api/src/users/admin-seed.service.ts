@@ -5,7 +5,7 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 import { UserRole } from './types/user-role.enum.js';
 import { UsersService } from './users.service.js';
 
@@ -38,7 +38,7 @@ export class AdminSeedService implements OnModuleInit {
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await argon2.hash(password);
 
     this.usersService.create(
       'Campus Events Admin',

@@ -5,6 +5,7 @@ export interface User {
   name: string;
   email: string;
   password: string;
+  refreshHash?: string;
   role: UserRole;
   mustChangePassword: boolean;
   createdAt: Date;

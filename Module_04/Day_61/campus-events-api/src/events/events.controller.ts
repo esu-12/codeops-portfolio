@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { Public } from '../auth/decorators/public.decorator.js';
 import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard.js';
 import { ApiKeyGuard } from '../common/guards/api-key.guard.js';
 import { Roles } from '../common/decorators/roles.decorator.js';
@@ -57,6 +57,7 @@ export class EventsController {
   ) {}
 
   // Public event listing with optional authentication.
+  @Public()
   @UseGuards(OptionalJwtAuthGuard)
   @Get()
   findAll(
@@ -76,12 +77,14 @@ export class EventsController {
   }
 
   // Upcoming events with optional authentication.
+  @Public()
   @UseGuards(OptionalJwtAuthGuard)
   @Get('upcoming')
   findUpcoming(@Req() request: OptionalAuthenticatedRequest) {
     return this.eventsService.findUpcoming(request.user ?? null);
   }
 
+  @Public()
   @UseGuards(OptionalJwtAuthGuard)
   @Get(':id/sessions/:sessionId')
   findOneSession(
@@ -96,6 +99,7 @@ export class EventsController {
     );
   }
 
+  @Public()
   @UseGuards(OptionalJwtAuthGuard)
   @Get(':id/sessions')
   findSessions(
@@ -108,6 +112,7 @@ export class EventsController {
     );
   }
 
+  @Public()
   @UseGuards(OptionalJwtAuthGuard)
   @Get(':id')
   findOne(
@@ -121,7 +126,7 @@ export class EventsController {
   }
 
   // Organizers and admins can create events.
-  @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
+  @UseGuards(RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_CREATE)
   @Post()
@@ -140,7 +145,7 @@ export class EventsController {
   }
 
   // Organizers can update their own events; admins can update any event.
-  @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
+  @UseGuards(RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_UPDATE)
   @Patch(':id')
@@ -157,7 +162,7 @@ export class EventsController {
   }
 
   // Publishing requires its own permission and ownership check.
-  @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
+  @UseGuards(RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_PUBLISH)
   @Patch(':id/publish')
@@ -174,7 +179,7 @@ export class EventsController {
   }
 
   // Organizers can delete their own events; admins can delete any event.
-  @UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
+  @UseGuards(RolesGuard, PermissionsGuard)
   @Roles(UserRole.ORGANIZER, UserRole.ADMIN)
   @RequirePermissions(Permission.EVENT_DELETE)
   @Delete(':id')

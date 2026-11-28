@@ -7,8 +7,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import * as argon2 from 'argon2';
 import { Roles } from '../common/decorators/roles.decorator.js';
 import { RolesGuard } from '../common/guards/roles.guard.js';
 import { CreateOrganizerDto } from './dto/create-organizer.dto.js';
@@ -17,14 +16,14 @@ import { UserRole } from './types/user-role.enum.js';
 import { UsersService } from './users.service.js';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(RolesGuard)
 @Roles(UserRole.ADMIN)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('organizers')
   async createOrganizer(@Body() dto: CreateOrganizerDto) {
-    const hashedPassword = await bcrypt.hash(dto.password, 12);
+    const hashedPassword = await argon2.hash(dto.password);
 
     const user = this.usersService.create(
       dto.name,

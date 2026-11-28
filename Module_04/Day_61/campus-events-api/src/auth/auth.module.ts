@@ -16,9 +16,10 @@ import { JwtStrategy } from './strategies/jwt.strategy.js';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        secret: configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
         signOptions: {
-          expiresIn: '1d',
+          expiresIn: '15m',
+          algorithm: 'HS256' as const,
         },
       }),
     }),
